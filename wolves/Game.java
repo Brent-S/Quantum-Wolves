@@ -40,7 +40,6 @@ public class Game {
 				AllStates.add(new GameState(NumPlayers, NumWolves, n, WolfPack));
 				p = nextPack(WolfPack, n);
 			} while (p);
-
 		}
 	}
 
@@ -188,6 +187,10 @@ public class Game {
 		// wolfpack.
 
 		int[] outPack = new int[NumWolves];
+		for(int i = 0; i < outPack.length; i++){
+			outPack[i] = inPack[i];
+		}
+		
 		int[] possWolves = new int[NumPlayers -1]; // a list of all player IDs which can be wolves (i.e. all except seer).
 		int a = 0; // used to skip Seer in populating possWolves
 		for(int n = 0; n < NumPlayers - 1; n++){
@@ -226,7 +229,6 @@ public class Game {
 
 		int n = inPack[inWolfIndex];
 		boolean p = false;
-		if(n == 0) n = inPossWolves[0];
 		do{			
 			if(n == 0) { // The wolf needs to 'roll over' 
 				n = inPossWolves[0];
