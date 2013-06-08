@@ -31,6 +31,21 @@ public class GameState {
 		}
 	}
 
+	public GameState(int[] Perm, int inNumPlayers){
+		RoundNum = 0;
+		NumWolves = Perm.length - 1;
+		NumPlayers = inNumPlayers;
+		PlayerRoles = new int[NumPlayers];
+		for(int n = 0; n < NumPlayers; n++){
+			PlayerRoles[n] = 1; // Initialise all players to be living innocents.
+		}
+		for(int i = 0; i < Perm.length; i++){
+			int n =  Perm[i];
+			if(i == 0){
+				PlayerRoles[n] = i + 2;
+			}
+		}
+	}
 	
 	public int getRoundNum() {
 		return RoundNum;
