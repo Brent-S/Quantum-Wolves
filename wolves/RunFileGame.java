@@ -2,10 +2,6 @@ package wolves;
 
 // Inspired by http://puzzle.cisra.com.au/2008/quantumwerewolf.html
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 
 public class RunFileGame {
 	
@@ -16,10 +12,10 @@ public class RunFileGame {
 
 	public static void main(String[] args) {
 		
-		this.ui = null; //To be replaced with actual UI
+		ui = null; //To be replaced with actual UI
 
-		NumPlayers = ui.InputNumPlayers();
-		NumWolves = ui.sInputNumWolves();
+		NumPlayers = ui.getNumPlayers();
+		NumWolves = ui.getNumWolves();
 
 		RunningGame = new Game(NumPlayers,NumWolves);
 		// Game Object created, initialised, and probabilities updated.
@@ -60,7 +56,7 @@ public class RunFileGame {
 	}
 	
 	private static int[] InputVisionTargets(){ // return 0 if player cannot be seer.
-		return ui.inputVisionTargets();
+		return ui.inputSeerTargets();
 	}
 	
 	private static int[] InputWolfTargets(){ // return 0 if player cannot be a wolf.
@@ -68,7 +64,7 @@ public class RunFileGame {
 	}
 	
 	private static void OutputVisions(byte[] visions){
-		ui.outputVisions();
+		ui.displayVisions(visions);
 	}
 	
 	private static int InputLynchTarget(){ // return playerID for highest voted.
