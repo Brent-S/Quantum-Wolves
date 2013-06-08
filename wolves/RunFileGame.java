@@ -95,8 +95,6 @@ public class RunFileGame {
 				i = -3;
 			}
 		}
-		ui.displayProbabilities(DisplayProbs, RolesCodes);
-		
-		
+		ui.displayProbabilities(DisplayProbs, RolesCodes);		
 	}
 }
