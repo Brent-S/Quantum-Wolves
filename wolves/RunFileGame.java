@@ -12,11 +12,14 @@ public class RunFileGame {
 	private static int NumPlayers;
 	private static int NumWolves;
 	private static Game RunningGame;
+	private static WolvesUI ui;
 
 	public static void main(String[] args) {
+		
+		this.ui = null; //To be replaced with actual UI
 
-		NumPlayers = InputNumPlayers();
-		NumWolves = InputNumWolves();
+		NumPlayers = ui.InputNumPlayers();
+		NumWolves = ui.sInputNumWolves();
 
 		RunningGame = new Game(NumPlayers,NumWolves);
 		// Game Object created, initialised, and probabilities updated.
@@ -55,61 +58,21 @@ public class RunFileGame {
 		System.out.println("Game Over. The " + WinningTeam + " have won.");
 			
 	}
-
-	private static int InputNumPlayers(){
-		int NumPlayers = 0;
-		try{
-			BufferedReader ChoicesFile = new BufferedReader(new FileReader("FileGameChoices.txt"));
-			String FirstLine = ChoicesFile.readLine();
-			String[] PlayerData = FirstLine.split(":");
-			NumPlayers = Integer.parseInt(PlayerData[1]);
-		} catch (FileNotFoundException e){
-			System.out.println("File Not Found");
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.out.println("IO Error");
-			e.printStackTrace();
-		} catch (NumberFormatException e){
-			System.out.println("Number Format Error in Player Number");
-			e.printStackTrace();
-		}
-		return NumPlayers;
-	}
-	
-	private static int InputNumWolves(){
-		int NumWolves = 0;
-		try{
-			BufferedReader ChoicesFile = new BufferedReader(new FileReader("FileGameChoices.txt"));
-			String FirstLine = ChoicesFile.readLine();
-			String[] PlayerData = FirstLine.split(":");
-			NumWolves = Integer.parseInt(PlayerData[3]);
-		} catch (FileNotFoundException e){
-			System.out.println("File Not Found");
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.out.println("IO Error");
-			e.printStackTrace();
-		} catch (NumberFormatException e){
-			System.out.println("Number Format Error in Wolf Number");
-			e.printStackTrace();
-		}
-		return NumWolves;
-	}
 	
 	private static int[] InputVisionTargets(){ // return 0 if player cannot be seer.
-		return new int[2];
+		return ui.inputVisionTargets();
 	}
 	
 	private static int[] InputWolfTargets(){ // return 0 if player cannot be a wolf.
-		return new int[2];
+		return ui.inputWolfTargets();
 	}
 	
 	private static void OutputVisions(byte[] visions){
-		// Display Visions to players.
+		ui.outputVisions();
 	}
 	
 	private static int InputLynchTarget(){ // return playerID for highest voted.
-		return 0;
+		return ui.inputLynchTarget();
 	}
 	
 	private static void DayTimeDisplay(){ // Must display Good/Evil/Alive/Dead probabilities.
@@ -125,7 +88,14 @@ public class RunFileGame {
 			DisplayProbs[n][3] = 100 - DisplayProbs[n][0];
 		}
 		int[] RolesCodes = RunningGame.getKnownRoles();
-		String[] Roles = new String[NumPlayers];
+		for (int i : RolesCodes) {
+			if (i > 3) {
+				i = 3;
+			} else if (i < -3) {
+				i = -3;
+			}
+		}
+		ui.displayProbabilities(DisplayProbs, RolesCodes);
 		
 		
 	}
