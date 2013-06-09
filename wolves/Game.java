@@ -3,6 +3,7 @@ package wolves;
 // Inspired by http://puzzle.cisra.com.au/2008/quantumwerewolf.html
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Game {
 
@@ -222,11 +223,13 @@ public class Game {
 	}
 	
 	public void VisionAllStates(int[] inTargets, byte[] inVisions){
-		for(GameState a : AllStates){
+		Iterator<GameState> i = AllStates.iterator();
+		while(i.hasNext()){
+			GameState a = i.next();
 			if(a.SurviveVisions(inTargets, inVisions)){
 				// state is allowed, and has been updated.
 			} else { //state was not allowed, and is removed
-				AllStates.remove(a);
+				i.remove();
 			}
 		}
 	}

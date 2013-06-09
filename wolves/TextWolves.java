@@ -25,6 +25,7 @@ public class TextWolves implements WolvesUI {
 				p = true;
 			}
 		}
+		return 0;
 	}
 	
 	@Override
@@ -40,6 +41,7 @@ public class TextWolves implements WolvesUI {
 				p = true;
 			}
 		}
+		return 0;
 	}
 	
 	private String getUserInput(String prompt) {
@@ -125,12 +127,13 @@ public class TextWolves implements WolvesUI {
 		while (p) {
 			try {
 				return Integer.parseInt(getUserInput("PLEASE CHOOSE WHO IS MADE OF LYNCHED"));
-				p = false;
+				//p = false;
 			} catch (Exception e) {
 				System.out.println("FUCK OFF THATS NOT A NUMBER");
 				p = true;
 			}
 		}
+		return 0;
 	}
 	
 	@Override
