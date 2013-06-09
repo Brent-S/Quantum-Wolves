@@ -12,7 +12,7 @@ public class RunFileGame {
 
 	public static void main(String[] args) {
 		
-		ui = null; //To be replaced with actual UI
+		ui = new TextWolves(); //To be replaced with actual UI
 
 		NumPlayers = ui.getNumPlayers();
 		NumWolves = ui.getNumWolves();

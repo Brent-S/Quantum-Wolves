@@ -27,20 +27,68 @@ public class Game {
 
 		AllStates = new ArrayList<GameState>();
 
-		int[] WolfPack = new int[NumWolves];
-
-		for(int n = 1; n <= NumPlayers;n++){ // Loop for each player as Seer
-			int a = 0;
-			for(int i = 1; i <= NumWolves; i++){
-				if(i == n) a = 1;
-				WolfPack[i] = i+a;
-			}
-			boolean p = false;
-			do {
-				AllStates.add(new GameState(NumPlayers, NumWolves, n, WolfPack));
-				p = nextPack(WolfPack, n);
-			} while (p);
+		int[] Perms = new int[NumWolves + 1];	
+		for(int i = 0; i < Perms.length; i++){
+			Perms[i] = i + 1;
 		}
+		
+		boolean p = false;
+		do {
+			AllStates.add(new GameState(Perms, NumPlayers));
+			p = nextPerm(Perms);
+		} while (p);
+		
+	}
+	
+	
+	private boolean nextPerm(int[] inPerm){
+		// returns true if this was successful in finding the next permutation
+
+		int[] outPerm = new int[NumWolves + 1];
+		for(int i = 0; i < outPerm.length; i++){
+			outPerm[i] = inPerm[i];
+		}
+		
+		// have function (incrementWolf) which returns the next wolf ID, or zero if none
+		// run increment wolf on last wolf
+		// if zero, run on previous until not zero.
+		// then run on wolves skipped over to end.
+		int p = 0;
+		int i = inPerm.length;
+		do {
+			i--;
+			p = incrementID(i, inPerm);
+			outPerm[i] = p;
+		} while((p == 0) && (i != 0));
+		if(i == 0 ) return false; // This was the final permutation, inPerm remains unchanged.
+		for(i = 0; i < inPerm.length; i++){
+			if(outPerm[i] == 0){
+				outPerm[i] = incrementID(i, outPerm);
+			}
+		} // outPerm now contains the next permutation
+
+		for(int n = 0; n < inPerm.length; n++){
+			inPerm[n] = outPerm[n];
+		} // inPerm is updated to next permutation 
+		
+		return true;		
+	}
+	
+	private int incrementID(int inIndex, int[] inPerm) {
+		// returns the next possible ID not used by a previous index.
+		
+		int n = inPerm[inIndex];
+		boolean p = false;
+		do{			
+			n = (n + 1) % (NumPlayers + 1);
+			p = false;
+			for(int i = 0; i < inIndex;i++){ // check for duplicates
+				if(n == inPerm[i]) p = true;
+			}
+		} while(p);
+
+		return n;
+				
 	}
 
 	public void UpdateProbabilities(){
