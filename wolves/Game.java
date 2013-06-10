@@ -2,6 +2,8 @@ package wolves;
 
 // Inspired by http://puzzle.cisra.com.au/2008/quantumwerewolf.html
 
+// This is a change.
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
