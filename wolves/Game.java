@@ -6,28 +6,28 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Game {
-
+	
 	private int NumPlayers;
 	private int NumWolves;
 	private ArrayList<GameState> AllStates;
 	private double[][] Probabilities;
-
+	
 	public Game(int inPlayers, int inWolves){
-
+		
 		NumPlayers = inPlayers;
 		NumWolves = inWolves;
 		this.Initialise(); // AllStates now contains all possible initial gamestates.
 		this.UpdateProbabilities(); // Probabilities[][] now contains Player role probabilities:
 		// First index is the playerID, second is: 0-innocent 1-seer 2,3-dead versions, 4to(3+NumWolves) are wolves 
 		// (4+NumWolves)to(3+2*NumWolves) are dead wolves
-
+		
 	}
-
+	
 	private void Initialise(){
 		// Fill Vector with all possible game states for round one.
-
+		
 		AllStates = new ArrayList<GameState>();
-
+		
 		int[] Perms = new int[NumWolves + 1];	
 		for(int i = 0; i < Perms.length; i++){
 			Perms[i] = i + 1;
@@ -42,9 +42,9 @@ public class Game {
 	}
 	
 	
-	private boolean nextPerm(int[] inPerm){
+	private static boolean nextPerm(int[] inPerm){
 		// returns true if this was successful in finding the next permutation
-
+		
 		int[] outPerm = new int[NumWolves + 1];
 		for(int i = 0; i < outPerm.length; i++){
 			outPerm[i] = inPerm[i];
@@ -59,15 +59,16 @@ public class Game {
 		do {
 			i--;
 			p = incrementID(i, inPerm);
+			if(p == -1) break;
 			outPerm[i] = p;
-		} while((p == 0) && (i != 0));
-		if(i == 0 ) return false; // This was the final permutation, inPerm remains unchanged.
+		} while((p == 0) && (i != -1));
+		if(i == -1) return false; // This was the final permutation, inPerm remains unchanged.
 		for(i = 0; i < inPerm.length; i++){
 			if(outPerm[i] == 0){
 				outPerm[i] = incrementID(i, outPerm);
 			}
 		} // outPerm now contains the next permutation
-
+		
 		for(int n = 0; n < inPerm.length; n++){
 			inPerm[n] = outPerm[n];
 		} // inPerm is updated to next permutation 
@@ -75,9 +76,10 @@ public class Game {
 		return true;		
 	}
 	
-	private int incrementID(int inIndex, int[] inPerm) {
+	private static int incrementID(int inIndex, int[] inPerm) {
 		// returns the next possible ID not used by a previous index.
 		
+		if(inIndex == -1) return -1;
 		int n = inPerm[inIndex];
 		boolean p = false;
 		do{			
@@ -87,16 +89,16 @@ public class Game {
 				if(n == inPerm[i]) p = true;
 			}
 		} while(p);
-
+		
 		return n;
-				
+		
 	}
-
+	
 	public void UpdateProbabilities(){
 		// Compute probabilities of each player being each role.
 		// Do this by calling AllPlayers method from GameState
 		// Compile a tally of each player being each thing against total states
-
+		
 		int[][] RoleCount = new int[NumPlayers][4 + (2 * NumWolves)];
 		// First index is the playerID, second is: 0-innocent 1-seer 2,3-dead versions, 4to(4+NumWolves) are wolves
 		int n = 0;
@@ -129,11 +131,11 @@ public class Game {
 			}
 		}
 	}
-
+	
 	public double[][] getProbabilities(){
 		return this.Probabilities;
 	}
-
+	
 	public byte[] HaveVisions(int[] inTargets){ // 1 means innocent, 2 means wolf, and 0 means an input of zero, i.e. 
 		// player having vision cannot be seer.
 		byte[] output = new byte[NumPlayers];
@@ -149,10 +151,10 @@ public class Game {
 				output[n] = (byte) ((Math.random() < TargetProbGood) ? 1 : 2);
 			}
 		}
-
+		
 		return output;
 	}
-
+	
 	public void	LynchAllStates(int inTarget){
 		for(GameState a : AllStates){
 			if(a.Lynch(inTarget)){
@@ -162,7 +164,7 @@ public class Game {
 			}
 		}
 	}
-
+	
 	public double[] LivingProbabilities(){
 		double[] output = new double[NumPlayers];
 		for(int n = 0; n < NumPlayers; n++){
@@ -178,7 +180,7 @@ public class Game {
 		}
 		return output;
 	}
-
+	
 	private int CharacterCollapse(int inTarget){ // computes and returns role code of the freshly deceased.
 		double[] CumulProbs = new double[4 + (2*NumWolves)];
 		CumulProbs[0] = Probabilities[inTarget - 1][0];
@@ -200,7 +202,7 @@ public class Game {
 		}
 		return Role;
 	}
-
+	
 	public void AllStateCharCollapse(int inTarget){
 		int inRole = CharacterCollapse(inTarget);
 		for(GameState a : AllStates){
@@ -211,7 +213,7 @@ public class Game {
 			}
 		}
 	}
-
+	
 	public void AttackAllStates(int[] inTargets){
 		for(GameState a : AllStates){
 			if(a.WolfAttack(inTargets)){
@@ -233,74 +235,8 @@ public class Game {
 			}
 		}
 	}
-
-	private boolean nextPack(int[] inPack, int inSeer){ // returns true if this was successful in finding the next 
-		// wolfpack.
-
-		int[] outPack = new int[NumWolves];
-		for(int i = 0; i < outPack.length; i++){
-			outPack[i] = inPack[i];
-		}
-		
-		int[] possWolves = new int[NumPlayers -1]; // a list of all player IDs which can be wolves (i.e. all except seer).
-		int a = 0; // used to skip Seer in populating possWolves
-		for(int n = 0; n < NumPlayers - 1; n++){
-			if(n+1 == inSeer) a = 1;
-			possWolves[n] = n+1+a;
-		}
-
-		// have function (incrementWolf) which returns the next wolf ID, or zero if none
-		// run increment wolf on last wolf
-		// if zero, run on previous until not zero.
-		// then run on wolves skipped over to end.
-		int p = 0;
-		int i = inPack.length;
-		do {
-			i--;
-			p = incrementWolf(i, inPack, possWolves);
-			outPack[i] = p;
-		} while((p == 0) && (i != 0));
-		if(i == 0 ) return false; // This was the final wolfPack, inPack remains unchanged.
-		for(i = 0; i < inPack.length; i++){
-			if(outPack[i] == 0){
-				outPack[i] = incrementWolf(i, outPack, possWolves);
-			}
-		} // outPack now contains the next wolf pack
-
-		for(int n = 0; n < NumWolves; n++){
-			inPack[n] = outPack[n];
-		} // inPack is updated to next wolf pack. 
-
-		return true;
-
-	}
-
-	private static int incrementWolf(int inWolfIndex, int[] inPack, int[] inPossWolves){ // Does this need static ?
-		// returns the next wolf ID, or zero if none
-
-		int n = inPack[inWolfIndex];
-		boolean p = false;
-		do{			
-			if(n == 0) { // The wolf needs to 'roll over' 
-				n = inPossWolves[0];
-			} else if(n == inPossWolves[inPossWolves.length - 1]) { // There is no next wolf.
-				n = 0;
-			} else { // find the next wolf
-				for(int i = 0; i < inPossWolves.length - 1; i++){
-					if(n == inPossWolves[i]){
-						n = inPossWolves[i+1];
-					}
-				}
-			}
-			p = false;
-			for(int i = 0; i < inWolfIndex;i++){ // check for duplicates
-				if(n == inPack[i]) p = true;
-			}
-		} while(p);
-
-		return n;
-	}
 	
+
 	public int[] getKnownRoles(){
 		int[] output = new int[NumPlayers];
 		
@@ -361,5 +297,5 @@ public class Game {
 		if(!LiveInnocentsExist && LiveWolvesExist) output = 2;
 		return output;
 	}
-
+	
 }
