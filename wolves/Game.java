@@ -47,7 +47,7 @@ public class Game {
 	private boolean nextPerm(int[] inPerm){
 		// returns true if this was successful in finding the next permutation
 		
-		int[] outPerm = new int[NumWolves + 1];
+		int[] outPerm = new int[inPerm.length];
 		for(int i = 0; i < outPerm.length; i++){
 			outPerm[i] = inPerm[i];
 		}
