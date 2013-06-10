@@ -129,9 +129,9 @@ public class Game {
 			n++;
 		}
 		Probabilities = new double[NumPlayers][4 + (2 * NumWolves)];
-		for(int m = 0; n < NumPlayers; n++){
+		for(int m = 0; m < NumPlayers; m++){
 			for(int j = 0; j < (4 + (2 * NumWolves)); j++){
-				Probabilities[m][j] = RoleCount[m][j] / n;
+				Probabilities[m][j] = ((double)RoleCount[m][j]) / ((double)n);
 			}
 		}
 	}

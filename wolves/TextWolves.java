@@ -98,8 +98,10 @@ public class TextWolves implements WolvesUI {
 			switch (visions[i]) {
 			case WolvesUI.VISION_INNO:
 				role = "VILLAGER";
+				break;
 			case WolvesUI.VISION_WOLF:
 				role = "WHEREWOLF";
+				break;
 			}
 			if (visions[i] != 0) {
 				System.out.println("PLAYER " + (i+1) + " SEES THAT PLAYER " + (recentTargets[i]+1) + " IS " + getAdjective() + " " + role);
@@ -153,10 +155,13 @@ public class TextWolves implements WolvesUI {
 			switch (knownRoles[i]) {
 			case ROLE_BLUE:
 				role = "VILLAGER";
+				break;
 			case ROLE_SEER:
 				role = "SEER";
+				break;
 			case ROLE_WOLF:
 				role = "WOLF";
+				break;
 			}
 			if (knownRoles[i] != 0) {
 				System.out.println("PLAYER " + (i+1) + " IS " + getAdjective() + role);
