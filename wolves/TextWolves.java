@@ -61,7 +61,7 @@ public class TextWolves implements WolvesUI {
 			boolean p = true;
 			while (p) {
 				try {
-					targets[i] = Integer.parseInt(getUserInput("PLEASE CHOOSE WHO IS WOLVED BY PLAYER " + i));
+					targets[i] = Integer.parseInt(getUserInput("PLEASE CHOOSE WHO IS WOLVED BY PLAYER " + (i+1)));
 					p = false;
 				} catch (Exception e) {
 					System.out.println("FUCK OFF THATS NOT A NUMBER");
@@ -102,7 +102,7 @@ public class TextWolves implements WolvesUI {
 				role = "WHEREWOLF";
 			}
 			if (visions[i] != 0) {
-				System.out.println("PLAYER " + i + " SEES THAT PLAYER " + recentTargets[i] + " IS " + getAdjective() + " " + role);
+				System.out.println("PLAYER " + (i+1) + " SEES THAT PLAYER " + (recentTargets[i]+1) + " IS " + getAdjective() + " " + role);
 			}
 		}
 	}
@@ -159,7 +159,7 @@ public class TextWolves implements WolvesUI {
 				role = "WOLF";
 			}
 			if (knownRoles[i] != 0) {
-				System.out.println("PLAYER " + i + " IS " + getAdjective() + role);
+				System.out.println("PLAYER " + (i+1) + " IS " + getAdjective() + role);
 			}
 		}
 	}

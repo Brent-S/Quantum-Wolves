@@ -40,10 +40,8 @@ public class GameState {
 			PlayerRoles[n] = 1; // Initialise all players to be living innocents.
 		}
 		for(int i = 0; i < Perm.length; i++){
-			int n =  Perm[i];
-			if(i == 0){
-				PlayerRoles[n] = i + 2;
-			}
+			int n =  Perm[i];			
+			PlayerRoles[n - 1] = i + 2;			
 		}
 	}
 	
@@ -102,6 +100,7 @@ public class GameState {
 	}
 	
 	public boolean WolfAttack(int [] inTargets){ // carries out the lead wolf's murder. returns true if allowed
+		System.out.println("Current Lead wolf is " + this.LeadWolf());
 		int TargetRole = PlayerRoles[inTargets[this.LeadWolf() - 1]];
 		if ((TargetRole >= 3) || (TargetRole < (0))){
 			return false; // Target is either a wolf, or dead.  This gamestate should be removed.

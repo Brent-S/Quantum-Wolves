@@ -42,7 +42,7 @@ public class Game {
 	}
 	
 	
-	private static boolean nextPerm(int[] inPerm){
+	private boolean nextPerm(int[] inPerm){
 		// returns true if this was successful in finding the next permutation
 		
 		int[] outPerm = new int[NumWolves + 1];
@@ -76,7 +76,7 @@ public class Game {
 		return true;		
 	}
 	
-	private static int incrementID(int inIndex, int[] inPerm) {
+	private int incrementID(int inIndex, int[] inPerm) {
 		// returns the next possible ID not used by a previous index.
 		
 		if(inIndex == -1) return -1;
@@ -102,32 +102,34 @@ public class Game {
 		int[][] RoleCount = new int[NumPlayers][4 + (2 * NumWolves)];
 		// First index is the playerID, second is: 0-innocent 1-seer 2,3-dead versions, 4to(4+NumWolves) are wolves
 		int n = 0;
-		for(GameState a : AllStates){
-			for(int i = 0; i < NumPlayers; i++){
-				int b = a.AllPlayers()[i];
+		Iterator<GameState> i = AllStates.iterator();
+		while(i.hasNext()){
+			GameState a = i.next();
+			for(int j = 0; j < NumPlayers; j++){
+				int b = a.AllPlayers()[j];
 				if(b == 1){
-					RoleCount[i][0]++;
+					RoleCount[j][0]++;
 				} else if(b == 2){
-					RoleCount[i][1]++;
+					RoleCount[j][1]++;
 				} else if(b == -1){
-					RoleCount[i][2]++;					
+					RoleCount[j][2]++;					
 				} else if(b == -2){
-					RoleCount[i][3]++;
+					RoleCount[j][3]++;
 				} else {
 					int m = 1;
 					if(b < 0){
 						m = m + NumWolves;
 						b = (-1) * b;
 					}
-					RoleCount[i][m+b]++;
+					RoleCount[j][m+b]++;
 				}
 			}
 			n++;
 		}
 		Probabilities = new double[NumPlayers][4 + (2 * NumWolves)];
 		for(int m = 0; n < NumPlayers; n++){
-			for(int i = 0; i < (4 + (2 * NumWolves)); i++){
-				Probabilities[m][i] = RoleCount[m][i] / n;
+			for(int j = 0; j < (4 + (2 * NumWolves)); j++){
+				Probabilities[m][j] = RoleCount[m][j] / n;
 			}
 		}
 	}
@@ -156,11 +158,13 @@ public class Game {
 	}
 	
 	public void	LynchAllStates(int inTarget){
-		for(GameState a : AllStates){
+		Iterator<GameState> i = AllStates.iterator();
+		while(i.hasNext()){
+			GameState a = i.next();
 			if(a.Lynch(inTarget)){
 				// state is allowed
 			} else { //state was not allowed, and is removed.
-				AllStates.remove(a);
+				i.remove();
 			}
 		}
 	}
@@ -205,21 +209,25 @@ public class Game {
 	
 	public void AllStateCharCollapse(int inTarget){
 		int inRole = CharacterCollapse(inTarget);
-		for(GameState a : AllStates){
+		Iterator<GameState> i = AllStates.iterator();
+		while(i.hasNext()){
+			GameState a = i.next();
 			if(a.SurviveCollapse(inTarget, inRole)){
 				// do nothing, state is allowed.
 			} else {
-				AllStates.remove(a);
+				i.remove();
 			}
 		}
 	}
 	
 	public void AttackAllStates(int[] inTargets){
-		for(GameState a : AllStates){
+		Iterator<GameState> i = AllStates.iterator();
+		while(i.hasNext()){
+			GameState a = i.next();
 			if(a.WolfAttack(inTargets)){
 				// state is allowed, and has been updated.
 			} else { //state was not allowed, and is removed
-				AllStates.remove(a);
+				i.remove();
 			}
 		}
 	}
