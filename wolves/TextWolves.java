@@ -12,36 +12,26 @@ public class TextWolves implements WolvesUI {
 	private int wolves;
 	private int[] recentTargets;
 	
-	@Override
-	public int getNumPlayers() {
-		boolean p = true;
-		while (p) {
+	private int getIntFromUser(String prompt) {
+		while (true) {
 			try {
-				this.players = Integer.parseInt(getUserInput("PLEASE CHOOSE HOW MANY OF PEOPLE"));
-				p = false;
-				return players;
+				return Integer.parseInt(getUserInput(prompt));
 			} catch (Exception e) {
 				System.out.println("FUCK OFF THATS NOT A NUMBER");
-				p = true;
 			}
 		}
-		return 0;
+	}
+	
+	@Override
+	public int getNumPlayers() {
+		this.players = getIntFromUser("PLEASE CHOOSE HOW MANY OF PEOPLE");
+		return players;
 	}
 	
 	@Override
 	public int getNumWolves() {
-		boolean p = true;
-		while (p) {
-			try {
-				this.wolves = Integer.parseInt(getUserInput("PLEASE CHOOSE HOW MANY OF WOLVES"));
-				p = false;
-				return wolves;
-			} catch (Exception e) {
-				System.out.println("FUCK OFF THATS NOT A NUMBER");
-				p = true;
-			}
-		}
-		return 0;
+		this.wolves = getIntFromUser("PLEASE CHOOSE HOW MANY OF WOLVES");
+		return wolves;
 	}
 	
 	private String getUserInput(String prompt) {
@@ -58,16 +48,7 @@ public class TextWolves implements WolvesUI {
 	public int[] inputWolfTargets() {
 		int[] targets = new int[players];
 		for (int i = 0; i < players; i++) {
-			boolean p = true;
-			while (p) {
-				try {
-					targets[i] = Integer.parseInt(getUserInput("PLEASE CHOOSE WHO IS WOLVED BY PLAYER " + (i+1)));
-					p = false;
-				} catch (Exception e) {
-					System.out.println("FUCK OFF THATS NOT A NUMBER");
-					p = true;
-				}
-			}
+			targets[i] = getIntFromUser("PLEASE CHOOSE WHO IS WOLFED DOWN BY PLAYER " + (i+1));
 		}
 		return targets;
 	}
@@ -75,19 +56,11 @@ public class TextWolves implements WolvesUI {
 	@Override
 	public int[] inputSeerTargets() {
 		int[] targets = new int[players];
+		this.recentTargets = new int[players];
 		for (int i = 0; i < players; i++) {
-			boolean p = true;
-			while (p) {
-				try {
-					targets[i] = Integer.parseInt(getUserInput("PLEASE CHOOSE WHO IS SEED BY PLAYER " + (i + 1)));
-					p = false;
-				} catch (Exception e) {
-					System.out.println("FUCK OFF THATS NOT A NUMBER");
-					p = true;
-				}
-			}
+			targets[i] = getIntFromUser("PLEASE CHOOSE WHO IS SAW BY PLAYER " + (i+1));
+			recentTargets[i] = targets[i];
 		}
-		this.recentTargets = targets;
 		return targets;
 	}
 	
@@ -104,7 +77,7 @@ public class TextWolves implements WolvesUI {
 				break;
 			}
 			if (visions[i] != 0) {
-				System.out.println("PLAYER " + (i+1) + " SEES THAT PLAYER " + (recentTargets[i]+1) + " IS " + getAdjective() + " " + role);
+				System.out.println("PLAYER " + (i+1) + " SEES THAT PLAYER " + (recentTargets[i]) + " IS " + getAdjective() + " " + role);
 			}
 		}
 	}
@@ -125,17 +98,7 @@ public class TextWolves implements WolvesUI {
 	
 	@Override
 	public int inputLynchTarget() {
-		boolean p = true;
-		while (p) {
-			try {
-				return Integer.parseInt(getUserInput("PLEASE CHOOSE WHO IS MADE OF LYNCHED"));
-				//p = false;
-			} catch (Exception e) {
-				System.out.println("FUCK OFF THATS NOT A NUMBER");
-				p = true;
-			}
-		}
-		return 0;
+		return getIntFromUser("PLEASE CHOOSE WHO IS LUNCHED");
 	}
 	
 	@Override
