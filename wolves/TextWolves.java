@@ -106,7 +106,7 @@ public class TextWolves implements WolvesUI {
 		System.out.println("SORRY THIS ARENT ALIGNED");
 		System.out.println("PLAYER GOOD EVIL ALIVE DEAD");
 		for (int i = 0; i < players; i++) {
-			System.out.print(i + " ");
+			System.out.print((i + 1) + " ");
 			for (int j = 0; j < 4; j++) {
 				System.out.print(probabilities[i][j] + " ");
 			}
@@ -127,7 +127,7 @@ public class TextWolves implements WolvesUI {
 				break;
 			}
 			if (knownRoles[i] != 0) {
-				System.out.println("PLAYER " + (i+1) + " IS " + getAdjective() + role);
+				System.out.println("PLAYER " + (i+1) + " IS " + getAdjective() + " " + role);
 			}
 		}
 	}

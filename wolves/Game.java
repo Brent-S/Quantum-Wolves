@@ -102,7 +102,8 @@ public class Game {
 		// Compile a tally of each player being each thing against total states
 		
 		int[][] RoleCount = new int[NumPlayers][4 + (2 * NumWolves)];
-		// First index is the playerID, second is: 0-innocent 1-seer 2,3-dead versions, 4to(4+NumWolves) are wolves
+		// First index is the playerID, second is: 0-innocent 1-seer 2,3-dead versions,
+		// 4to(4+NumWolves) are live wolves, and 4 + NumWolves to 4 + (2 * NumWolves) are dead wolves.
 		int n = 0;
 		Iterator<GameState> i = AllStates.iterator();
 		while(i.hasNext()){
@@ -110,13 +111,13 @@ public class Game {
 			for(int j = 0; j < NumPlayers; j++){
 				int b = a.AllPlayers()[j];
 				if(b == 1){
-					RoleCount[j][0]++;
+					RoleCount[j][0]++; // Live innocent
 				} else if(b == 2){
-					RoleCount[j][1]++;
+					RoleCount[j][1]++; // live seer
 				} else if(b == -1){
-					RoleCount[j][2]++;					
+					RoleCount[j][2]++; // dead innocent	
 				} else if(b == -2){
-					RoleCount[j][3]++;
+					RoleCount[j][3]++; // dead seer
 				} else {
 					int m = 1;
 					if(b < 0){

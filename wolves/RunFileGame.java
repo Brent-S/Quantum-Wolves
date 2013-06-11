@@ -80,9 +80,8 @@ public class RunFileGame {
 			DisplayProbs[n][0] = Probabilities[n][0] + Probabilities[n][1] + Probabilities[n][2] + Probabilities[n][3];
 			DisplayProbs[n][0] *= 100;
 			DisplayProbs[n][1] = 100 - DisplayProbs[n][0];
-			DisplayProbs[n][2] = LiveProbs[n];
-			DisplayProbs[n][2] *= 100;
-			DisplayProbs[n][3] = 100 - DisplayProbs[n][0];
+			DisplayProbs[n][2] = LiveProbs[n] * 100;
+			DisplayProbs[n][3] = 100 - DisplayProbs[n][2];
 		}
 		int[] RolesCodes = RunningGame.getKnownRoles();
 		for (int i = 0; i < RolesCodes.length; i++) {
