@@ -101,20 +101,34 @@ public class TextWolves implements WolvesUI {
 		return getIntFromUser("PLEASE CHOOSE WHO IS LUNCHED");
 	}
 	
+	private String pad(int i) {
+		String s = String.valueOf(i);
+		int padding = 5 - s.length();
+		for (int j = 0; j < padding; j++) {
+			s = s + " ";
+		}
+		return s;
+	}
+	
 	@Override
 	public void displayProbabilities(double[][] probabilities, int[] knownRoles) {
-		System.out.println("SORRY THIS ARENT ALIGNED");
-		System.out.println("PLAYER GOOD EVIL ALIVE DEAD");
+		System.out.println("PLAY GOOD EVIL LIVE DEAD");
 		for (int i = 0; i < players; i++) {
-			System.out.print((i + 1) + " ");
+			System.out.print(pad(i + 1));
 			for (int j = 0; j < 4; j++) {
-				System.out.print(probabilities[i][j] + " ");
+				
+				System.out.print(pad((int) Math.round(probabilities[i][j])));
 			}
 			System.out.println();
 		}
 		System.out.println("KNOWN ROLLS");
 		for (int i = 0; i < players; i++) {
 			String role = null;
+			String dead  = "";
+			if (knownRoles[i] < 0) {
+				dead = "DEAD ";
+				knownRoles[i] *= -1;
+			}
 			switch (knownRoles[i]) {
 			case ROLE_BLUE:
 				role = "VILLAGER";
@@ -127,7 +141,7 @@ public class TextWolves implements WolvesUI {
 				break;
 			}
 			if (knownRoles[i] != 0) {
-				System.out.println("PLAYER " + (i+1) + " IS " + getAdjective() + " " + role);
+				System.out.println("PLAYER " + (i+1) + " IS " + getAdjective() + " " + dead + role);
 			}
 		}
 	}
