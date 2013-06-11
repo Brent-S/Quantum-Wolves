@@ -2,8 +2,6 @@ package wolves;
 
 // Inspired by http://puzzle.cisra.com.au/2008/quantumwerewolf.html
 
-// This is a change.
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -30,27 +28,23 @@ public class Game {
 		
 		AllStates = new ArrayList<GameState>();
 		
-		int[] Perms = new int[NumWolves + 1];	
+		int[] Perms = new int[NumWolves + 1];
 		for(int i = 0; i < Perms.length; i++){
 			Perms[i] = i + 1;
 		}
 		
-		boolean p = false;
+		boolean haveMorePerms = false;
 		do {
 			AllStates.add(new GameState(Perms, NumPlayers));
-			p = nextPerm(Perms);
-		} while (p);
+			haveMorePerms = nextPerm(Perms);
+		} while (haveMorePerms);
 		
 	}
-	
 	
 	private boolean nextPerm(int[] inPerm){
 		// returns true if this was successful in finding the next permutation
 		
-		int[] outPerm = new int[inPerm.length];
-		for(int i = 0; i < outPerm.length; i++){
-			outPerm[i] = inPerm[i];
-		}
+		int[] outPerm = Arrays.copyOf(inPerm, inPerm.length);
 		
 		// have function (incrementWolf) which returns the next wolf ID, or zero if none
 		// run increment wolf on last wolf
@@ -71,9 +65,8 @@ public class Game {
 			}
 		} // outPerm now contains the next permutation
 		
-		for(int n = 0; n < inPerm.length; n++){
-			inPerm[n] = outPerm[n];
-		} // inPerm is updated to next permutation 
+		// inPerm is updated to the next permutation
+		inPerm = Arrays.CopyOf(outPerm, outPerm.length);
 		
 		return true;		
 	}
@@ -160,7 +153,7 @@ public class Game {
 		return output;
 	}
 	
-	public void	LynchAllStates(int inTarget){
+	public void LynchAllStates(int inTarget){
 		Iterator<GameState> i = AllStates.iterator();
 		while(i.hasNext()){
 			GameState a = i.next();

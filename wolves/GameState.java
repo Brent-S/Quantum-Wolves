@@ -1,5 +1,7 @@
 package wolves;
 
+import java.util.Arrays;
+
 // Inspired by http://puzzle.cisra.com.au/2008/quantumwerewolf.html
 
 public class GameState {
@@ -15,11 +17,10 @@ public class GameState {
 		NumWolves = Perm.length - 1;
 		NumPlayers = inNumPlayers;
 		PlayerRoles = new int[NumPlayers];
-		for(int n = 0; n < NumPlayers; n++){
-			PlayerRoles[n] = 1; // Initialise all players to be living innocents.
-		}
+		Arrays.fill(PlayerRoles, 1); // Initialise all players to be living innocents.
+		
 		for(int i = 0; i < Perm.length; i++){
-			int n =  Perm[i];			
+			int n =  Perm[i];
 			PlayerRoles[n - 1] = i + 2;			
 		}
 	}
