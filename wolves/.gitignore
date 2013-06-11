@@ -1,0 +1,7 @@
+# Compiled sources #
+
+*.class
+
+# Temp Files #
+
+.kate-swp
