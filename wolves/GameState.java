@@ -73,6 +73,7 @@ public class GameState {
 		boolean output = true;
 		for(int n = 0; n < NumPlayers; n++){
 			if(this.playerTest(n+1) == 2){
+				if(inTargets[n] == 0) return true; // No vision was had, therefore no conflict.
 				output = ((playerTest(inTargets[n]) <= (-3)) || (playerTest(inTargets[n]) >= 3)); // output is now 
 				// true if the Seer saw a wolf.
 				output = (((inVisions[n] == 2) && !output) || ((inVisions[n] == 1) && output));
@@ -100,12 +101,11 @@ public class GameState {
 	}
 	
 	public boolean WolfAttack(int [] inTargets){ // carries out the lead wolf's murder. returns true if allowed
-		System.out.println("Current Lead wolf is " + this.LeadWolf());
-		int TargetRole = PlayerRoles[inTargets[this.LeadWolf() - 1]];
+		int TargetRole = PlayerRoles[inTargets[this.LeadWolf() - 1] - 1];
 		if ((TargetRole >= 3) || (TargetRole < (0))){
 			return false; // Target is either a wolf, or dead.  This gamestate should be removed.
 		} else {
-			PlayerRoles[inTargets[this.LeadWolf() - 1]] = -TargetRole;
+			PlayerRoles[inTargets[this.LeadWolf() - 1] - 1] = -TargetRole;
 			return true;
 		}
 	}

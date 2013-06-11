@@ -43,6 +43,7 @@ public class RunFileGame {
 			int LynchTarget = InputLynchTarget();
 			// Update gamestates based on lynch
 			RunningGame.LynchAllStates(LynchTarget);
+			RunningGame.UpdateProbabilities();
 			// run CollapseAllDead()
 			RunningGame.CollapseAllDead();
 			DayTimeDisplay();
@@ -84,11 +85,11 @@ public class RunFileGame {
 			DisplayProbs[n][3] = 100 - DisplayProbs[n][0];
 		}
 		int[] RolesCodes = RunningGame.getKnownRoles();
-		for (int i : RolesCodes) {
-			if (i > 3) {
-				i = 3;
-			} else if (i < -3) {
-				i = -3;
+		for (int i = 0; i < RolesCodes.length; i++) {
+			if (RolesCodes[i] > 3) {
+				RolesCodes[i] = 3;
+			} else if (RolesCodes[i] < -3) {
+				RolesCodes[i] = -3;
 			}
 		}
 		ui.displayProbabilities(DisplayProbs, RolesCodes);		

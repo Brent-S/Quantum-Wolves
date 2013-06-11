@@ -107,8 +107,8 @@ public class TextWolves implements WolvesUI {
 		System.out.println("PLAYER GOOD EVIL ALIVE DEAD");
 		for (int i = 0; i < players; i++) {
 			System.out.print(i + " ");
-			for (int j = 0; j < 4; i++) {
-				System.out.print(probabilities[i] + " ");
+			for (int j = 0; j < 4; j++) {
+				System.out.print(probabilities[i][j] + " ");
 			}
 			System.out.println();
 		}
