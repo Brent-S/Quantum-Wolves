@@ -9,27 +9,6 @@ public class GameState {
 	private int NumPlayers; // Total number of players, living or dead.
 	private int NumWolves;
 	private int[] PlayerRoles;
-	
-	
-	public GameState(int inPlayers, int inWolves, int inSeer, int[] inWolfPack){ // Constructs round zero states
-		
-		RoundNum = 0;
-		NumPlayers = inPlayers;
-		NumWolves = inWolves;
-				
-		PlayerRoles = new int[NumPlayers];
-		for(int n = 0; n < NumPlayers; n++){
-			if((n+1) == inSeer){
-				PlayerRoles[n] = 2;
-			} else {
-				int p = 1;
-				for(int i = 0; i < NumWolves; i++){
-					if(inWolfPack[i] == (n+1)) p = (i+3);
-				}
-				PlayerRoles[n] = p;
-			}
-		}
-	}
 
 	public GameState(int[] Perm, int inNumPlayers){
 		RoundNum = 0;
