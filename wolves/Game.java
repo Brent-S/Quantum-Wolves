@@ -200,12 +200,14 @@ public class Game {
 			if(ran <= CumulProbs[i]) break;
 		}
 		int Role = 0;
-		if(i == 0){
+		if(i == 0 || i == 2){
 			Role = 1;
-		} else if (i == 1) {
+		} else if (i == 1 || i == 3) {
 			Role = 2;
-		} else {
+		} else if(i < (4 + NumWolves)){
 			Role = i - 1;
+		} else if(i >= (4 + NumWolves)){
+			Role = i - NumWolves - 1;
 		}
 		return Role;
 	}
@@ -290,7 +292,7 @@ public class Game {
 		
 	}
 	
-	public WinCodes CheckWin(){ // returns 0 for no win, 1 for innocents, or 2 for wolves.
+	public WinCodes CheckWin(){
 		
 		// If there is a non-zero probability of one person from either team being alive, then return zero
 		double probLiveInnocent = 0;
