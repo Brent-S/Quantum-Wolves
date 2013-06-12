@@ -10,7 +10,6 @@ public class TextWolves implements WolvesUI {
 	
 	private int players;
 	private int wolves;
-	private int[] recentTargets;
 	
 	private int getIntFromUser(String prompt) {
 		while (true) {
@@ -58,21 +57,6 @@ public class TextWolves implements WolvesUI {
 		return targets;
 	}
 	
-	@Override
-	public int[] inputSeerTargets(boolean[] CanSee) { // Not used
-		int[] targets = new int[players];
-		this.recentTargets = new int[players];
-		for (int i = 0; i < players; i++) {
-			if(CanSee[i]){
-				targets[i] = getIntFromUser("PLEASE CHOOSE WHO IS SAW BY PLAYER " + (i+1));
-				recentTargets[i] = targets[i];
-			} else{
-				targets[i] = 0;
-				recentTargets[i] = 0;
-			}			
-		}
-		return targets;
-	}
 	
 	@Override
 	public int inputSeerTarget(int inSeer){
@@ -92,23 +76,28 @@ public class TextWolves implements WolvesUI {
 		System.out.println("PLAYER " + Seer + " SEES THAT PLAYER " + Target + " IS " + getAdjective() + " " + role);
 	}
 	
+	@Override
+	public void displayEndGame(int RoundNum, WinCodes WinCode){
+		if(WinCode == WinCodes.NoStatesRemain){
+			System.out.println("No Gamestates remain.");
+		} else {
+			String WinningTeam = null;
+			switch(WinCode){
+			case InnocentsWon : WinningTeam = "Villagers";
+			break;
+			case WolvesWon : WinningTeam = "Wolves";
+			break;
+			case ERROR : WinningTeam = "ERROR";
+			System.out.println("SOMETHING HAS GONE WRONG");
+			break;
+			}
+			System.out.println("Game Over. The " + WinningTeam + " have won after " + RoundNum + " rounds.");
+		}
+	}
 	
 	@Override
-	public void displayVisions(byte[] visions) { // Not Used
-		for (int i = 0; i < players; i++) {
-			String role = null;
-			switch (visions[i]) {
-			case WolvesUI.VISION_INNO:
-				role = "VILLAGER";
-				break;
-			case WolvesUI.VISION_WOLF:
-				role = "WHEREWOLF";
-				break;
-			}
-			if (visions[i] != 0) {
-				System.out.println("PLAYER " + (i+1) + " SEES THAT PLAYER " + (recentTargets[i]) + " IS " + getAdjective() + " " + role);
-			}
-		}
+	public void displayAllStates(String AllStateText){
+		System.out.println(AllStateText);
 	}
 	
 	private String getAdjective() {

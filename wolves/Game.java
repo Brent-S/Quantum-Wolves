@@ -13,9 +13,11 @@ public class Game {
 	private int NumWolves;
 	private ArrayList<GameState> AllStates;
 	private double[][] Probabilities;
+	private int RoundNum;
 	
 	public Game(int inPlayers, int inWolves){
 		
+		RoundNum = 1;
 		NumPlayers = inPlayers;
 		NumWolves = inWolves;
 		this.Initialise(); // AllStates now contains all possible initial gamestates.
@@ -41,6 +43,10 @@ public class Game {
 			p = nextPerm(Perms);
 		} while (p);
 		
+	}
+	
+	public int getRoundNum(){
+		return RoundNum;
 	}
 	
 	
@@ -300,7 +306,6 @@ public class Game {
 		while(repeat){
 			repeat = false;
 			// Generating a random ordering:
-			int NumPlayers = 7;
 			double[] randArray = new double[NumPlayers];
 			for(int n = 0; n < NumPlayers; n++){
 				randArray[n] = Math.random();
@@ -387,13 +392,14 @@ public class Game {
 		return AllStates;
 	}
 	
-	public void printAllStates(){
-		System.out.println("All Current States:");
+	public String AllStatesToString(){
+		String output = "All Current States: \n";
 		Iterator<GameState> i = AllStates.iterator();
 		while(i.hasNext()){
 			GameState a = i.next();
-			System.out.println((a.RolesToString()));
+			output +=((a.RolesToString()) + "\n");
 		}
+		return output;
 	}
 	
 }

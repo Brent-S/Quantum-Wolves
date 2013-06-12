@@ -5,13 +5,11 @@ package wolves;
 public class GameState {
 	// This class stores information about a particular game state.
 	
-	private int RoundNum; // Round numbers are incremented from zero upon each lynching.
 	private int NumPlayers; // Total number of players, living or dead.
 	private int NumWolves;
 	private int[] PlayerRoles;
 	
 	public GameState(int[] Perm, int inNumPlayers){
-		RoundNum = 0;
 		NumWolves = Perm.length - 1;
 		NumPlayers = inNumPlayers;
 		PlayerRoles = new int[NumPlayers];
@@ -24,9 +22,7 @@ public class GameState {
 		}
 	}
 	
-	public int getRoundNum() {
-		return RoundNum;
-	}
+
 
 	public int playerTest(int inPlayer){ // returns 1 if innocent, 2 if Seer, and rest are wolves
 		// Negative results are dead.
@@ -38,9 +34,9 @@ public class GameState {
 		return PlayerRoles;
 	}
 	
-	public boolean Lynch(int inPlayer){ // increments the RoundNum and changes inPlayer to be dead.
+	public boolean Lynch(int inPlayer){ // changes inPlayer to be dead.
 		// returns true if this is allowed, false if they are already dead, and the state is removed.
-		RoundNum++;
+		
 		if(this.playerTest(inPlayer) > 0){
 			PlayerRoles[inPlayer - 1] = (-1) * (PlayerRoles[inPlayer - 1]);
 			return true;

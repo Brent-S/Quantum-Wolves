@@ -32,7 +32,7 @@ public class RunFileGame {
 			WinCodes WinCode = RunningGame.CheckWin();
 			GameOver = (WinCode != WinCodes.GameNotOver);
 			if(GameOver) break;
-			RunningGame.printAllStates();
+			DisplayAllStates(RunningGame.AllStatesToString());
 			
 			// Take input of wolf attacks
 			int[] WolfTargets = InputWolfTargets();
@@ -46,7 +46,7 @@ public class RunFileGame {
 			WinCode = RunningGame.CheckWin();
 			GameOver = (WinCode != WinCodes.GameNotOver);
 			if(GameOver) break;
-			RunningGame.printAllStates();
+			DisplayAllStates(RunningGame.AllStatesToString());
 			
 			// Take Lynching target
 			int LynchTarget = InputLynchTarget();
@@ -59,26 +59,12 @@ public class RunFileGame {
 			DayTimeDisplay();
 			WinCode = RunningGame.CheckWin();
 			GameOver = (WinCode != WinCodes.GameNotOver);
-			RunningGame.printAllStates();
+			DisplayAllStates(RunningGame.AllStatesToString());
 		}
 		// Game is now over
-		if(RunningGame.CheckWin() == WinCodes.NoStatesRemain){
-			System.out.println("No Gamestates remain.");
-		} else {
-			String WinningTeam = null;
-			switch(RunningGame.CheckWin()){
-			case InnocentsWon : WinningTeam = "Villagers";
-			break;
-			case WolvesWon : WinningTeam = "Wolves";
-			break;
-			case ERROR : WinningTeam = "ERROR";
-			System.out.println("SOMETHING HAS GONE WRONG");
-			break;
-			}
-			System.out.println("Game Over. The " + WinningTeam + " have won.");
-			DayTimeDisplay();
-			RunningGame.printAllStates();
-		}
+		ui.displayEndGame(RunningGame.getRoundNum(), RunningGame.CheckWin());
+		DayTimeDisplay();
+		DisplayAllStates(RunningGame.AllStatesToString());
 	}
 	
 	private static void DoVisionsOneByOne(){
@@ -93,6 +79,10 @@ public class RunFileGame {
 				RunningGame.SingleVisionAllStates(n, Target, Vision);
 			}
 		}
+	}
+	
+	private static void DisplayAllStates(String AllStateText){
+		ui.displayAllStates(AllStateText);
 	}
 	
 	private static int InputSingleVisionTarget(int Seer){
