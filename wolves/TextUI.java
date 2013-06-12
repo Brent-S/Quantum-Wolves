@@ -16,13 +16,13 @@ public class TextUI implements WolvesUI {
 	}
 
 	@Override
-	public int[] inputWolfTargets() {
+	public int[] inputWolfTargets(boolean[] CanWolf) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int[] inputSeerTargets() {
+	public int[] inputSeerTargets(boolean[] CanSee) {
 		// TODO Auto-generated method stub
 		return null;
 	}

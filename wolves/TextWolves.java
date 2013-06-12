@@ -45,21 +45,32 @@ public class TextWolves implements WolvesUI {
 	}
 	
 	@Override
-	public int[] inputWolfTargets() {
+	public int[] inputWolfTargets(boolean[] CanWolf) {
 		int[] targets = new int[players];
 		for (int i = 0; i < players; i++) {
-			targets[i] = getIntFromUser("PLEASE CHOOSE WHO IS WOLFED DOWN BY PLAYER " + (i+1));
+			if(CanWolf[i]){
+				targets[i] = getIntFromUser("PLEASE CHOOSE WHO IS WOLFED DOWN BY PLAYER " + (i+1));
+			} else{
+				targets[i] = 0;
+			}
+			
 		}
 		return targets;
 	}
 	
 	@Override
-	public int[] inputSeerTargets() {
+	public int[] inputSeerTargets(boolean[] CanSee) {
 		int[] targets = new int[players];
 		this.recentTargets = new int[players];
 		for (int i = 0; i < players; i++) {
-			targets[i] = getIntFromUser("PLEASE CHOOSE WHO IS SAW BY PLAYER " + (i+1));
-			recentTargets[i] = targets[i];
+			if(CanSee[i]){
+				targets[i] = getIntFromUser("PLEASE CHOOSE WHO IS SAW BY PLAYER " + (i+1));
+				recentTargets[i] = targets[i];
+			} else{
+				targets[i] = 0;
+				recentTargets[i] = 0;
+			}
+			
 		}
 		return targets;
 	}

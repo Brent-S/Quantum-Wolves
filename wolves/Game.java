@@ -290,8 +290,8 @@ public class Game {
 		
 	}
 	
-	public byte CheckWin(){ // returns 0 for no win, 1 for innocents, or 2 for wolves.
-		byte output = 5;
+	public WinCodes CheckWin(){ // returns 0 for no win, 1 for innocents, or 2 for wolves.
+		
 		// If there is a non-zero probability of one person from either team being alive, then return zero
 		double probLiveInnocent = 0;
 		double probLiveWolf = 0;
@@ -303,10 +303,39 @@ public class Game {
 		}
 		boolean LiveInnocentsExist = (probLiveInnocent != 0);
 		boolean LiveWolvesExist = (probLiveWolf != 0);
-		if(LiveInnocentsExist && LiveWolvesExist) output = 0;
-		if(LiveInnocentsExist && !LiveWolvesExist) output = 1;
-		if(!LiveInnocentsExist && LiveWolvesExist) output = 2;
+		if(LiveInnocentsExist && LiveWolvesExist) return WinCodes.GameNotOver;
+		if(LiveInnocentsExist && !LiveWolvesExist) return WinCodes.InnocentsWon;
+		if(!LiveInnocentsExist && LiveWolvesExist) return WinCodes.WolvesWon;
+		if(!LiveInnocentsExist && !LiveWolvesExist) return WinCodes.NoStatesRemain;
+		return WinCodes.ERROR;
+	}
+	
+	private boolean CheckLiveSeer(int inTarget){ // returns true if there is a chance player can be a live seer.
+		boolean output = (Probabilities[inTarget - 1][1] != 0);
 		return output;
+	}
+	public boolean[] CheckLiveSeers(){
+		boolean[] output = new boolean[NumPlayers];
+		for(int n = 0; n < NumPlayers; n++){
+			output[n] = CheckLiveSeer(n+1);
+		}
+		return output;
+	}
+	
+	private boolean CheckLiveAlphaWolf(int inTarget){ // returns true if there is a chance player can be a live alpha wolf.
+		boolean output = (Probabilities[inTarget - 1][4] != 0);
+		return output;
+	}
+	public boolean[] CheckLiveAlphaWolves(){
+		boolean[] output = new boolean[NumPlayers];
+		for(int n = 0; n < NumPlayers; n++){
+			output[n] = CheckLiveAlphaWolf(n+1);
+		}
+		return output;
+	}
+	
+	public ArrayList<GameState> getAllStates(){
+		return AllStates;
 	}
 	
 }

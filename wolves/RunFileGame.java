@@ -31,37 +31,64 @@ public class RunFileGame {
 			OutputVisions(Visions);
 			// Update gamestates based on visions
 			RunningGame.VisionAllStates(VisionTargets, Visions);
+			
+			RunningGame.UpdateProbabilities();
+			RunningGame.CollapseAllDead();			
+			WinCodes WinCode = RunningGame.CheckWin();
+			GameOver = (WinCode != WinCodes.GameNotOver);
+			if(GameOver) break;
+			
 			// Take input of wolf attacks
 			int[] WolfTargets = InputWolfTargets();
 			// Update gamestates based on attacks
 			RunningGame.AttackAllStates(WolfTargets);
 			// Wake players
+			
 			RunningGame.UpdateProbabilities();
 			RunningGame.CollapseAllDead();
 			DayTimeDisplay();
+			WinCode = RunningGame.CheckWin();
+			GameOver = (WinCode != WinCodes.GameNotOver);
+			if(GameOver) break;
+			
 			// Take Lynching target
 			int LynchTarget = InputLynchTarget();
 			// Update gamestates based on lynch
 			RunningGame.LynchAllStates(LynchTarget);
+			
 			RunningGame.UpdateProbabilities();
 			// run CollapseAllDead()
 			RunningGame.CollapseAllDead();
 			DayTimeDisplay();
-			byte WinCode = RunningGame.CheckWin();
-			GameOver = (WinCode != 0);
+			WinCode = RunningGame.CheckWin();
+			GameOver = (WinCode != WinCodes.GameNotOver);
 		}
 		// Game is now over
-		String WinningTeam = (RunningGame.CheckWin() == 1) ? "Innocents" : "Wolves";
-		System.out.println("Game Over. The " + WinningTeam + " have won.");
-			
+		if(RunningGame.CheckWin() == WinCodes.NoStatesRemain){
+			System.out.println("No Gamestates remain.");
+		} else {
+			String WinningTeam = null;
+			switch(RunningGame.CheckWin()){
+			case InnocentsWon : WinningTeam = "Villagers";
+			break;
+			case WolvesWon : WinningTeam = "Wolves";
+			break;
+			case ERROR : WinningTeam = "ERROR";
+			System.out.println("SOMETHING HAS GONE WRONG");
+			break;
+			}
+			System.out.println("Game Over. The " + WinningTeam + " have won.");
+			DayTimeDisplay();
+			// Output all gamestates.
+		}
 	}
 	
 	private static int[] InputVisionTargets(){ // return 0 if player cannot be seer.
-		return ui.inputSeerTargets();
+		return ui.inputSeerTargets(RunningGame.CheckLiveSeers());
 	}
 	
 	private static int[] InputWolfTargets(){ // return 0 if player cannot be a wolf.
-		return ui.inputWolfTargets();
+		return ui.inputWolfTargets(RunningGame.CheckLiveAlphaWolves());
 	}
 	
 	private static void OutputVisions(byte[] visions){

@@ -20,12 +20,11 @@ public interface WolvesUI {
 	public int getNumPlayers();
 	public int getNumWolves();
 	
-	public int[] inputWolfTargets();
-	public int[] inputSeerTargets();
+	public int[] inputWolfTargets(boolean[] CanWolf);
+	public int[] inputSeerTargets(boolean[]CanSee);
 	public void displayVisions(byte[] visions);
 	public int inputLynchTarget();
 	public void displayProbabilities(double[][] probabilities, int[] knownRoles);
-	
 	
 
 }
