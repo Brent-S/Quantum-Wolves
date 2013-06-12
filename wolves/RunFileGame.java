@@ -109,7 +109,7 @@ public class RunFileGame {
 	}
 	
 	private static int[] InputWolfTargets(){ // return 0 if player cannot be a wolf.
-		return ui.inputWolfTargets(RunningGame.CheckLiveAlphaWolves());
+		return ui.inputWolfTargets(RunningGame.CheckLiveWolves());
 	}
 	
 	private static void OutputVisions(byte[] visions){

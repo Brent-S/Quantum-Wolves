@@ -345,17 +345,17 @@ public class Game {
 		return output;
 	}
 	
-	private boolean CheckLiveAlphaWolf(int inTarget){ // returns true if there is a chance player can be a live wolf.
+	private boolean CheckLiveWolf(int inTarget){ // returns true if there is a chance player can be a live wolf.
 		double probLiveWolf = 0;
 		for(int i = 0; i < NumWolves; i++){
 			probLiveWolf += Probabilities[inTarget - 1][i+4];
 		}
 		return (probLiveWolf != 0);
 	}
-	public boolean[] CheckLiveAlphaWolves(){
+	public boolean[] CheckLiveWolves(){
 		boolean[] output = new boolean[NumPlayers];
 		for(int n = 0; n < NumPlayers; n++){
-			output[n] = CheckLiveAlphaWolf(n+1);
+			output[n] = CheckLiveWolf(n+1);
 		}
 		return output;
 	}
