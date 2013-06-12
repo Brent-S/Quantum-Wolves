@@ -8,7 +8,9 @@ public class RunFileGame {
 	private static int NumPlayers;
 	private static int NumWolves;
 	private static Game RunningGame;
+	private static ChoiceHistory History;
 	private static WolvesUI ui;
+	private static boolean DebugMode;
 
 	public static void main(String[] args) {
 		
@@ -16,6 +18,8 @@ public class RunFileGame {
 
 		NumPlayers = ui.getNumPlayers();
 		NumWolves = ui.getNumWolves();
+		DebugMode = ui.getDebugMode();
+		
 
 		RunningGame = new Game(NumPlayers,NumWolves);
 		// Game Object created, initialised, and probabilities updated.
@@ -32,7 +36,7 @@ public class RunFileGame {
 			WinCodes WinCode = RunningGame.CheckWin();
 			GameOver = (WinCode != WinCodes.GameNotOver);
 			if(GameOver) break;
-			DisplayAllStates(RunningGame.AllStatesToString());
+			if(DebugMode) DisplayAllStates(RunningGame.AllStatesToString());
 			
 			// Take input of wolf attacks
 			int[] WolfTargets = InputWolfTargets();
@@ -46,7 +50,7 @@ public class RunFileGame {
 			WinCode = RunningGame.CheckWin();
 			GameOver = (WinCode != WinCodes.GameNotOver);
 			if(GameOver) break;
-			DisplayAllStates(RunningGame.AllStatesToString());
+			if(DebugMode) DisplayAllStates(RunningGame.AllStatesToString());
 			
 			// Take Lynching target
 			int LynchTarget = InputLynchTarget();
@@ -59,7 +63,7 @@ public class RunFileGame {
 			DayTimeDisplay();
 			WinCode = RunningGame.CheckWin();
 			GameOver = (WinCode != WinCodes.GameNotOver);
-			DisplayAllStates(RunningGame.AllStatesToString());
+			if(DebugMode) DisplayAllStates(RunningGame.AllStatesToString());
 		}
 		// Game is now over
 		ui.displayEndGame(RunningGame.getRoundNum(), RunningGame.CheckWin());
@@ -77,6 +81,7 @@ public class RunFileGame {
 				byte Vision = RunningGame.HaveSingleVision(n+1,Target);
 				OutputSingleVision(n+1,Target,Vision);
 				RunningGame.SingleVisionAllStates(n, Target, Vision);
+				// History.SaveVision(RunningGame.getRoundNum(), n, Target, Vision);
 			}
 		}
 	}
@@ -94,12 +99,18 @@ public class RunFileGame {
 	}
 	
 	private static int[] InputWolfTargets(){ // return 0 if player cannot be a wolf.
-		return ui.inputWolfTargets(RunningGame.CheckLiveWolves());
+		int[] Targets = ui.inputWolfTargets(RunningGame.CheckLiveWolves());
+		for(int n = 0; n < Targets.length; n++){
+			//History.SaveAttack(RunningGame.getRoundNum(), n + 1, Targets[n]);
+		}
+		return Targets;
 	}
 	
 	
 	private static int InputLynchTarget(){ // return playerID for highest voted.
-		return ui.inputLynchTarget();
+		int Target = ui.inputLynchTarget();
+		//History.SaveLynch(RunningGame.getRoundNum(), Target);
+		return Target;
 	}
 	
 	private static void DayTimeDisplay(){ // Must display Good/Evil/Alive/Dead probabilities.

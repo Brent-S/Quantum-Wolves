@@ -21,6 +21,10 @@ public class TextWolves implements WolvesUI {
 		}
 	}
 	
+	public boolean getDebugMode() {
+		return (getIntFromUser("ENTER 1 FOR DEBUG MODE") == 1);
+	}
+	
 	@Override
 	public int getNumPlayers() {
 		this.players = getIntFromUser("PLEASE CHOOSE HOW MANY OF PEOPLE");
@@ -166,6 +170,5 @@ public class TextWolves implements WolvesUI {
 		}
 	}
 	
-	
-	
+		
 }

@@ -27,6 +27,7 @@ public interface WolvesUI {
 	public int inputSeerTarget(int inSeer);
 	public void displaySingleVision(int Seer, int Target, byte Vision);
 	public void displayAllStates(String AllStateText);
+	public boolean getDebugMode();
 	
 
 }

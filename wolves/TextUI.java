@@ -21,7 +21,9 @@ public class TextUI implements WolvesUI {
 		return null;
 	}
 
-
+	public boolean getDebugMode(){
+		return true;
+	}
 
 	@Override
 	public int inputLynchTarget() {
