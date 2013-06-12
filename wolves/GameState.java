@@ -55,7 +55,7 @@ public class GameState {
 				if(inTargets[n] == 0) return true; // No vision was had, therefore no conflict.
 				output = ((playerTest(inTargets[n]) <= (-3)) || (playerTest(inTargets[n]) >= 3)); // output is now 
 				// true if the Seer saw a wolf.
-				output = (((inVisions[n] == 2) && !output) || ((inVisions[n] == 1) && output));
+				output = (((inVisions[n] == 2) && output) || ((inVisions[n] == 1) && !output));
 			}
 		}
 		return output;
@@ -67,7 +67,7 @@ public class GameState {
 			if(inTarget == 0) return true; // No vision was had, therefore no conflict.
 			output = ((playerTest(inTarget) <= (-3)) || (playerTest(inTarget) >= 3)); // output is now 
 			// true if the Seer saw a wolf.
-			output = (((inVision == 2) && !output) || ((inVision == 1) && output));
+			output = (((inVision == 2) && output) || ((inVision == 1) && !output));
 		}
 		return output;
 	}
@@ -102,16 +102,20 @@ public class GameState {
 	public String RolesToString(){
 		String output = "";
 		for(int i = 0; i < NumPlayers; i++){
-			output += "(" + i;
+			output += "(" + (i+1);
 			if(PlayerRoles[i] < 0) output += " Dead";
 			switch(PlayerRoles[i]){
 			case 1: output += " Villager";
 			break;
 			case 2: output += " Seer";
 			break;
+			case -1: output += " Villager";
+			break;
+			case -2: output += " Seer";
+			break;
 			}
-			if(PlayerRoles[i] >= 3) output += (i - 2) + " Wolf";
-			if(PlayerRoles[i] <= 3) output += -1 * (i - 2) + " Wolf";
+			if(PlayerRoles[i] >= 3) output += " " + (PlayerRoles[i] - 2) + "-Wolf";
+			if(PlayerRoles[i] <= -3) output += " " + (-1 * (PlayerRoles[i] - 2)) + "-Wolf";
 			output += ")";
 		}		
 		return output;

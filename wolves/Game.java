@@ -142,7 +142,7 @@ public class Game {
 	}
 	
 	public byte HaveSingleVision(int Seer, int inTarget){
-		 // 1 means innocent, 2 means wolf
+		 // 1 means innocent i.e. Villager or seer, 2 means wolf
 		double TargetProbGood = 0;
 		for(int i = 0; i < 4; i++){
 			TargetProbGood += Probabilities[inTarget - 1][i];
@@ -368,7 +368,7 @@ public class Game {
 		Iterator<GameState> i = AllStates.iterator();
 		while(i.hasNext()){
 			GameState a = i.next();
-			System.out.println(a.toString());
+			System.out.println((a.RolesToString()));
 		}
 	}
 	
