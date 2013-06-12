@@ -132,14 +132,16 @@ public class TextWolves implements WolvesUI {
 			System.out.println();
 		}
 		System.out.println("KNOWN ROLLS");
+		int n;
 		for (int i = 0; i < players; i++) {
+			n = 1;
 			String role = null;
 			String dead  = "";
 			if (knownRoles[i] < 0) {
 				dead = "DEAD ";
-				knownRoles[i] *= -1;
+				n = -1;
 			}
-			switch (knownRoles[i]) {
+			switch (n*knownRoles[i]) {
 			case ROLE_BLUE:
 				role = "VILLAGER";
 				break;

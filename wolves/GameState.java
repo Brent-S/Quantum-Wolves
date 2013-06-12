@@ -99,4 +99,21 @@ public class GameState {
 			return true;
 		}
 	}
+	public String RolesToString(){
+		String output = "";
+		for(int i = 0; i < NumPlayers; i++){
+			output += "(" + i;
+			if(PlayerRoles[i] < 0) output += " Dead";
+			switch(PlayerRoles[i]){
+			case 1: output += " Villager";
+			break;
+			case 2: output += " Seer";
+			break;
+			}
+			if(PlayerRoles[i] >= 3) output += (i - 2) + " Wolf";
+			if(PlayerRoles[i] <= 3) output += -1 * (i - 2) + " Wolf";
+			output += ")";
+		}		
+		return output;
+	}
 }

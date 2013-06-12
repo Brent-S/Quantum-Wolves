@@ -285,7 +285,7 @@ public class Game {
 			if(index == 2) role = -1;
 			if(index == 3) role = -2;
 			if((index > 3) && (index <= (3 + NumWolves))) role = index - 1;
-			if((index > (3 + NumWolves))) role = index - 1 - NumWolves;
+			if((index > (3 + NumWolves))) role = (index - 1 - NumWolves) *-1;
 			output[n] = role;			
 		}		
 		return output;
@@ -362,6 +362,14 @@ public class Game {
 	
 	public ArrayList<GameState> getAllStates(){
 		return AllStates;
+	}
+	
+	public void printAllStates(){
+		Iterator<GameState> i = AllStates.iterator();
+		while(i.hasNext()){
+			GameState a = i.next();
+			System.out.println(a.toString());
+		}
 	}
 	
 }

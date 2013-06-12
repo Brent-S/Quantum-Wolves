@@ -40,6 +40,7 @@ public class RunFileGame {
 			WinCodes WinCode = RunningGame.CheckWin();
 			GameOver = (WinCode != WinCodes.GameNotOver);
 			if(GameOver) break;
+			RunningGame.printAllStates();
 			
 			// Take input of wolf attacks
 			int[] WolfTargets = InputWolfTargets();
@@ -53,6 +54,7 @@ public class RunFileGame {
 			WinCode = RunningGame.CheckWin();
 			GameOver = (WinCode != WinCodes.GameNotOver);
 			if(GameOver) break;
+			RunningGame.printAllStates();
 			
 			// Take Lynching target
 			int LynchTarget = InputLynchTarget();
@@ -65,6 +67,7 @@ public class RunFileGame {
 			DayTimeDisplay();
 			WinCode = RunningGame.CheckWin();
 			GameOver = (WinCode != WinCodes.GameNotOver);
+			RunningGame.printAllStates();
 		}
 		// Game is now over
 		if(RunningGame.CheckWin() == WinCodes.NoStatesRemain){
@@ -82,7 +85,7 @@ public class RunFileGame {
 			}
 			System.out.println("Game Over. The " + WinningTeam + " have won.");
 			DayTimeDisplay();
-			// Output all gamestates.
+			RunningGame.printAllStates();
 		}
 	}
 	
