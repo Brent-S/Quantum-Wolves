@@ -25,15 +25,7 @@ public class RunFileGame {
 		while(!GameOver){
 			// Each turn, one must:
 			// Take input of visions
-			int[] VisionTargets = InputVisionTargets();
-			byte[] Visions = RunningGame.HaveVisions(VisionTargets);
-			// Get output of visions, and inform players
-			OutputVisions(Visions);
-			// Update gamestates based on visions
-			RunningGame.VisionAllStates(VisionTargets, Visions);
-			
-			// TODO When ui is finished, remove above code and uncomment below:
-			// DoVisionsOneByOne();
+			DoVisionsOneByOne();
 			
 			RunningGame.UpdateProbabilities();
 			RunningGame.CollapseAllDead();			
@@ -111,17 +103,10 @@ public class RunFileGame {
 		ui.displaySingleVision(Seer, Target, Vision);
 	}
 	
-	private static int[] InputVisionTargets(){ // return 0 if player cannot be seer.
-		return ui.inputSeerTargets(RunningGame.CheckLiveSeers());
-	}
-	
 	private static int[] InputWolfTargets(){ // return 0 if player cannot be a wolf.
 		return ui.inputWolfTargets(RunningGame.CheckLiveWolves());
 	}
 	
-	private static void OutputVisions(byte[] visions){
-		ui.displayVisions(visions);
-	}
 	
 	private static int InputLynchTarget(){ // return playerID for highest voted.
 		return ui.inputLynchTarget();

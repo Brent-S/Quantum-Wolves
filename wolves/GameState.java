@@ -115,7 +115,7 @@ public class GameState {
 			break;
 			}
 			if(PlayerRoles[i] >= 3) output += " " + (PlayerRoles[i] - 2) + "-Wolf";
-			if(PlayerRoles[i] <= -3) output += " " + (-1 * (PlayerRoles[i] - 2)) + "-Wolf";
+			if(PlayerRoles[i] <= -3) output += " " + (-1 * (PlayerRoles[i] + 2)) + "-Wolf";
 			output += ")";
 		}		
 		return output;

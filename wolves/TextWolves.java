@@ -59,7 +59,7 @@ public class TextWolves implements WolvesUI {
 	}
 	
 	@Override
-	public int[] inputSeerTargets(boolean[] CanSee) {
+	public int[] inputSeerTargets(boolean[] CanSee) { // Not used
 		int[] targets = new int[players];
 		this.recentTargets = new int[players];
 		for (int i = 0; i < players; i++) {
@@ -94,7 +94,7 @@ public class TextWolves implements WolvesUI {
 	
 	
 	@Override
-	public void displayVisions(byte[] visions) {
+	public void displayVisions(byte[] visions) { // Not Used
 		for (int i = 0; i < players; i++) {
 			String role = null;
 			switch (visions[i]) {

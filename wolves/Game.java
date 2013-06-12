@@ -292,16 +292,39 @@ public class Game {
 	}
 	
 	public void CollapseAllDead(){ // Collapses the roles of any dead characters
+		UpdateProbabilities();
 		int[] KnownRoles = getKnownRoles();
 		double[] ProbLive = LivingProbabilities();
 		boolean repeat = true;
 		
 		while(repeat){
 			repeat = false;
+			// Generating a random ordering:
+			int NumPlayers = 7;
+			double[] randArray = new double[NumPlayers];
 			for(int n = 0; n < NumPlayers; n++){
+				randArray[n] = Math.random();
+			}
+			int[] randOrder = new int[NumPlayers];
+			double lowestRand = 1;
+			for(int i = 0; i < NumPlayers; i++){
+				for(int n = 0; n < NumPlayers; n++){
+					if(randArray[n] < lowestRand) {
+						randOrder[i] = n;
+						lowestRand = randArray[n];
+					}
+				}
+				randArray[randOrder[i]] = 1;
+				lowestRand = 1;
+			} // randOrder now contains a randomised ordering of indices.
+			
+			
+			for(int i = 0; i < NumPlayers; i++){
+				int n = randOrder[i]; // This steps over the array in a random order.
 				if(ProbLive[n] == 0){
 					if(KnownRoles[n] == 0){ // This player needs collapsing
 						AllStateCharCollapse(n+1); // This changes probabilities, but does not update them.
+						UpdateProbabilities();
 						repeat = true;
 					}
 				}
@@ -365,6 +388,7 @@ public class Game {
 	}
 	
 	public void printAllStates(){
+		System.out.println("All Current States:");
 		Iterator<GameState> i = AllStates.iterator();
 		while(i.hasNext()){
 			GameState a = i.next();
