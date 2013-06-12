@@ -10,27 +10,6 @@ public class GameState {
 	private int NumWolves;
 	private int[] PlayerRoles;
 	
-	
-	public GameState(int inPlayers, int inWolves, int inSeer, int[] inWolfPack){ // Constructs round zero states
-		
-		RoundNum = 0;
-		NumPlayers = inPlayers;
-		NumWolves = inWolves;
-				
-		PlayerRoles = new int[NumPlayers];
-		for(int n = 0; n < NumPlayers; n++){
-			if((n+1) == inSeer){
-				PlayerRoles[n] = 2;
-			} else {
-				int p = 1;
-				for(int i = 0; i < NumWolves; i++){
-					if(inWolfPack[i] == (n+1)) p = (i+3);
-				}
-				PlayerRoles[n] = p;
-			}
-		}
-	}
-
 	public GameState(int[] Perm, int inNumPlayers){
 		RoundNum = 0;
 		NumWolves = Perm.length - 1;
@@ -78,6 +57,17 @@ public class GameState {
 				// true if the Seer saw a wolf.
 				output = (((inVisions[n] == 2) && !output) || ((inVisions[n] == 1) && output));
 			}
+		}
+		return output;
+	}
+	
+	public boolean SurviveSingleVision(int inSeer, int inTarget, byte inVision){
+		boolean output = true;
+		if(this.playerTest(inSeer+1) == 2){
+			if(inTarget == 0) return true; // No vision was had, therefore no conflict.
+			output = ((playerTest(inTarget) <= (-3)) || (playerTest(inTarget) >= 3)); // output is now 
+			// true if the Seer saw a wolf.
+			output = (((inVision == 2) && !output) || ((inVision == 1) && output));
 		}
 		return output;
 	}

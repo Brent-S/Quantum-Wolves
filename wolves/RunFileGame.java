@@ -32,6 +32,9 @@ public class RunFileGame {
 			// Update gamestates based on visions
 			RunningGame.VisionAllStates(VisionTargets, Visions);
 			
+			// TODO When ui is finished, remove above code and uncomment below:
+			// DoVisionsOneByOne();
+			
 			RunningGame.UpdateProbabilities();
 			RunningGame.CollapseAllDead();			
 			WinCodes WinCode = RunningGame.CheckWin();
@@ -83,6 +86,24 @@ public class RunFileGame {
 		}
 	}
 	
+	private static void DoVisionsOneByOne(){
+		// This will take inputs of visions for each player in turn, and give them their
+		// visions immediately.
+		boolean[] CanSee = RunningGame.CheckLiveSeers();
+		for(int n = 0; n < NumPlayers; n++){
+			if(CanSee[n]){
+				int Target = InputSingleVisionTarget(n+1);
+				byte Vision = RunningGame.HaveSingleVision(n+1,Target);
+				// TODO Display single vision output.
+				RunningGame.SingleVisionAllStates(n, Target, Vision);
+			}
+		}
+	}
+	
+	private static int InputSingleVisionTarget(int Seer){
+		//TODO get input of player Seer 's Vision Target.
+		return 0;
+	}
 	private static int[] InputVisionTargets(){ // return 0 if player cannot be seer.
 		return ui.inputSeerTargets(RunningGame.CheckLiveSeers());
 	}

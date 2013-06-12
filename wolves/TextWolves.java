@@ -69,8 +69,7 @@ public class TextWolves implements WolvesUI {
 			} else{
 				targets[i] = 0;
 				recentTargets[i] = 0;
-			}
-			
+			}			
 		}
 		return targets;
 	}

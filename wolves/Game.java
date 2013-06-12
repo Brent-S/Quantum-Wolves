@@ -141,6 +141,15 @@ public class Game {
 		return this.Probabilities;
 	}
 	
+	public byte HaveSingleVision(int Seer, int inTarget){
+		 // 1 means innocent, 2 means wolf
+		double TargetProbGood = 0;
+		for(int i = 0; i < 4; i++){
+			TargetProbGood += Probabilities[inTarget - 1][i];
+		}
+		return (byte) ((Math.random() < TargetProbGood) ? 1 : 2);
+	}
+	
 	public byte[] HaveVisions(int[] inTargets){ // 1 means innocent, 2 means wolf, and 0 means an input of zero, i.e. 
 		// player having vision cannot be seer.
 		byte[] output = new byte[NumPlayers];
@@ -249,6 +258,18 @@ public class Game {
 		}
 	}
 	
+	public void SingleVisionAllStates(int inSeer, int inTarget, byte inVision){
+		Iterator<GameState> i = AllStates.iterator();
+		while(i.hasNext()){
+			GameState a = i.next();
+			if(a.SurviveSingleVision(inSeer, inTarget, inVision)){
+				// state is allowed, and has been updated.
+			} else { //state was not allowed, and is removed
+				i.remove();
+			}
+		}
+	}
+	
 
 	public int[] getKnownRoles(){
 		int[] output = new int[NumPlayers];
@@ -324,9 +345,12 @@ public class Game {
 		return output;
 	}
 	
-	private boolean CheckLiveAlphaWolf(int inTarget){ // returns true if there is a chance player can be a live alpha wolf.
-		boolean output = (Probabilities[inTarget - 1][4] != 0);
-		return output;
+	private boolean CheckLiveAlphaWolf(int inTarget){ // returns true if there is a chance player can be a live wolf.
+		double probLiveWolf = 0;
+		for(int i = 0; i < NumWolves; i++){
+			probLiveWolf += Probabilities[inTarget - 1][i+4];
+		}
+		return (probLiveWolf != 0);
 	}
 	public boolean[] CheckLiveAlphaWolves(){
 		boolean[] output = new boolean[NumPlayers];
