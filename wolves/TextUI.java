@@ -45,4 +45,15 @@ public class TextUI implements WolvesUI {
 		
 	}
 	
+	@Override
+	public int inputSeerTarget(int inSeer){
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	@Override
+	public void displaySingleVision(int Seer, int Target, byte Vision){
+		
+	}
+	
 }

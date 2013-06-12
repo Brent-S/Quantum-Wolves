@@ -25,6 +25,8 @@ public interface WolvesUI {
 	public void displayVisions(byte[] visions);
 	public int inputLynchTarget();
 	public void displayProbabilities(double[][] probabilities, int[] knownRoles);
+	public int inputSeerTarget(int inSeer);
+	public void displaySingleVision(int Seer, int Target, byte Vision);
 	
 
 }

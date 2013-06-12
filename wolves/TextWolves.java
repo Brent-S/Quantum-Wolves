@@ -75,6 +75,25 @@ public class TextWolves implements WolvesUI {
 	}
 	
 	@Override
+	public int inputSeerTarget(int inSeer){
+		return getIntFromUser("PLEASE CHOOSE WHO IS SAW BY PLAYER " + inSeer);
+	}
+	
+	@Override
+	public void displaySingleVision(int Seer, int Target, byte Vision){String role = null;
+	switch (Vision) {
+	case WolvesUI.VISION_INNO:
+		role = "INNOCENT";
+		break;
+	case WolvesUI.VISION_WOLF:
+		role = "WHEREWOLF";
+		break;
+	}
+		System.out.println("PLAYER " + Seer + " SEES THAT PLAYER " + Target + " IS " + getAdjective() + " " + role);
+	}
+	
+	
+	@Override
 	public void displayVisions(byte[] visions) {
 		for (int i = 0; i < players; i++) {
 			String role = null;
@@ -157,5 +176,7 @@ public class TextWolves implements WolvesUI {
 			}
 		}
 	}
+	
+	
 	
 }

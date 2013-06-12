@@ -97,16 +97,20 @@ public class RunFileGame {
 			if(CanSee[n]){
 				int Target = InputSingleVisionTarget(n+1);
 				byte Vision = RunningGame.HaveSingleVision(n+1,Target);
-				// TODO Display single vision output.
+				OutputSingleVision(n+1,Target,Vision);
 				RunningGame.SingleVisionAllStates(n, Target, Vision);
 			}
 		}
 	}
 	
 	private static int InputSingleVisionTarget(int Seer){
-		//TODO get input of player Seer 's Vision Target.
-		return 0;
+		return ui.inputSeerTarget(Seer);
 	}
+	
+	private static void OutputSingleVision(int Seer, int Target, byte Vision){
+		ui.displaySingleVision(Seer, Target, Vision);
+	}
+	
 	private static int[] InputVisionTargets(){ // return 0 if player cannot be seer.
 		return ui.inputSeerTargets(RunningGame.CheckLiveSeers());
 	}
