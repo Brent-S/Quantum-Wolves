@@ -148,14 +148,18 @@ public class Game {
 	}
 	
 	public byte HaveSingleVision(int Seer, int inTarget){
-		 // 1 means innocent i.e. Villager or seer, 2 means wolf
-		double TargetProbGood = 0;
-		for(int i = 0; i < 4; i++){
-			TargetProbGood += Probabilities[inTarget - 1][i];
+		// 1 means innocent i.e. Villager or seer, 2 means wolf
+		if(inTarget == 0){			
+			return 0;
+		} else {
+			double TargetProbGood = 0;
+			for(int i = 0; i < 4; i++){
+				TargetProbGood += Probabilities[inTarget - 1][i];
+			}
+			return (byte) ((Math.random() < TargetProbGood) ? 1 : 2);
 		}
-		return (byte) ((Math.random() < TargetProbGood) ? 1 : 2);
 	}
-	
+
 	public byte[] HaveVisions(int[] inTargets){ // 1 means innocent, 2 means wolf, and 0 means an input of zero, i.e. 
 		// player having vision cannot be seer.
 		byte[] output = new byte[NumPlayers];

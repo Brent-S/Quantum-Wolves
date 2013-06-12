@@ -68,16 +68,21 @@ public class TextWolves implements WolvesUI {
 	}
 	
 	@Override
-	public void displaySingleVision(int Seer, int Target, byte Vision){String role = null;
-	switch (Vision) {
-	case WolvesUI.VISION_INNO:
-		role = "INNOCENT";
-		break;
-	case WolvesUI.VISION_WOLF:
-		role = "WHEREWOLF";
-		break;
-	}
-		System.out.println("PLAYER " + Seer + " SEES THAT PLAYER " + Target + " IS " + getAdjective() + " " + role);
+	public void displaySingleVision(int Seer, int Target, byte Vision){
+		if(Target == 0){
+			// Do Nothing.
+		} else {
+			String role = null;
+			switch (Vision) {
+			case WolvesUI.VISION_INNO:
+				role = "INNOCENT";
+				break;
+			case WolvesUI.VISION_WOLF:
+				role = "WHEREWOLF";
+				break;
+			}
+			System.out.println("PLAYER " + Seer + " SEES THAT PLAYER " + Target + " IS " + getAdjective() + " " + role);
+		}
 	}
 	
 	@Override
