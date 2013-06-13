@@ -6,6 +6,7 @@ package wolves;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 public class Game {
 	
@@ -147,6 +148,26 @@ public class Game {
 		return this.Probabilities;
 	}
 	
+	public int getNumStates(){
+		return AllStates.size();
+	}
+	
+	public void SelectEndState(){
+		Random Rand = new Random();
+		int StateIndex =  Rand.nextInt(getNumStates());
+		Iterator<GameState> i = AllStates.iterator();
+		int n = 1;
+		while(i.hasNext()){
+			i.next();
+			if(n == StateIndex){
+				// state is chosen
+			} else { //state was not chosen, and is removed.
+				i.remove();
+			}
+			n++;
+		}
+	}
+	
 	public byte HaveSingleVision(int Seer, int inTarget){
 		// 1 means innocent i.e. Villager or seer, 2 means wolf
 		if(inTarget == 0){			
@@ -180,6 +201,7 @@ public class Game {
 	}
 	
 	public void	LynchAllStates(int inTarget){
+		RoundNum++;
 		Iterator<GameState> i = AllStates.iterator();
 		while(i.hasNext()){
 			GameState a = i.next();

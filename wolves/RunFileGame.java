@@ -28,8 +28,9 @@ public class RunFileGame {
 
 		while(!GameOver){
 			// Each turn, one must:
-			// Take input of visions
-			DoVisionsOneByOne();
+			// Take input from each player
+			RunningGame.UpdateProbabilities();
+			int[] WolfTargets = EachPlayerIO();
 			
 			RunningGame.UpdateProbabilities();
 			RunningGame.CollapseAllDead();			
@@ -38,8 +39,6 @@ public class RunFileGame {
 			if(GameOver) break;
 			if(DebugMode) DisplayAllStates(RunningGame.AllStatesToString());
 			
-			// Take input of wolf attacks
-			int[] WolfTargets = InputWolfTargets();
 			// Update gamestates based on attacks
 			RunningGame.AttackAllStates(WolfTargets);
 			// Wake players
@@ -69,21 +68,66 @@ public class RunFileGame {
 		ui.displayEndGame(RunningGame.getRoundNum(), RunningGame.CheckWin());
 		DayTimeDisplay();
 		DisplayAllStates(RunningGame.AllStatesToString());
+		SelectEndGameState();
+		DisplayAllStates(RunningGame.AllStatesToString());
 	}
 	
-	private static void DoVisionsOneByOne(){
+	private static void SelectEndGameState(){
+		if(RunningGame.getNumStates() != 1) RunningGame.SelectEndState();
+	}
+	
+	private static int[] EachPlayerIO(){
 		// This will take inputs of visions for each player in turn, and give them their
 		// visions immediately.
-		boolean[] CanSee = RunningGame.CheckLiveSeers();
+		
+		// Generating a random ordering:
+		double[] randArray = new double[NumPlayers];
 		for(int n = 0; n < NumPlayers; n++){
+			randArray[n] = Math.random();
+		}
+		int[] randOrder = new int[NumPlayers];
+		double lowestRand = 1;
+		for(int i = 0; i < NumPlayers; i++){
+			for(int n = 0; n < NumPlayers; n++){
+				if(randArray[n] < lowestRand) {
+					randOrder[i] = n;
+					lowestRand = randArray[n];
+				}
+			}
+			randArray[randOrder[i]] = 1;
+			lowestRand = 1;
+		} // randOrder now contains a randomised ordering of indices.
+
+		
+		boolean[] CanSee = RunningGame.CheckLiveSeers();
+		boolean[] CanWolf = RunningGame.CheckLiveWolves();
+		int[] Attacks = new int[NumPlayers];
+		for(int i = 0; i < NumPlayers; i++){
+			int n = randOrder[i];
 			if(CanSee[n]){
 				int Target = InputSingleVisionTarget(n+1);
 				byte Vision = RunningGame.HaveSingleVision(n+1,Target);
 				OutputSingleVision(n+1,Target,Vision);
 				RunningGame.SingleVisionAllStates(n, Target, Vision);
 				// History.SaveVision(RunningGame.getRoundNum(), n, Target, Vision);
+				RunningGame.UpdateProbabilities();
+				CanSee = RunningGame.CheckLiveSeers();
+				CanWolf = RunningGame.CheckLiveWolves();
+			}
+			if(CanWolf[n]){
+				int Target = InputSingleAttackTarget(n+1);
+				Attacks[n] = Target;
+				// History.SaveAttack(RunningGame.getRoundNum(), (n +1), Target);
+			} else {
+				Attacks[n] = 0;
 			}
 		}
+		
+		return Attacks;
+	}
+	
+	private static int InputSingleAttackTarget(int inPlayer){
+		return ui.InputSingleWolfTarget(inPlayer);
 	}
 	
 	private static void DisplayAllStates(String AllStateText){
@@ -96,16 +140,7 @@ public class RunFileGame {
 	
 	private static void OutputSingleVision(int Seer, int Target, byte Vision){
 		ui.displaySingleVision(Seer, Target, Vision);
-	}
-	
-	private static int[] InputWolfTargets(){ // return 0 if player cannot be a wolf.
-		int[] Targets = ui.inputWolfTargets(RunningGame.CheckLiveWolves());
-		for(int n = 0; n < Targets.length; n++){
-			//History.SaveAttack(RunningGame.getRoundNum(), n + 1, Targets[n]);
-		}
-		return Targets;
-	}
-	
+	}	
 	
 	private static int InputLynchTarget(){ // return playerID for highest voted.
 		int Target = ui.inputLynchTarget();

@@ -21,8 +21,15 @@ public class TextUI implements WolvesUI {
 		return null;
 	}
 
+	@Override
 	public boolean getDebugMode(){
 		return true;
+	}
+	
+	
+	@Override
+	public int InputSingleWolfTarget(int inPlayer){
+		return 0;
 	}
 
 	@Override

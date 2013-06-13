@@ -86,13 +86,18 @@ public class TextWolves implements WolvesUI {
 	}
 	
 	@Override
+	public int InputSingleWolfTarget(int inPlayer){
+		return getIntFromUser("PLEASE CHOOSE WHO IS WOLFED DOWN BY PLAYER " + inPlayer);
+	}
+	
+	@Override
 	public void displayEndGame(int RoundNum, WinCodes WinCode){
 		if(WinCode == WinCodes.NoStatesRemain){
 			System.out.println("No Gamestates remain.");
 		} else {
 			String WinningTeam = null;
 			switch(WinCode){
-			case InnocentsWon : WinningTeam = "Villagers";
+			case InnocentsWon : WinningTeam = "Innocents";
 			break;
 			case WolvesWon : WinningTeam = "Wolves";
 			break;
