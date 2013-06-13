@@ -21,7 +21,8 @@ public class RunFileGame {
 		NumWolves = ui.getNumWolves();
 		DebugMode = ui.getDebugMode();
 		History = new ChoiceHistory();
-		
+		getPlayerNames();
+		ui.displayPlayerIDs(getPlayerIDs());
 
 		RunningGame = new Game(NumPlayers,NumWolves);
 		// Game Object created, initialised, and probabilities updated.
@@ -78,6 +79,24 @@ public class RunFileGame {
 		if(RunningGame.getNumStates() != 1) RunningGame.SelectEndState();
 	}
 	
+	public static String getPlayerName(int ID){
+		return Players[ID - 1];
+	}
+	
+	public static int getPlayerIDFromName(String inName) throws WrongNameException{
+		int n = 0;
+		boolean success = false;
+		for(int i = 0; i < NumPlayers; i++){
+			if(Players[i].equals(inName)){
+				n = i+1;
+				success = true;
+				break;				
+			}
+		}
+		if(!success) throw new WrongNameException();
+		return (n);
+	}
+	
 	private static int[] getRandomOrdering(int Size){
 		double[] randArray = new double[Size];
 		for(int n = 0; n < Size; n++){
@@ -98,15 +117,18 @@ public class RunFileGame {
 		return randOrder;
 	}
 	
-	public static void getPlayerName(){
+	public static void getPlayerNames(){
 		// Takes input of player names from the ui, and randomly assigns them to PlayerIDs
 		Players = new String[NumPlayers];
 		int[] RandOrd = getRandomOrdering(NumPlayers);
 		for(int i = 0; i < NumPlayers; i++){
 			int n = RandOrd[i];
 			Players[n] = ui.inputName();
-		}
+		}	
+	}
 	
+	public static String[] getPlayerIDs(){
+		return Players;
 	}
 	
 	private static int[] EachPlayerIO(){

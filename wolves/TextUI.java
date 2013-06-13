@@ -27,6 +27,11 @@ public class TextUI implements WolvesUI {
 	}
 	
 	@Override
+	public void displayPlayerIDs(String[] inArray){
+		
+	}
+	
+	@Override
 	public boolean getDebugMode(){
 		return true;
 	}

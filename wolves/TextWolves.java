@@ -61,11 +61,26 @@ public class TextWolves implements WolvesUI {
 		}
 		return targets;
 	}
-	
-	
+		
 	@Override
 	public int inputSeerTarget(int inSeer){
-		return getIntFromUser("PLEASE CHOOSE WHO IS SAW BY PLAYER " + inSeer);
+		int output = 0;
+		try {
+			output = RunFileGame.getPlayerIDFromName(getUserInput("PLEASE CHOOSE WHO IS SAW BY PLAYER " + inSeer));
+		} catch (WrongNameException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// return getIntFromUser("PLEASE CHOOSE WHO IS SAW BY PLAYER " + inSeer);
+		return output;
+	}
+	
+	@Override
+	public void displayPlayerIDs(String[] inArray){
+		System.out.println("Assigned player names:\n");
+		for(int i = 0; i < players; i++){
+			System.out.print((i+1) + " - " + inArray[i] +"\n");
+		}
 	}
 	
 	@Override
@@ -186,6 +201,4 @@ public class TextWolves implements WolvesUI {
 		return getUserInput("PLEASE ENTER A NAME OF PLAYER");
 		// TODO is this okay Jamie?
 	}
-	
-		
 }

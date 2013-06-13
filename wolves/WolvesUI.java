@@ -29,6 +29,7 @@ public interface WolvesUI {
 	public void displayAllStates(String AllStateText);
 	public boolean getDebugMode();
 	public int InputSingleWolfTarget(int inPlayer);
-	public String inputName();	
+	public String inputName();
+	public void displayPlayerIDs(String[] inArray);
 
 }
