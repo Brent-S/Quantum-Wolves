@@ -19,6 +19,7 @@ public class RunFileGame {
 		NumPlayers = ui.getNumPlayers();
 		NumWolves = ui.getNumWolves();
 		DebugMode = ui.getDebugMode();
+		History = new ChoiceHistory();
 		
 
 		RunningGame = new Game(NumPlayers,NumWolves);
@@ -109,7 +110,7 @@ public class RunFileGame {
 				byte Vision = RunningGame.HaveSingleVision(n+1,Target);
 				OutputSingleVision(n+1,Target,Vision);
 				RunningGame.SingleVisionAllStates(n, Target, Vision);
-				// History.SaveVision(RunningGame.getRoundNum(), n, Target, Vision);
+				History.SaveVision(RunningGame.getRoundNum(), n, Target, Vision);
 				RunningGame.UpdateProbabilities();
 				CanSee = RunningGame.CheckLiveSeers();
 				CanWolf = RunningGame.CheckLiveWolves();
@@ -117,7 +118,7 @@ public class RunFileGame {
 			if(CanWolf[n]){
 				int Target = InputSingleAttackTarget(n+1);
 				Attacks[n] = Target;
-				// History.SaveAttack(RunningGame.getRoundNum(), (n +1), Target);
+				History.SaveAttack(RunningGame.getRoundNum(), (n +1), Target);
 			} else {
 				Attacks[n] = 0;
 			}
@@ -144,7 +145,7 @@ public class RunFileGame {
 	
 	private static int InputLynchTarget(){ // return playerID for highest voted.
 		int Target = ui.inputLynchTarget();
-		//History.SaveLynch(RunningGame.getRoundNum(), Target);
+		History.SaveLynch(RunningGame.getRoundNum(), Target);
 		return Target;
 	}
 	

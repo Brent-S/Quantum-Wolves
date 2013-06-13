@@ -156,7 +156,7 @@ public class Game {
 		Random Rand = new Random();
 		int StateIndex =  Rand.nextInt(getNumStates());
 		Iterator<GameState> i = AllStates.iterator();
-		int n = 1;
+		int n = 0;
 		while(i.hasNext()){
 			i.next();
 			if(n == StateIndex){
