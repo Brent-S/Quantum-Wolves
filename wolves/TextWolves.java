@@ -21,6 +21,7 @@ public class TextWolves implements WolvesUI {
 		}
 	}
 	
+	
 	public boolean getDebugMode() {
 		return (getIntFromUser("ENTER 1 FOR DEBUG MODE") == 1);
 	}
@@ -178,6 +179,12 @@ public class TextWolves implements WolvesUI {
 				System.out.println("PLAYER " + (i+1) + " IS " + getAdjective() + " " + dead + role);
 			}
 		}
+	}
+	
+	@Override
+	public String inputName(){
+		return getUserInput("PLEASE ENTER A NAME OF PLAYER");
+		// TODO is this okay Jamie?
 	}
 	
 		

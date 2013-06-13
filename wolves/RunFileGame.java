@@ -11,6 +11,7 @@ public class RunFileGame {
 	private static ChoiceHistory History;
 	private static WolvesUI ui;
 	private static boolean DebugMode;
+	private static String[] Players;
 
 	public static void main(String[] args) {
 		
@@ -77,19 +78,15 @@ public class RunFileGame {
 		if(RunningGame.getNumStates() != 1) RunningGame.SelectEndState();
 	}
 	
-	private static int[] EachPlayerIO(){
-		// This will take inputs of visions for each player in turn, and give them their
-		// visions immediately.
-		
-		// Generating a random ordering:
-		double[] randArray = new double[NumPlayers];
-		for(int n = 0; n < NumPlayers; n++){
+	private static int[] getRandomOrdering(int Size){
+		double[] randArray = new double[Size];
+		for(int n = 0; n < Size; n++){
 			randArray[n] = Math.random();
 		}
-		int[] randOrder = new int[NumPlayers];
+		int[] randOrder = new int[Size];
 		double lowestRand = 1;
-		for(int i = 0; i < NumPlayers; i++){
-			for(int n = 0; n < NumPlayers; n++){
+		for(int i = 0; i < Size; i++){
+			for(int n = 0; n < Size; n++){
 				if(randArray[n] < lowestRand) {
 					randOrder[i] = n;
 					lowestRand = randArray[n];
@@ -97,8 +94,27 @@ public class RunFileGame {
 			}
 			randArray[randOrder[i]] = 1;
 			lowestRand = 1;
-		} // randOrder now contains a randomised ordering of indices.
-
+		}
+		return randOrder;
+	}
+	
+	public static void getPlayerName(){
+		// Takes input of player names from the ui, and randomly assigns them to PlayerIDs
+		Players = new String[NumPlayers];
+		int[] RandOrd = getRandomOrdering(NumPlayers);
+		for(int i = 0; i < NumPlayers; i++){
+			int n = RandOrd[i];
+			Players[n] = ui.inputName();
+		}
+	
+	}
+	
+	private static int[] EachPlayerIO(){
+		// This will take inputs of visions for each player in turn, and give them their
+		// visions immediately.
+		
+		int[] randOrder = getRandomOrdering(NumPlayers);
+		 // randOrder now contains a randomised ordering of indices.
 		
 		boolean[] CanSee = RunningGame.CheckLiveSeers();
 		boolean[] CanWolf = RunningGame.CheckLiveWolves();

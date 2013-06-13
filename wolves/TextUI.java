@@ -22,6 +22,11 @@ public class TextUI implements WolvesUI {
 	}
 
 	@Override
+	public String inputName(){
+		return null;
+	}
+	
+	@Override
 	public boolean getDebugMode(){
 		return true;
 	}
