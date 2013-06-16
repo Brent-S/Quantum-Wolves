@@ -1,5 +1,9 @@
 package wolves;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 // Inspired by http://puzzle.cisra.com.au/2008/quantumwerewolf.html
 
 
@@ -207,5 +211,15 @@ public class RunFileGame {
 	
 	public void GenerateHistory(){
 		
+	}
+	
+	public List<String> getLivePlayers(){ // returns a sorted list of all live players' names
+		List<String> output = new ArrayList<String>();
+		double[] LiveProbs = RunningGame.LivingProbabilities();
+		for(int i = 0; i < NumPlayers; i++){
+			if(LiveProbs[i] != 0) output.add(getPlayerName(i+1));
+		}
+		Collections.sort(output);
+		return output;
 	}
 }
