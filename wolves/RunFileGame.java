@@ -204,4 +204,8 @@ public class RunFileGame {
 		}
 		ui.displayProbabilities(DisplayProbs, RolesCodes);		
 	}
+	
+	public void GenerateHistory(){
+		
+	}
 }
