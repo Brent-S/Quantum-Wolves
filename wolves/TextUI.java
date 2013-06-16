@@ -54,9 +54,15 @@ public class TextUI implements WolvesUI {
 		
 	}
 	@Override
-	public void displayEndGame(int RoundNum, WinCodes WinCode){
+	public void displayEndGame(int RoundNum, WinCodes WinCode, int[] knownRoles){
 		
 	}
+	
+	@Override
+	public String[] SetNames(){
+		return null;
+	}
+	
 	@Override
 	public void displayAllStates(String AllStateText){
 		

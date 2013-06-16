@@ -1,17 +1,17 @@
 package wolves;
 
-public class Attack {
-	private int RoundNum;
-	private int Player;
+public class Attack extends PlayerAction{
 	private int Target;
 	
 	public Attack(int inRound, int inPlayer, int inTarget){
-		RoundNum = inRound;
-		Player = inPlayer;
+		super(inRound, inPlayer);
 		Target = inTarget;
 	}
 	
-	public int getRound(){return RoundNum;}
-	public int getPlayer(){return Player;}
 	public int getTarget(){return Target;}
+
+	@Override
+	public String print() {
+		return ("Round " + RoundNum + ", Player " + Target + " was wolfed by player " + Player + ".");
+	}
 }

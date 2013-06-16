@@ -1,16 +1,14 @@
 package wolves;
 
-public class Lynch {
-
-	private int RoundNum;
-	private int Player;
+public class Lynch extends PlayerAction{
 	
 	public Lynch(int inRound, int inPlayer){
-		RoundNum = inRound;
-		Player = inPlayer;
+		super(inRound, inPlayer);
 	}
 	
-	public int getRound(){return RoundNum;}
-	public int getPlayer(){return Player;}
-		
+	@Override
+	public String print(){
+		return ("Round " + RoundNum + ", Player " + Player + " was lynched.");
+	}
+	
 }

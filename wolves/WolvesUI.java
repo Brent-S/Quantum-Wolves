@@ -21,7 +21,7 @@ public interface WolvesUI {
 	public int getNumWolves();
 	
 	//public int[] inputWolfTargets(boolean[] CanWolf);
-	public void displayEndGame(int RoundNum, WinCodes WinCode);
+	public void displayEndGame(int RoundNum, WinCodes WinCode, int[] knownRoles);
 	public int inputLynchTarget();
 	public void displayProbabilities(double[][] probabilities, int[] knownRoles);
 	public int inputSeerTarget(int inSeer);
@@ -31,5 +31,6 @@ public interface WolvesUI {
 	public int InputSingleWolfTarget(int inPlayer);
 	public String inputName();
 	public void displayPlayerIDs(String[] inArray);
+	public String[] SetNames();
 
 }

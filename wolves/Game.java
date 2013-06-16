@@ -168,6 +168,10 @@ public class Game {
 		}
 	}
 	
+	public GameState getFirstState(){
+		return AllStates.get(0);
+	}
+	
 	public byte HaveSingleVision(int Seer, int inTarget){
 		// 1 means innocent i.e. Villager or seer, 2 means wolf
 		if(inTarget == 0){			

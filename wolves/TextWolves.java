@@ -24,7 +24,9 @@ public class TextWolves implements WolvesUI {
 	private int getNameIDFromUser(String prompt){
 		while(true){		
 			try {
-				return RunFileGame.getPlayerIDFromName(getUserInput(prompt));
+				String Name = getUserInput(prompt);
+				if (Name.equals("NONE")) return 0;
+				return RunFileGame.getPlayerIDFromName(Name);
 			} catch (WrongNameException e) {
 				System.out.println("FUCK OFF THATS NOT A NAME");
 			}
@@ -73,7 +75,7 @@ public class TextWolves implements WolvesUI {
 		
 	@Override
 	public int inputSeerTarget(int inSeer){
-		return getNameIDFromUser("PLEASE CHOOSE WHO IS SAW BY PLAYER " + inSeer + " (" + RunFileGame.getPlayerName(inSeer) + ")");
+		return getNameIDFromUser("PLEASE CHOOSE WHO IS SAW BY PLAYER " + inSeer + " (" + RunFileGame.getPlayerName(inSeer) + "), or 'NONE' for no vision");
 	}
 
 	@Override
@@ -108,7 +110,7 @@ public class TextWolves implements WolvesUI {
 	}
 	
 	@Override
-	public void displayEndGame(int RoundNum, WinCodes WinCode){
+	public void displayEndGame(int RoundNum, WinCodes WinCode, int[] knownRoles){
 		if(WinCode == WinCodes.NoStatesRemain){
 			System.out.println("No Gamestates remain.");
 		} else {
@@ -123,6 +125,30 @@ public class TextWolves implements WolvesUI {
 			break;
 			}
 			System.out.println("Game Over. The " + WinningTeam + " have won after " + RoundNum + " rounds.");
+		}
+		int n;
+		for (int i = 0; i < players; i++) {
+			n = 1;
+			String role = null;
+			String dead  = "";
+			if (knownRoles[i] < 0) {
+				dead = "DEAD ";
+				n = -1;
+			}
+			switch (n*knownRoles[i]) {
+			case ROLE_BLUE:
+				role = "VILLAGER";
+				break;
+			case ROLE_SEER:
+				role = "SEER";
+				break;
+			case ROLE_WOLF:
+				role = "WOLF";
+				break;
+			}
+			if (knownRoles[i] != 0) {
+				System.out.println("PLAYER " + (i+1) + " (" + RunFileGame.getPlayerName(i+1) + ")" + " IS " + getAdjective() + " " + dead + role);
+			}
 		}
 	}
 	
@@ -175,9 +201,11 @@ public class TextWolves implements WolvesUI {
 			n = 1;
 			String role = null;
 			String dead  = "";
+			String name = "";
 			if (knownRoles[i] < 0) {
 				dead = "DEAD ";
 				n = -1;
+				name = " (" + RunFileGame.getPlayerName(i+1) + ")";
 			}
 			switch (n*knownRoles[i]) {
 			case ROLE_BLUE:
@@ -191,14 +219,36 @@ public class TextWolves implements WolvesUI {
 				break;
 			}
 			if (knownRoles[i] != 0) {
-				System.out.println("PLAYER " + (i+1) + " (" + RunFileGame.getPlayerName(i+1) + ")" + " IS " + getAdjective() + " " + dead + role);
+				System.out.println("PLAYER " + (i+1) + name + " IS " + getAdjective() + " " + dead + role);
 			}
 		}
 	}
-	
+
 	@Override
 	public String inputName(){
 		return getUserInput("PLEASE ENTER A NAME OF PLAYER");
-		// TODO is this okay Jamie?
+		// TODO Is this okay Jamie?
 	}
+	
+	@Override
+	public String[] SetNames(){
+		String[] Players = new String[players];
+		int[] RandOrd = RunFileGame.getRandomOrdering(players);
+		for(int i = 0; i < players; i++){
+			int n = RandOrd[i];
+			boolean BadName = false;
+			String Name;
+			do{
+				Name = inputName();
+				BadName = false;
+				if(Name.equals("NONE")){
+					BadName = true;
+					System.out.println("FUCK OFF THAT NAMES RESERVED");
+				}				
+			}while(BadName);
+			Players[n] = Name;			
+		}
+		return Players;
+	}
+	
 }

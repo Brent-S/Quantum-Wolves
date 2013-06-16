@@ -68,11 +68,12 @@ public class RunFileGame {
 			if(DebugMode) DisplayAllStates(RunningGame.AllStatesToString());
 		}
 		// Game is now over
-		ui.displayEndGame(RunningGame.getRoundNum(), RunningGame.CheckWin());
+		ui.displayEndGame(RunningGame.getRoundNum(), RunningGame.CheckWin(), RunningGame.getKnownRoles());
 		DayTimeDisplay();
 		DisplayAllStates(RunningGame.AllStatesToString());
 		SelectEndGameState();
-		DisplayAllStates(RunningGame.AllStatesToString());
+		RunningGame.UpdateProbabilities();
+		ui.displayEndGame(RunningGame.getRoundNum(), RunningGame.CheckWin(), RunningGame.getKnownRoles());
 	}
 	
 	private static void SelectEndGameState(){
@@ -97,7 +98,7 @@ public class RunFileGame {
 		return (n);
 	}
 	
-	private static int[] getRandomOrdering(int Size){
+	public static int[] getRandomOrdering(int Size){
 		double[] randArray = new double[Size];
 		for(int n = 0; n < Size; n++){
 			randArray[n] = Math.random();
@@ -119,12 +120,7 @@ public class RunFileGame {
 	
 	public static void getPlayerNames(){
 		// Takes input of player names from the ui, and randomly assigns them to PlayerIDs
-		Players = new String[NumPlayers];
-		int[] RandOrd = getRandomOrdering(NumPlayers);
-		for(int i = 0; i < NumPlayers; i++){
-			int n = RandOrd[i];
-			Players[n] = ui.inputName();
-		}	
+		Players = ui.SetNames();
 	}
 	
 	public static String[] getPlayerIDs(){

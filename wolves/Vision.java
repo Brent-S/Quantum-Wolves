@@ -1,20 +1,20 @@
 package wolves;
 
-public class Vision {
-	private int RoundNum;
-	private int Player;
+public class Vision extends PlayerAction{
 	private int Target;
-	byte Vision;
+	private byte Vision;
 	
 	public Vision(int inRound, int inPlayer, int inTarget, byte inVision){
-		RoundNum = inRound;
-		Player = inPlayer;
+		super(inRound, inPlayer);
 		Target = inTarget;
 		Vision = inVision;
 	}
 	
-	public int getRound(){return RoundNum;}
-	public int getPlayer(){return Player;}
 	public int getTarget(){return Target;}
 	public byte getVision(){return Vision;}
+
+	@Override
+	public String print() {
+		return ("Round " + RoundNum + ", Player " + Player + " saw player " + Target + " as a ");
+	}
 }
