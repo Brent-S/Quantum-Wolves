@@ -124,7 +124,7 @@ public class RunFileGame {
 	
 	public static void getPlayerNames(){
 		// Takes input of player names from the ui, and randomly assigns them to PlayerIDs
-		Players = ui.SetNames();
+		Players = SetNames();
 	}
 	
 	public static String[] getPlayerIDs(){
@@ -185,6 +185,26 @@ public class RunFileGame {
 		int Target = ui.inputLynchTarget();
 		History.SaveLynch(RunningGame.getRoundNum(), Target);
 		return Target;
+	}
+	
+	public static String[] SetNames(){
+		String[] Players = new String[NumPlayers];
+		int[] RandOrd = RunFileGame.getRandomOrdering(NumPlayers);
+		for(int i = 0; i < NumPlayers; i++){
+			int n = RandOrd[i];
+			boolean BadName = false;
+			String Name;
+			do{
+				Name = ui.inputName();
+				BadName = false;
+				if(Name.equals("NONE")){
+					BadName = true;
+					System.out.println("FUCK OFF THAT NAMES RESERVED");
+				}				
+			}while(BadName);
+			Players[n] = Name;			
+		}
+		return Players;
 	}
 	
 	private static void DayTimeDisplay(){ // Must display Good/Evil/Alive/Dead probabilities.
