@@ -15,11 +15,11 @@ public class TextUI implements WolvesUI {
 		return 0;
 	}
 
-	@Override
-	public int[] inputWolfTargets(boolean[] CanWolf) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	//@Override
+	//public int[] inputWolfTargets(boolean[] CanWolf) {
+	//	// TODO Auto-generated method stub
+	//	return null;
+//	}
 
 	@Override
 	public String inputName(){

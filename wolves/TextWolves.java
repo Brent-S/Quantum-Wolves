@@ -21,6 +21,16 @@ public class TextWolves implements WolvesUI {
 		}
 	}
 	
+	private int getNameIDFromUser(String prompt){
+		while(true){		
+			try {
+				return RunFileGame.getPlayerIDFromName(getUserInput(prompt));
+			} catch (WrongNameException e) {
+				System.out.println("FUCK OFF THATS NOT A NAME");
+			}
+		}
+	}
+	
 	
 	public boolean getDebugMode() {
 		return (getIntFromUser("ENTER 1 FOR DEBUG MODE") == 1);
@@ -48,36 +58,27 @@ public class TextWolves implements WolvesUI {
 		}
 	}
 	
-	@Override
-	public int[] inputWolfTargets(boolean[] CanWolf) {
-		int[] targets = new int[players];
-		for (int i = 0; i < players; i++) {
-			if(CanWolf[i]){
-				targets[i] = getIntFromUser("PLEASE CHOOSE WHO IS WOLFED DOWN BY PLAYER " + (i+1));
-			} else{
-				targets[i] = 0;
-			}
-			
-		}
-		return targets;
-	}
+	//@Override
+	//public int[] inputWolfTargets(boolean[] CanWolf) {
+	//	int[] targets = new int[players];
+	//	for (int i = 0; i < players; i++) {
+	//		if(CanWolf[i]){
+	//			targets[i] = getNameIDFromUser("PLEASE CHOOSE WHO IS WOLFED DOWN BY PLAYER " + (i+1) + " (" + RunFileGame.getPlayerName(i+1) + ")");
+	//		} else{
+	//			targets[i] = 0;
+	//		}			
+	//	}
+//		return targets;
+//	}
 		
 	@Override
 	public int inputSeerTarget(int inSeer){
-		int output = 0;
-		try {
-			output = RunFileGame.getPlayerIDFromName(getUserInput("PLEASE CHOOSE WHO IS SAW BY PLAYER " + inSeer));
-		} catch (WrongNameException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// return getIntFromUser("PLEASE CHOOSE WHO IS SAW BY PLAYER " + inSeer);
-		return output;
+		return getNameIDFromUser("PLEASE CHOOSE WHO IS SAW BY PLAYER " + inSeer + " (" + RunFileGame.getPlayerName(inSeer) + ")");
 	}
-	
+
 	@Override
 	public void displayPlayerIDs(String[] inArray){
-		System.out.println("Assigned player names:\n");
+		System.out.println("Assigned player names:");
 		for(int i = 0; i < players; i++){
 			System.out.print((i+1) + " - " + inArray[i] +"\n");
 		}
@@ -97,13 +98,13 @@ public class TextWolves implements WolvesUI {
 				role = "WHEREWOLF";
 				break;
 			}
-			System.out.println("PLAYER " + Seer + " SEES THAT PLAYER " + Target + " IS " + getAdjective() + " " + role);
+			System.out.println("PLAYER " + Seer + " (" + RunFileGame.getPlayerName(Seer) + ") SEES THAT " + RunFileGame.getPlayerName(Target) + " IS " + getAdjective() + " " + role);
 		}
 	}
 	
 	@Override
 	public int InputSingleWolfTarget(int inPlayer){
-		return getIntFromUser("PLEASE CHOOSE WHO IS WOLFED DOWN BY PLAYER " + inPlayer);
+		return getNameIDFromUser("PLEASE CHOOSE WHO IS WOLFED DOWN BY PLAYER " + inPlayer + " (" + RunFileGame.getPlayerName(inPlayer) + ")");
 	}
 	
 	@Override
@@ -146,7 +147,7 @@ public class TextWolves implements WolvesUI {
 	
 	@Override
 	public int inputLynchTarget() {
-		return getIntFromUser("PLEASE CHOOSE WHO IS LUNCHED");
+		return getNameIDFromUser("PLEASE CHOOSE WHO IS LUNCHED");
 	}
 	
 	private String pad(int i) {
@@ -160,11 +161,10 @@ public class TextWolves implements WolvesUI {
 	
 	@Override
 	public void displayProbabilities(double[][] probabilities, int[] knownRoles) {
-		System.out.println("PLAY GOOD EVIL LIVE DEAD");
+		System.out.println("\nPLAY GOOD EVIL LIVE DEAD");
 		for (int i = 0; i < players; i++) {
 			System.out.print(pad(i + 1));
-			for (int j = 0; j < 4; j++) {
-				
+			for (int j = 0; j < 4; j++) {				
 				System.out.print(pad((int) Math.round(probabilities[i][j])));
 			}
 			System.out.println();
@@ -191,7 +191,7 @@ public class TextWolves implements WolvesUI {
 				break;
 			}
 			if (knownRoles[i] != 0) {
-				System.out.println("PLAYER " + (i+1) + " IS " + getAdjective() + " " + dead + role);
+				System.out.println("PLAYER " + (i+1) + " (" + RunFileGame.getPlayerName(i+1) + ")" + " IS " + getAdjective() + " " + dead + role);
 			}
 		}
 	}
