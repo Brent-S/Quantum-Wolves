@@ -14,4 +14,9 @@ public class Attack extends PlayerAction{
 	public String print() {
 		return ("Round " + RoundNum + ", Player " + Target + " was wolfed by player " + Player + ".");
 	}
+
+	@Override
+	public boolean isRelevant(GameState inState){
+		return inState.LeadWolf() == Player;
+	}
 }

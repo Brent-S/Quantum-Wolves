@@ -78,6 +78,7 @@ public class RunFileGame {
 		SelectEndGameState();
 		RunningGame.UpdateProbabilities();
 		ui.displayEndGame(RunningGame.getRoundNum(), RunningGame.CheckWin(), RunningGame.getKnownRoles());
+		printHistory();
 	}
 	
 	private static void SelectEndGameState(){
@@ -147,8 +148,8 @@ public class RunFileGame {
 				int Target = InputSingleVisionTarget(n+1);
 				byte Vision = RunningGame.HaveSingleVision(n+1,Target);
 				OutputSingleVision(n+1,Target,Vision);
-				RunningGame.SingleVisionAllStates(n, Target, Vision);
-				History.SaveVision(RunningGame.getRoundNum(), n, Target, Vision);
+				RunningGame.SingleVisionAllStates(n+1, Target, Vision);
+				History.SaveVision(RunningGame.getRoundNum(), n+1, Target, Vision);
 				RunningGame.UpdateProbabilities();
 				CanSee = RunningGame.CheckLiveSeers();
 				CanWolf = RunningGame.CheckLiveWolves();
@@ -156,7 +157,7 @@ public class RunFileGame {
 			if(CanWolf[n]){
 				int Target = InputSingleAttackTarget(n+1);
 				Attacks[n] = Target;
-				History.SaveAttack(RunningGame.getRoundNum(), (n +1), Target);
+				History.SaveAttack(RunningGame.getRoundNum(), (n+1), Target);
 			} else {
 				Attacks[n] = 0;
 			}
@@ -229,8 +230,13 @@ public class RunFileGame {
 		ui.displayProbabilities(DisplayProbs, RolesCodes);		
 	}
 	
-	public void GenerateHistory(){
+	public static void printHistory(){
+		String HistoryText = "";
+		for(PlayerAction Action : History.ApplicableActions(RunningGame.getFirstState())){
+			HistoryText += Action.print() + "\n";
+		}
 		
+		ui.displayHistory(HistoryText);
 	}
 	
 	public List<String> getLivePlayers(){ // returns a sorted list of all live players' names

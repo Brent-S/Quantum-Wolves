@@ -12,4 +12,5 @@ public abstract class PlayerAction {
 	public int getRound(){return RoundNum;}
 	public int getPlayer(){return Player;}
 	public abstract String print();
+	public abstract boolean isRelevant(GameState inState);
 }

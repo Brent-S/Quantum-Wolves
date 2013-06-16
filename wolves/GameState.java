@@ -22,7 +22,7 @@ public class GameState {
 		}
 	}
 	
-
+	public int getNumPlayers(){return NumPlayers;}
 
 	public int playerTest(int inPlayer){ // returns 1 if innocent, 2 if Seer, and rest are wolves
 		// Negative results are dead.
@@ -59,7 +59,7 @@ public class GameState {
 	
 	public boolean SurviveSingleVision(int inSeer, int inTarget, byte inVision){
 		boolean output = true;
-		if(this.playerTest(inSeer+1) == 2){
+		if(this.playerTest(inSeer) == 2){
 			if(inTarget == 0) return true; // No vision was had, therefore no conflict.
 			output = ((playerTest(inTarget) <= (-3)) || (playerTest(inTarget) >= 3)); // output is now 
 			// true if the Seer saw a wolf.
@@ -68,7 +68,7 @@ public class GameState {
 		return output;
 	}
 	
-	private int LeadWolf(){ // returns the player ID of the highest ranking living wolf{
+	public int LeadWolf(){ // returns the player ID of the highest ranking living wolf{
 		int output = 0;
 		for(int n = 0; n < NumWolves;n++){
 			for(int i = 0; i < NumPlayers; i++){

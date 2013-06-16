@@ -31,5 +31,6 @@ public interface WolvesUI {
 	public String inputName();
 	public void displayPlayerIDs(String[] inArray);
 	public String[] SetNames();
+	public void displayHistory(String HistoryText);
 
 }

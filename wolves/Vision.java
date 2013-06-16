@@ -17,4 +17,10 @@ public class Vision extends PlayerAction{
 	public String print() {
 		return ("Round " + RoundNum + ", Player " + Player + " saw player " + Target + " as a ");
 	}
+	
+	@Override
+	public boolean isRelevant(GameState inState){
+		if(Player == 0) return true;
+		return inState.playerTest(Player) == 2;
+	}
 }

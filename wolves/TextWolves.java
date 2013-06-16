@@ -251,4 +251,9 @@ public class TextWolves implements WolvesUI {
 		return Players;
 	}
 	
+	public void displayHistory(String HistoryText){
+		System.out.println("What just happened!?");
+		System.out.println(HistoryText);
+	}
+	
 }

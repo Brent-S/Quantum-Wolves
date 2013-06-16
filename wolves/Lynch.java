@@ -10,5 +10,10 @@ public class Lynch extends PlayerAction{
 	public String print(){
 		return ("Round " + RoundNum + ", Player " + Player + " was lynched.");
 	}
-	
+
+	@Override
+	public boolean isRelevant(GameState inState){
+		return true;  // Lynches are always relevant
+	}
 }
+
