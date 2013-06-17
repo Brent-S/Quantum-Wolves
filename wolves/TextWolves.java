@@ -252,7 +252,7 @@ public class TextWolves implements WolvesUI {
 	}
 	
 	public void displayHistory(String HistoryText){
-		System.out.println("What just happened!?");
+		System.out.println("\nWhat just happened!?");
 		System.out.println(HistoryText);
 	}
 	

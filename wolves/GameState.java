@@ -8,6 +8,8 @@ public class GameState {
 	private int NumPlayers; // Total number of players, living or dead.
 	private int NumWolves;
 	private int[] PlayerRoles;
+	private int[] TimeOfDeath; // Stores RoundNum of death of each player.
+	private int RoundNum;
 	
 	public GameState(int[] Perm, int inNumPlayers){
 		NumWolves = Perm.length - 1;
@@ -20,6 +22,8 @@ public class GameState {
 			int n =  Perm[i];			
 			PlayerRoles[n - 1] = i + 2;			
 		}
+		TimeOfDeath = new int[NumPlayers];
+		RoundNum = 1;
 	}
 	
 	public int getNumPlayers(){return NumPlayers;}
@@ -34,13 +38,36 @@ public class GameState {
 		return PlayerRoles;
 	}
 	
+	public int getTimeOfDeath(int Player){
+		return TimeOfDeath[Player - 1];
+	}
+	
+	public int LeadWolfAtTime(int inRound){
+		if(inRound > RoundNum) return 0; // This is the future.
+		int output = 0;
+		for(int n = 0; n < NumWolves;n++){
+			for(int i = 0; i < NumPlayers; i++){
+				int Role = PlayerRoles[i];
+				if(Role == (n+3)) return (i+1); // The lead wolf _is_ alive 'now'.
+				if((Role == -(n+3)) && (inRound >= TimeOfDeath[i])) return (i+1);
+				//The lead wolf _is_ dead, but _was_ alive at the time of interest.
+			}
+		}		
+		return output;
+	}
+		
 	public boolean Lynch(int inPlayer){ // changes inPlayer to be dead.
 		// returns true if this is allowed, false if they are already dead, and the state is removed.
 		
 		if(this.playerTest(inPlayer) > 0){
 			PlayerRoles[inPlayer - 1] = (-1) * (PlayerRoles[inPlayer - 1]);
+			TimeOfDeath[inPlayer - 1] = RoundNum;
+			RoundNum++;
 			return true;
-		} else return false;
+		} else{
+			RoundNum++;
+			return false;
+		}
 	}
 	
 	public boolean SurviveVisions(int[] inTargets, byte[] inVisions){ // returns true if this set of visions is compatible 
@@ -77,8 +104,7 @@ public class GameState {
 					n = NumWolves;
 				}
 			}
-		}
-		
+		}		
 		return output;
 	}
 
@@ -92,6 +118,7 @@ public class GameState {
 			return false; // Target is either a wolf, or dead.  This gamestate should be removed.
 		} else {
 			PlayerRoles[inTargets[this.LeadWolf() - 1] - 1] = -TargetRole;
+			TimeOfDeath[inTargets[this.LeadWolf() - 1] - 1] = RoundNum;
 			return true;
 		}
 	}

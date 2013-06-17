@@ -12,11 +12,11 @@ public class Attack extends PlayerAction{
 
 	@Override
 	public String print() {
-		return ("Round " + RoundNum + ", Player " + Target + " was wolfed by player " + Player + ".");
+		return ("Round " + RoundNum + ", Player " + Target + " (" + RunFileGame.getPlayerName(Target) + ") was wolfed by player " + Player + " (" + RunFileGame.getPlayerName(Player) + ").");
 	}
 
 	@Override
 	public boolean isRelevant(GameState inState){
-		return inState.LeadWolf() == Player;
+		return inState.LeadWolfAtTime(RoundNum) == Player;
 	}
 }

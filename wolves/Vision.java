@@ -19,17 +19,17 @@ public class Vision extends PlayerAction{
 		String role = null;
 		switch (Vision) {
 		case WolvesUI.VISION_INNO:
-			role = "innocent.";
+			role = "an innocent.";
 			break;
 		case WolvesUI.VISION_WOLF:
-			role = "werewolf.";
+			role = "a werewolf.";
 			break;
 		}
-		return ("Round " + RoundNum + ", Player " + Player + " saw player " + Target + " as a " + role);
+		return ("Round " + RoundNum + ", Player " + Player + " (" + RunFileGame.getPlayerName(Player) + ") saw player " + Target + " (" + RunFileGame.getPlayerName(Target) + ") as " + role);
 	}
 	
 	@Override
 	public boolean isRelevant(GameState inState){
-		return (inState.playerTest(this.Player) == 2);
+		return ((inState.playerTest(this.Player) == 2) || (inState.playerTest(this.Player) == -2));
 	}
 }
