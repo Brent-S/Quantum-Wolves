@@ -6,7 +6,7 @@ import java.util.List;
 public class ChoiceHistory { // object contains history of choices made by players
 	// To be instantiated by RunFileGame
 	
-	private ArrayList<PlayerAction> AllActions;
+	public ArrayList<PlayerAction> AllActions;
 	
 	public ChoiceHistory(){
 		AllActions = new ArrayList<PlayerAction>();

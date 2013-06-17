@@ -15,12 +15,21 @@ public class Vision extends PlayerAction{
 
 	@Override
 	public String print() {
-		return ("Round " + RoundNum + ", Player " + Player + " saw player " + Target + " as a ");
+		if(Target == 0) return "Round " + RoundNum + ", Player " + Player + " had no vision.";
+		String role = null;
+		switch (Vision) {
+		case WolvesUI.VISION_INNO:
+			role = "innocent.";
+			break;
+		case WolvesUI.VISION_WOLF:
+			role = "werewolf.";
+			break;
+		}
+		return ("Round " + RoundNum + ", Player " + Player + " saw player " + Target + " as a " + role);
 	}
 	
 	@Override
 	public boolean isRelevant(GameState inState){
-		if(Player == 0) return true;
-		return inState.playerTest(Player) == 2;
+		return (inState.playerTest(this.Player) == 2);
 	}
 }

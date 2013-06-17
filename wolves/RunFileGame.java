@@ -235,7 +235,6 @@ public class RunFileGame {
 		for(PlayerAction Action : History.ApplicableActions(RunningGame.getFirstState())){
 			HistoryText += Action.print() + "\n";
 		}
-		
 		ui.displayHistory(HistoryText);
 	}
 	
