@@ -1,5 +1,6 @@
 package wolves;
 
+import java.util.List;
 import java.util.Random;
 
 import javax.swing.JOptionPane;
@@ -45,6 +46,18 @@ public class SwingWolves implements WolvesUI {
 		else return (String) output;
 	}
 	
+	private String getPlayerFromUser(String prompt) {
+		List<String> p = RunFileGame.getLivePlayers();
+		String[] arrplay = new String[p.size() + 1];
+		arrplay[0] = "NONE";
+		for (int i = 1; i < arrplay.length; i++) {
+			arrplay[i] = p.get(i - 1);
+		}
+		
+		// return PlayerSelectFrame.choosePlayer(prompt, arrplay);
+		return "";
+	}
+	
 	private int getIntFromUser(String prompt) {
 		while (true) {
 			try {
@@ -70,7 +83,7 @@ public class SwingWolves implements WolvesUI {
 	private int getNameIDFromUser(String prompt){
 		while(true){		
 			try {
-				String Name = getUserInput(prompt);
+				String Name = getPlayerFromUser(prompt);
 				if (Name.equals("NONE")) return 0;
 				return RunFileGame.getPlayerIDFromName(Name);
 			} catch (WrongNameException e) {
