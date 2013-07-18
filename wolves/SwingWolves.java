@@ -28,7 +28,8 @@ public class SwingWolves implements WolvesUI {
 			switch(UserInput){
 			case JOptionPane.YES_OPTION : displayString("Instructions");
 			break;
-			case JOptionPane.NO_OPTION : displayString("About");
+			case JOptionPane.NO_OPTION : displayString("Inspired by http://puzzle.cisra.com.au/2008/quantumwerewolf.html \n" +
+					"this is a 'quantum' version of the classic werewoves/mafia game of asymmetric information.");
 			break;
 			case JOptionPane.CLOSED_OPTION : System.exit(0);
 			break;
