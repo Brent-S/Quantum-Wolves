@@ -73,7 +73,7 @@ public class TextWolves implements WolvesUI {
 		}
 	}
 	
-	public void displayMessage(String message){
+	public void displayError(String message){
 		System.out.println(message);
 	}
 	

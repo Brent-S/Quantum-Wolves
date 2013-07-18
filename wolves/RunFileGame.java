@@ -201,7 +201,7 @@ public class RunFileGame {
 				BadName = false;
 				if(Name.equals("NONE")){
 					BadName = true;
-					ui.displayMessage("FUCK OFF THAT NAMES RESERVED");
+					ui.displayError("FUCK OFF THAT NAMES RESERVED");
 				}				
 			}while(BadName);
 			Players[n] = Name;			
