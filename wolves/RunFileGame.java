@@ -239,7 +239,7 @@ public class RunFileGame {
 		ui.displayHistory(HistoryText);
 	}
 	
-	public List<String> getLivePlayers(){ // returns a sorted list of all live players' names
+	public static List<String> getLivePlayers(){ // returns a sorted list of all live players' names
 		List<String> output = new ArrayList<String>();
 		double[] LiveProbs = RunningGame.LivingProbabilities();
 		for(int i = 0; i < NumPlayers; i++){
