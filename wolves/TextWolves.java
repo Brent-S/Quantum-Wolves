@@ -75,7 +75,7 @@ public class TextWolves implements WolvesUI {
 		
 	@Override
 	public int inputSeerTarget(int inSeer){
-		return getNameIDFromUser("PLEASE CHOOSE WHO IS SAW BY PLAYER " + inSeer + " (" + RunFileGame.getPlayerName(inSeer) + "), or 'NONE' for no vision");
+		return getNameIDFromUser("\nPLEASE CHOOSE WHO IS SAW BY PLAYER " + inSeer + " (" + RunFileGame.getPlayerName(inSeer) + "), or 'NONE' for no vision");
 	}
 
 	@Override
@@ -106,7 +106,7 @@ public class TextWolves implements WolvesUI {
 	
 	@Override
 	public int InputSingleWolfTarget(int inPlayer){
-		return getNameIDFromUser("PLEASE CHOOSE WHO IS WOLFED DOWN BY PLAYER " + inPlayer + " (" + RunFileGame.getPlayerName(inPlayer) + ")");
+		return getNameIDFromUser("\nPLEASE CHOOSE WHO IS WOLFED DOWN BY PLAYER " + inPlayer + " (" + RunFileGame.getPlayerName(inPlayer) + ")");
 	}
 	
 	@Override
@@ -142,10 +142,8 @@ public class TextWolves implements WolvesUI {
 			case ROLE_SEER:
 				role = "SEER";
 				break;
-			case ROLE_WOLF:
-				role = "WOLF";
-				break;
 			}
+			if(n*knownRoles[i] >= 3) role = "WOLF";
 			if (knownRoles[i] != 0) {
 				System.out.println("PLAYER " + (i+1) + " (" + RunFileGame.getPlayerName(i+1) + ")" + " IS " + getAdjective() + " " + dead + role);
 			}

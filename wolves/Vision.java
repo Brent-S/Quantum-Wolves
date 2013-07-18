@@ -15,7 +15,7 @@ public class Vision extends PlayerAction{
 
 	@Override
 	public String print() {
-		if(Target == 0) return "Round " + RoundNum + ", Player " + Player + " had no vision.";
+		if(Target == 0) return "Round " + RoundNum + ", Player " + Player + " (" + RunFileGame.getPlayerName(Player) + ") had no vision.";
 		String role = null;
 		switch (Vision) {
 		case WolvesUI.VISION_INNO:
@@ -30,6 +30,6 @@ public class Vision extends PlayerAction{
 	
 	@Override
 	public boolean isRelevant(GameState inState){
-		return ((inState.playerTest(this.Player) == 2) || (inState.playerTest(this.Player) == -2));
+		return ((inState.playerTest(this.Player) == 2));
 	}
 }
