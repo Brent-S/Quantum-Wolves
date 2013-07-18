@@ -58,7 +58,7 @@ public class PlayerSelectFrame extends JFrame {
 			this.add(button);
 		}
 		this.pack();
-		this.setSize(this.label.getWidth(), 300);
+		// this.setSize(this.label.getWidth(), 300);
 		this.setVisible(true);
 	}
 	

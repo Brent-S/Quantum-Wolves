@@ -33,5 +33,6 @@ public interface WolvesUI {
 	public void displayPlayerIDs(String[] inArray);
 	public String[] SetNames();
 	public void displayHistory(String HistoryText);
+	public void displayString(String message);
 
 }

@@ -1,5 +1,6 @@
 package wolves;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -47,17 +48,26 @@ public class SwingWolves implements WolvesUI {
 		else return (String) output;
 	}
 	
-	private String getPlayerFromUser(String prompt) {
-		List<String> p = RunFileGame.getLivePlayers();
-		String[] arrplay = new String[p.size() + 1];
-		arrplay[0] = "NONE";
-		for (int i = 1; i < arrplay.length; i++) {
-			arrplay[i] = p.get(i - 1);
+	private int getPlayerIDFromUser(String prompt, String[] arrplay) {
+		// List<String> p = RunFileGame.getLivePlayers();
+		// String[] arrplay = new String[p.size() + 1];
+		// arrplay[0] = "NONE";
+		// for (int i = 1; i < arrplay.length; i++) {
+		// 	arrplay[i] = p.get(i - 1);
+		// }
+				
+		while(true){		
+			try {
+				String Name = PlayerSelectFrame.choosePlayer(prompt, arrplay);
+				if (Name.equals("NONE")) return 0;
+				return RunFileGame.getPlayerIDFromName(Name);
+			} catch (WrongNameException e) {
+				displayError("FUCK OFF THATS NOT A NAME");
+			}
 		}
-		
-		// return PlayerSelectFrame.choosePlayer(prompt, arrplay);
-		return "";
 	}
+	
+	
 	
 	private int getIntFromUser(String prompt) {
 		while (true) {
@@ -81,17 +91,17 @@ public class SwingWolves implements WolvesUI {
 		return wolves;
 	}
 	
-	private int getNameIDFromUser(String prompt){
-		while(true){		
-			try {
-				String Name = getPlayerFromUser(prompt);
-				if (Name.equals("NONE")) return 0;
-				return RunFileGame.getPlayerIDFromName(Name);
-			} catch (WrongNameException e) {
-				displayError("FUCK OFF THATS NOT A NAME");
-			}
-		}
-	}
+	//private int getNameIDFromUser(String prompt){
+	//	while(true){		
+	//		try {
+	//			String Name = getPlayerFromUser(prompt);
+	//			if (Name.equals("NONE")) return 0;
+	//			return RunFileGame.getPlayerIDFromName(Name);
+	//		} catch (WrongNameException e) {
+	//			displayError("FUCK OFF THATS NOT A NAME");
+	//		}
+	//	}
+	//}
 
 	@Override
 	public void displayEndGame(int RoundNum, WinCodes WinCode, int[] knownRoles) {
@@ -151,10 +161,15 @@ public class SwingWolves implements WolvesUI {
 		Random generator = new Random();
 		return words[generator.nextInt(words.length)];
 	}
-	
+
 	@Override
 	public int inputLynchTarget() {
-		return getNameIDFromUser("PLEASE CHOOSE WHO IS LUNCHED");
+		List<String> p = RunFileGame.getLivePlayers();
+		String[] arrplay = new String[p.size()];
+		for (int i = 0; i < arrplay.length; i++) {
+			arrplay[i] = p.get(i);
+		}
+		return getPlayerIDFromUser("PLEASE CHOOSE WHO IS LUNCHED", arrplay);
 	}
 
 	@Override
@@ -210,7 +225,13 @@ public class SwingWolves implements WolvesUI {
 
 	@Override
 	public int inputSeerTarget(int inSeer) {
-		return getNameIDFromUser("\nPLEASE CHOOSE WHO IS SAW BY PLAYER " + inSeer + " (" + RunFileGame.getPlayerName(inSeer) + "), or 'NONE' for no vision");
+		List<String> p = RunFileGame.getLivePlayers();
+		String[] arrplay = new String[p.size() + 1];
+		arrplay[0] = "NONE";
+		for (int i = 1; i < arrplay.length; i++) {
+			arrplay[i] = p.get(i - 1);
+		}
+		return getPlayerIDFromUser("\nPLEASE CHOOSE WHO IS SAW BY PLAYER " + inSeer + " (" + RunFileGame.getPlayerName(inSeer) + ")", arrplay);
 	}
 
 	@Override
@@ -252,7 +273,21 @@ public class SwingWolves implements WolvesUI {
 
 	@Override
 	public int InputSingleWolfTarget(int inPlayer) {
-		return getNameIDFromUser("\nPLEASE CHOOSE WHO IS WOLFED DOWN BY PLAYER " + inPlayer + " (" + RunFileGame.getPlayerName(inPlayer) + ")");
+
+		List<String> LivePlayers = RunFileGame.getLivePlayers();
+		LivePlayers.remove(RunFileGame.getPlayerName(inPlayer));
+		List<Integer> TargetIDs = RunFileGame.getWolfPastTargets(inPlayer);
+		List<String> TargetNames = new ArrayList<String>();
+		for(Integer ID : TargetIDs){
+			TargetNames.add(RunFileGame.getPlayerName(ID));
+		}
+		LivePlayers.removeAll(TargetNames);
+		String[] arrplay = new String[LivePlayers.size()];
+		for (int i = 0; i < arrplay.length; i++) {
+			arrplay[i] = LivePlayers.get(i);
+		}
+
+		return getPlayerIDFromUser("\nPLEASE CHOOSE WHO IS WOLFED DOWN BY PLAYER " + inPlayer + " (" + RunFileGame.getPlayerName(inPlayer) + ")", arrplay);
 	}
 
 	@Override
@@ -299,7 +334,7 @@ public class SwingWolves implements WolvesUI {
 
 	}
 	
-	private void displayString(String text){
+	public void displayString(String text){
 		JOptionPane.showMessageDialog(null,
 			    text,
 			    "Quantum Wolves",

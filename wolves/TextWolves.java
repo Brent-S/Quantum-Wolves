@@ -77,6 +77,10 @@ public class TextWolves implements WolvesUI {
 		System.out.println(message);
 	}
 	
+	public void displayString(String message){
+		System.out.println(message);
+	}
+	
 	@Override
 	public void displaySingleVision(int Seer, int Target, byte Vision){
 		if(Target == 0){

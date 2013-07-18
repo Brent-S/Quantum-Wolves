@@ -78,6 +78,10 @@ public class RunFileGame {
 		DisplayAllStates(RunningGame.AllStatesToString());
 		
 		if(RunningGame.getNumStates() != 1) { // If there are multiple states, one is randomly chosen.
+			ui.displayString("At this point, the choices made\n" +
+							 "still leave more than one final outcome.\n" +
+							 "Therefore, one outcome is now being\n" +
+							 "randomly selected." );
 			RunningGame.SelectEndState();
 			RunningGame.UpdateProbabilities();
 			ui.displayEndGame(RunningGame.getRoundNum(), RunningGame.CheckWin(), RunningGame.getKnownRoles());
@@ -102,6 +106,10 @@ public class RunFileGame {
 		}
 		if(!success) throw new WrongNameException();
 		return (n);
+	}
+	
+	public static List<Integer> getWolfPastTargets(int inWolf){
+		return History.WolfTargets(inWolf);
 	}
 	
 	public static int[] getRandomOrdering(int Size){

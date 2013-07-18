@@ -31,4 +31,14 @@ public class ChoiceHistory { // object contains history of choices made by playe
 		}
 		return output;
 	}
+	
+	public List<Integer> WolfTargets(int inWolf){
+		ArrayList<Integer> output = new ArrayList<Integer>();
+		for(PlayerAction Action : AllActions){
+			if(Action instanceof Attack){
+				if(Action.getPlayer() == inWolf) output.add(((Attack) Action).getTarget());
+			}
+		}
+		return output;
+	}
 }
