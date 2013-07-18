@@ -13,10 +13,16 @@ public class SwingWolves implements WolvesUI {
 	public SwingWolves(){
 		// Do nothing, I think...
 		//I think we should use this space as a convenient alternative for commit messages
+		// If you like.
 	}
 		
 	private String getUserInput(String prompt) {
-		return JOptionPane.showInputDialog(null, prompt, "Quantum Werewolves", JOptionPane.QUESTION_MESSAGE);
+		Object output = JOptionPane.showInputDialog(null, prompt, "Quantum Werewolves", JOptionPane.QUESTION_MESSAGE);
+		if(output == null){
+			System.exit(0); // terminate program...
+			return null; // why is this nessecary...  (I can't spell...)
+		}
+		else return (String) output;
 	}
 	
 	private String getPlayerFromUser(String prompt) {
@@ -35,7 +41,7 @@ public class SwingWolves implements WolvesUI {
 			try {
 				return Integer.parseInt(getUserInput(prompt));
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "FUCK OFF THATS NOT A NUMBER");
+				displayError("FUCK OFF THATS NOT A NUMBER");
 			}
 		}
 	}
@@ -59,7 +65,7 @@ public class SwingWolves implements WolvesUI {
 				if (Name.equals("NONE")) return 0;
 				return RunFileGame.getPlayerIDFromName(Name);
 			} catch (WrongNameException e) {
-				JOptionPane.showMessageDialog(null, "FUCK OFF THATS NOT A NAME");
+				displayError("FUCK OFF THATS NOT A NAME");
 			}
 		}
 	}
@@ -210,11 +216,15 @@ public class SwingWolves implements WolvesUI {
 
 	@Override
 	public boolean getDebugMode() {
-		return ( JOptionPane.showConfirmDialog(
+		int UserInput = JOptionPane.showConfirmDialog(
 			    null,
 			    "Would you like to use debug mode? \n (This will display all game-states at every update.)",
 			    "Quantum Werewolves",
-			    JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION;
+			    JOptionPane.YES_NO_OPTION);
+		if(UserInput == JOptionPane.CLOSED_OPTION){
+			System.exit(0);
+			return false;
+		} else return (UserInput == JOptionPane.YES_OPTION);
 	}
 
 	@Override
@@ -252,7 +262,7 @@ public class SwingWolves implements WolvesUI {
 				BadName = false;
 				if(Name.equals("NONE")){
 					BadName = true;
-					JOptionPane.showMessageDialog(null, "FUCK OFF THAT NAMES RESERVED");
+					displayError("FUCK OFF THAT NAMES RESERVED");
 				}				
 			}while(BadName);
 			Players[n] = Name;			
@@ -271,6 +281,13 @@ public class SwingWolves implements WolvesUI {
 			    text,
 			    "Quantum Wolves",
 			    JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void displayError(String message){
+		JOptionPane.showMessageDialog(null,
+			    message,
+			    "Quantum Wolves",
+			    JOptionPane.ERROR_MESSAGE);
 	}
 
 }

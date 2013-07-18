@@ -20,6 +20,7 @@ public interface WolvesUI {
 	public int getNumPlayers();
 	public int getNumWolves();
 	
+	public void displayError(String message);
 	public void displayEndGame(int RoundNum, WinCodes WinCode, int[] knownRoles);
 	public int inputLynchTarget();
 	public void displayProbabilities(double[][] probabilities, int[] knownRoles);
