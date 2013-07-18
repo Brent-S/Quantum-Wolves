@@ -59,20 +59,7 @@ public class TextWolves implements WolvesUI {
 			throw (new RuntimeException(e));
 		}
 	}
-	
-	//@Override
-	//public int[] inputWolfTargets(boolean[] CanWolf) {
-	//	int[] targets = new int[players];
-	//	for (int i = 0; i < players; i++) {
-	//		if(CanWolf[i]){
-	//			targets[i] = getNameIDFromUser("PLEASE CHOOSE WHO IS WOLFED DOWN BY PLAYER " + (i+1) + " (" + RunFileGame.getPlayerName(i+1) + ")");
-	//		} else{
-	//			targets[i] = 0;
-	//		}			
-	//	}
-//		return targets;
-//	}
-		
+			
 	@Override
 	public int inputSeerTarget(int inSeer){
 		return getNameIDFromUser("\nPLEASE CHOOSE WHO IS SAW BY PLAYER " + inSeer + " (" + RunFileGame.getPlayerName(inSeer) + "), or 'NONE' for no vision");

@@ -19,7 +19,8 @@ public class RunFileGame {
 
 	public static void main(String[] args) {
 		
-		ui = new TextWolves(); //To be replaced with actual UI
+		// ui = new TextWolves(); //To be replaced with actual UI
+		ui = new SwingWolves();
 
 		NumPlayers = ui.getNumPlayers();
 		NumWolves = ui.getNumWolves();
@@ -28,7 +29,7 @@ public class RunFileGame {
 		getPlayerNames();
 		ui.displayPlayerIDs(getPlayerIDs());
 
-		RunningGame = new Game(NumPlayers,NumWolves);
+		RunningGame = new Game(NumPlayers, NumWolves);
 		// Game Object created, initialised, and probabilities updated.
 
 		boolean GameOver = false;
