@@ -30,6 +30,15 @@ public class Vision extends PlayerAction{
 	
 	@Override
 	public boolean isRelevant(GameState inState){
-		return ((inState.playerTest(this.Player) == 2));
+		boolean isLiveSeer = (inState.playerTest(this.Player) == 2);
+		boolean isDeadSeer = (inState.playerTest(this.Player) == -2);
+		int TimeOfDeath = inState.getTimeOfDeath(this.Player);
+		
+		if(isLiveSeer){
+			return true;
+		} else {
+			if(isDeadSeer && (this.RoundNum <= TimeOfDeath)) return true;
+		} 
+		return false;
 	}
 }

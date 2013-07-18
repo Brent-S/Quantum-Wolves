@@ -11,11 +11,32 @@ public class SwingWolves implements WolvesUI {
 	private int wolves;
 	
 	public SwingWolves(){
-		// Do nothing, I think...
 		//I think we should use this space as a convenient alternative for commit messages
-		// If you like.
-	}
+		// If you like, but it is no longer empty...
 		
+		boolean startGame = false;
+		while(!startGame){
+			Object[] buttons = {"Instructions", "About", "Lets play this game!"};
+			int UserInput = JOptionPane.showOptionDialog(null,
+						    "Welcom to this Java implementation of Quantum Werewolves",
+						    "Quantum Werewolves",
+						    JOptionPane.YES_NO_CANCEL_OPTION,
+						    JOptionPane.QUESTION_MESSAGE,
+						    null,
+						    buttons,
+						    buttons[2]);
+			switch(UserInput){
+			case JOptionPane.YES_OPTION : displayString("Instructions");
+			break;
+			case JOptionPane.NO_OPTION : displayString("About");
+			break;
+			case JOptionPane.CLOSED_OPTION : System.exit(0);
+			break;
+			case JOptionPane.CANCEL_OPTION : startGame = true;		
+			}
+		}
+	}
+
 	private String getUserInput(String prompt) {
 		Object output = JOptionPane.showInputDialog(null, prompt, "Quantum Werewolves", JOptionPane.QUESTION_MESSAGE);
 		if(output == null){
@@ -33,7 +54,8 @@ public class SwingWolves implements WolvesUI {
 			arrplay[i] = p.get(i - 1);
 		}
 		
-		return PlayerSelectFrame.choosePlayer(prompt, arrplay);
+		// return PlayerSelectFrame.choosePlayer(prompt, arrplay);
+		return "";
 	}
 	
 	private int getIntFromUser(String prompt) {
@@ -87,7 +109,7 @@ public class SwingWolves implements WolvesUI {
 			text = ("SOMETHING HAS GONE WRONG");
 			break;
 			}
-			text = ("Game Over. The " + WinningTeam + " have won after " + RoundNum + " rounds.");
+			text = ("Game Over. The " + WinningTeam + " have won after " + RoundNum + " rounds.\n");
 		}
 		int n;
 		for (int i = 0; i < players; i++) {
@@ -108,7 +130,7 @@ public class SwingWolves implements WolvesUI {
 			}
 			if(n*knownRoles[i] >= 3) role = "WOLF";
 			if (knownRoles[i] != 0) {
-				text = ("PLAYER " + (i+1) + " (" + RunFileGame.getPlayerName(i+1) + ")" + " IS " + getAdjective() + " " + dead + role);
+				text += ("PLAYER " + (i+1) + " (" + RunFileGame.getPlayerName(i+1) + ")" + " IS " + getAdjective() + " " + dead + role + "\n");
 			}
 		}
 		

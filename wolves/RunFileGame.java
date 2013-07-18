@@ -76,16 +76,16 @@ public class RunFileGame {
 		ui.displayEndGame(RunningGame.getRoundNum(), RunningGame.CheckWin(), RunningGame.getKnownRoles());
 		DayTimeDisplay();
 		DisplayAllStates(RunningGame.AllStatesToString());
-		SelectEndGameState();
-		RunningGame.UpdateProbabilities();
-		ui.displayEndGame(RunningGame.getRoundNum(), RunningGame.CheckWin(), RunningGame.getKnownRoles());
+		
+		if(RunningGame.getNumStates() != 1) { // If there are multiple states, one is randomly chosen.
+			RunningGame.SelectEndState();
+			RunningGame.UpdateProbabilities();
+			ui.displayEndGame(RunningGame.getRoundNum(), RunningGame.CheckWin(), RunningGame.getKnownRoles());
+		}
+		
 		printHistory();
 	}
-	
-	private static void SelectEndGameState(){
-		if(RunningGame.getNumStates() != 1) RunningGame.SelectEndState();
-	}
-	
+		
 	public static String getPlayerName(int ID){
 		return Players[ID - 1];
 	}
