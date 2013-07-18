@@ -11,6 +11,7 @@ public class SwingWolves implements WolvesUI {
 	
 	public SwingWolves(){
 		// Do nothing, I think...
+		//I think we should use this space as a convenient alternative for commit messages
 	}
 	
 	private String getUserInput(String prompt) {
@@ -22,7 +23,7 @@ public class SwingWolves implements WolvesUI {
 			try {
 				return Integer.parseInt(getUserInput(prompt));
 			} catch (Exception e) {
-				System.out.println("FUCK OFF THATS NOT A NUMBER");
+				JOptionPane.showMessageDialog(null, "FUCK OFF THATS NOT A NUMBER");
 			}
 		}
 	}
@@ -46,7 +47,7 @@ public class SwingWolves implements WolvesUI {
 				if (Name.equals("NONE")) return 0;
 				return RunFileGame.getPlayerIDFromName(Name);
 			} catch (WrongNameException e) {
-				System.out.println("FUCK OFF THATS NOT A NAME");
+				JOptionPane.showMessageDialog(null, "FUCK OFF THATS NOT A NAME");
 			}
 		}
 	}
@@ -193,7 +194,6 @@ public class SwingWolves implements WolvesUI {
 	@Override
 	public void displayAllStates(String AllStateText) {
 		displayString(AllStateText);
-
 	}
 
 	@Override
@@ -240,7 +240,7 @@ public class SwingWolves implements WolvesUI {
 				BadName = false;
 				if(Name.equals("NONE")){
 					BadName = true;
-					System.out.println("FUCK OFF THAT NAMES RESERVED");
+					JOptionPane.showMessageDialog(null, "FUCK OFF THAT NAMES RESERVED");
 				}				
 			}while(BadName);
 			Players[n] = Name;			
