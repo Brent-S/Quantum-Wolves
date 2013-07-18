@@ -260,5 +260,12 @@ public class SwingWolves implements WolvesUI {
 			    "Quantum Wolves",
 			    JOptionPane.INFORMATION_MESSAGE);
 	}
+	
+	public void displayMessage(String message){
+		JOptionPane.showMessageDialog(null,
+			    message,
+			    "Quantum Wolves",
+			    JOptionPane.ERROR_MESSAGE);
+	}
 
 }
