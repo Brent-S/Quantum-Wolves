@@ -1,10 +1,12 @@
 package wolves;
 
+import java.awt.Dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -12,10 +14,12 @@ import javax.swing.JLabel;
 public class DaytimeDisplayFrame extends JFrame {
 
 	
-	public DaytimeDisplayFrame(int inRound, double[][] inProbs, String inRoles){
-		this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));		
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setLocationRelativeTo(null);
+	public DaytimeDisplayFrame(double[][] inProbs, String inRoles){
+		
+		final JDialog dialog = new JDialog(this, Dialog.ModalityType.APPLICATION_MODAL);
+		// this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));		
+		dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		// this.setLocationRelativeTo(null);
 		
 		final String newline = "\n";
 		
@@ -33,7 +37,7 @@ public class DaytimeDisplayFrame extends JFrame {
 		
 		JLabel ProbsLabel = new JLabel(table);
 		ProbsLabel.setFont(ProbsLabel.getFont().deriveFont(50.0f));
-		JLabel Title = new JLabel("Round " + inRound + " known information:");
+		JLabel Title = new JLabel("Known information:");
 		Title.setFont(Title.getFont().deriveFont(40.0f));
 		JLabel roles = new JLabel(inRoles);
 		roles.setFont(roles.getFont().deriveFont(40.0f));
@@ -42,16 +46,18 @@ public class DaytimeDisplayFrame extends JFrame {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO something here...
+				dialog.setVisible(false);
 			}				
 		});
 		
-		this.add(Title);
-		this.add(ProbsLabel);
-		this.add(roles);
-		this.add(button);
-
-		this.pack();
-		this.setVisible(true);
+		dialog.getContentPane().setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));	
+		
+		dialog.add(Title);
+		dialog.add(ProbsLabel);
+		dialog.add(roles);
+		dialog.add(button);
+				
+		dialog.pack();
+		dialog.setVisible(true);
 	}
 }

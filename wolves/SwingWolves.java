@@ -27,10 +27,9 @@ public class SwingWolves implements WolvesUI {
 						    buttons,
 						    buttons[2]);
 			switch(UserInput){
-			case JOptionPane.YES_OPTION : displayString("Instructions");
+			case JOptionPane.YES_OPTION : displayHelp();
 			break;
-			case JOptionPane.NO_OPTION : displayString("Inspired by http://puzzle.cisra.com.au/2008/quantumwerewolf.html \n" +
-					"this is a 'quantum' version of the classic werewoves/mafia game of asymmetric information.");
+			case JOptionPane.NO_OPTION : displayAbout();
 			break;
 			case JOptionPane.CLOSED_OPTION : System.exit(0);
 			break;
@@ -174,18 +173,18 @@ public class SwingWolves implements WolvesUI {
 
 	@Override
 	public void displayProbabilities(double[][] probabilities, int[] knownRoles) {
-		String text = "";
+//		String text = "";
 		String rolesText = "<html>";
-		
-		text += ("PLAY GOOD EVIL LIVE DEAD \n");
-		for (int i = 0; i < players; i++) {
-			text += (pad(i + 1));
-			for (int j = 0; j < 4; j++) {				
-				text += (pad((int) Math.round(probabilities[i][j])));
-			}
-			text += "\n";
-		}
-		text += "KNOWN ROLLS \n";
+//		
+//		text += ("PLAY GOOD EVIL LIVE DEAD \n");
+//		for (int i = 0; i < players; i++) {
+//			text += (pad(i + 1));
+//			for (int j = 0; j < 4; j++) {				
+//				text += (pad((int) Math.round(probabilities[i][j])));
+//			}
+//			text += "\n";
+//		}
+//		text += "KNOWN ROLLS \n";
 		int n;
 		for (int i = 0; i < players; i++) {
 			n = 1;
@@ -209,22 +208,23 @@ public class SwingWolves implements WolvesUI {
 				break;
 			}
 			if (knownRoles[i] != 0) {
-				text += ("PLAYER " + (i+1) + name + " IS " + getAdjective() + " " + dead + role + "\n");
+//				text += ("PLAYER " + (i+1) + name + " IS " + getAdjective() + " " + dead + role + "\n");
 				rolesText += ("PLAYER " + (i+1) + name + " IS " + getAdjective() + " " + dead + role + "<br>");
 			}
 		}
-		DaytimeDisplayFrame testFrame = new DaytimeDisplayFrame(1, probabilities, rolesText + "</html>");
-		displayString(text);
+		@SuppressWarnings("unused")
+		DaytimeDisplayFrame testFrame = new DaytimeDisplayFrame(probabilities, rolesText + "</html>");
+		// displayString(text);
 	}
 	
-	private String pad(int i) {
-		String s = String.valueOf(i);
-		int padding = 5 - s.length();
-		for (int j = 0; j < padding; j++) {
-			s = s + "  ";
-		}
-		return s;
-	}
+//	private String pad(int i) {
+//		String s = String.valueOf(i);
+//		int padding = 5 - s.length();
+//		for (int j = 0; j < padding; j++) {
+//			s = s + "  ";
+//		}
+//		return s;
+//	}
 
 	@Override
 	public int inputSeerTarget(int inSeer) {
@@ -342,6 +342,7 @@ public class SwingWolves implements WolvesUI {
 			    text,
 			    "Quantum Wolves",
 			    JOptionPane.INFORMATION_MESSAGE);
+	
 	}
 	
 	public void displayError(String message){
@@ -349,6 +350,51 @@ public class SwingWolves implements WolvesUI {
 			    message,
 			    "Quantum Wolves",
 			    JOptionPane.ERROR_MESSAGE);
+	}
+	
+	private void displayHelp(){
+		final String newline = "\n";
+		
+		String HelpText = "How to play Quantum Werewolves" + newline + newline 
+				+ "There are a minimum of 2 players, although around 7 is advisable." + newline 
+				+ "One of these players is a Seer, and a fraction are wolves." + newline
+				+ "The wolves form a pack, with a leader, second in command, etc." + newline
+				+ "Each night, the leading living wolf makes a kill, and the Seer has a vision." + newline
+				+ "The vision will either be a 'thumbs up' for innocent," + newline
+				+ "or a 'thumbs down' for a wolf." + newline
+				+ "Each day, the players vote and lynch someone, killing them." + newline + newline
+				+ "However, the quantum twist comes in the fact that at the start of the game" + newline
+				+ "everyone has the same chance as anyone else of being any particular character" + newline
+				+ "(wolf/Seer/villager), and it is everyone's actions which determine the" + newline
+				+ "character assigments as play proceeds." + newline + newline
+				+ "Characters are determined according to the following rules:" + newline
+				+ "- A wolf cannot attack another wolf" + newline
+				+ "- Every vision the true Seer had when alive is correct" + newline
+				+ "- When a player becomes 100% dead, their character is chosen based on" + newline
+				+ "       the probabilities at that time." + newline
+				+ "- Players are given choices based only on things they can still do." + newline
+				+ "- A Seer may choose to have a vision of anyone, even themselves, or nobody.";	
+		displayString(HelpText);
+		
+		HelpText = "Gameplay:" + newline + newline 
+				+ "Enter the number of players, wolves, and player names." + newline
+				+ "Then, tell everyone to close their eyes" + newline
+				+ "'Wake' each player in turn by name, and indicate their assigned number" + newline
+				+ "For each player choice prompt, 'wake' the player by number," + newline 
+				+ "       and tell them what choice they can make, but NOT their options." + newline
+				+ "After each player has pointed at their choice, enter it," + newline
+				+ "       and give them an appropriate thumbs up or down for visions," + newline
+				+ "       then tell them to sleep." + newline
+				+ "After the final choice, it is daytime, and all players may wake." + newline
+				+ "They must now use the probability table to vote and lynch by name, not number." + newline
+				+ "After lynching, the probabilities update, and then the night begins again." + newline
+				+ "Any dead players need not close their eyes, but may not contribute to decisions.";
+		displayString(HelpText);
+	}
+	
+	private void displayAbout(){
+		displayString("Inspired by http://puzzle.cisra.com.au/2008/quantumwerewolf.html \n" +
+				"this is a 'quantum' version of the classic werewoves/mafia game of asymmetric information.");
 	}
 
 }
