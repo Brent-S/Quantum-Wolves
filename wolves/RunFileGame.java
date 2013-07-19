@@ -240,7 +240,7 @@ public class RunFileGame {
 	}
 	
 	public static void printHistory(){
-		String HistoryText = "";
+		String HistoryText = "What just happened!?\n";
 		for(PlayerAction Action : History.ApplicableActions(RunningGame.getFirstState())){
 			HistoryText += Action.print() + "\n";
 		}

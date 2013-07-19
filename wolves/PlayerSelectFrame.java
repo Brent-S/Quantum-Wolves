@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+@SuppressWarnings("serial")
 public class PlayerSelectFrame extends JFrame {
 	
 	private String[] players;
@@ -36,31 +37,29 @@ public class PlayerSelectFrame extends JFrame {
 	}
 
 	private PlayerSelectFrame(String prompt, String[] players) {
-		this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+		this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS)); 
+		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.players = players;
 		this.label = new JLabel(prompt);
 		this.add(label);
-		for (String i : players) {
+
+		for (String i : this.players) {
 			final String j = i;
 			JButton button = new JButton(i);
 			button.addActionListener(new ActionListener() {
-				
-				
-
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					PlayerSelectFrame.this.choose(j);
-				}
-				
+				}				
 			});
 			this.add(button);
 		}
 		this.pack();
-		// this.setSize(this.label.getWidth(), 300);
 		this.setVisible(true);
 	}
+
 	
 	private synchronized void choose(String s) {
 		this.selection = s;

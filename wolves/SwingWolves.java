@@ -175,6 +175,7 @@ public class SwingWolves implements WolvesUI {
 	@Override
 	public void displayProbabilities(double[][] probabilities, int[] knownRoles) {
 		String text = "";
+		String rolesText = "<html>";
 		
 		text += ("PLAY GOOD EVIL LIVE DEAD \n");
 		for (int i = 0; i < players; i++) {
@@ -209,8 +210,10 @@ public class SwingWolves implements WolvesUI {
 			}
 			if (knownRoles[i] != 0) {
 				text += ("PLAYER " + (i+1) + name + " IS " + getAdjective() + " " + dead + role + "\n");
+				rolesText += ("PLAYER " + (i+1) + name + " IS " + getAdjective() + " " + dead + role + "<br>");
 			}
 		}
+		DaytimeDisplayFrame testFrame = new DaytimeDisplayFrame(1, probabilities, rolesText + "</html>");
 		displayString(text);
 	}
 	
