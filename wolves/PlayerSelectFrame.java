@@ -97,6 +97,7 @@ public class PlayerSelectFrame extends JFrame {
 		buttonPanel.setMinimumSize(new Dimension(label.getWidth() + 10, TotalHeight + 20));
 		
 		this.setSize(new Dimension(label.getWidth() + 10, TotalHeight + labelPanel.getHeight() + 20));	
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		
 		

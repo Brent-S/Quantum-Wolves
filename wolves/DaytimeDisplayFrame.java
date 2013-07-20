@@ -58,6 +58,7 @@ public class DaytimeDisplayFrame extends JFrame {
 		dialog.add(button);
 				
 		dialog.pack();
+		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 	}
 }

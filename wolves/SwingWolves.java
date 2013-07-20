@@ -289,9 +289,9 @@ public class SwingWolves implements WolvesUI {
 		ScrPane.setMaximumSize(new Dimension(600,300));
 		ScrPane.setPreferredSize(new Dimension(600,300));
 		somePanel.setPreferredSize(new Dimension(600,300));
+		dialog.setLocationRelativeTo(null);
 		
 		dialog.setVisible(true);
-		dialog.setLocationRelativeTo(null);
 	}
 
 	@Override
@@ -401,8 +401,8 @@ public class SwingWolves implements WolvesUI {
 		dialog.add(TabPane);
 		dialog.pack();
 		dialog.setSize(new Dimension(600,300));
-		dialog.setVisible(true);
 		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
 				
 	}
 	
