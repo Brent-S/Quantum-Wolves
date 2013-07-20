@@ -19,7 +19,7 @@ public class DaytimeDisplayFrame extends JFrame {
 		final JDialog dialog = new JDialog(this, Dialog.ModalityType.APPLICATION_MODAL);
 		// this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));		
 		dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		// this.setLocationRelativeTo(null);
+		dialog.setLocationRelativeTo(null);
 		
 		final String newline = "\n";
 		
@@ -36,11 +36,11 @@ public class DaytimeDisplayFrame extends JFrame {
 		table += "</table>" + newline + "</html>";
 		
 		JLabel ProbsLabel = new JLabel(table);
-		ProbsLabel.setFont(ProbsLabel.getFont().deriveFont(50.0f));
+		ProbsLabel.setFont(ProbsLabel.getFont().deriveFont(40.0f));
 		JLabel Title = new JLabel("Known information:");
-		Title.setFont(Title.getFont().deriveFont(40.0f));
+		Title.setFont(Title.getFont().deriveFont(30.0f));
 		JLabel roles = new JLabel(inRoles);
-		roles.setFont(roles.getFont().deriveFont(40.0f));
+		roles.setFont(roles.getFont().deriveFont(30.0f));
 		
 		JButton button = new JButton("Ok");
 		button.addActionListener(new ActionListener() {

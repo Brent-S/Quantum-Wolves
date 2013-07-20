@@ -263,15 +263,33 @@ public class SwingWolves implements WolvesUI {
 
 	@Override
 	public boolean getDebugMode() {
-		int UserInput = JOptionPane.showConfirmDialog(
-			    null,
-			    "Would you like to use debug mode? \n (This will display all game-states at every update.)",
-			    "Quantum Werewolves",
-			    JOptionPane.YES_NO_OPTION);
-		if(UserInput == JOptionPane.CLOSED_OPTION){
-			System.exit(0);
-			return false;
-		} else return (UserInput == JOptionPane.YES_OPTION);
+//		int UserInput = JOptionPane.showConfirmDialog(
+//			    null,
+//			    "Would you like to use debug mode? \n (This will display all game-states at every update.)",
+//			    "Quantum Werewolves",
+//			    JOptionPane.YES_NO_OPTION);
+//		if(UserInput == JOptionPane.CLOSED_OPTION){
+//			System.exit(0);
+//			return false;
+//		} else return (UserInput == JOptionPane.YES_OPTION);
+		
+		Object[] buttons = {"Debug mode", "Play Normally"};
+		int userInput = JOptionPane.showOptionDialog(null,
+					    "Would you like to use debug mode? \n (This will display all game-states at every update.)",
+					    "Quantum Werewolves",
+					    JOptionPane.YES_NO_OPTION,
+					    JOptionPane.QUESTION_MESSAGE,
+					    null,
+					    buttons,
+					    buttons[1]);
+		switch(userInput){
+		case JOptionPane.YES_OPTION : return true;
+		case JOptionPane.NO_OPTION : return false;
+		case JOptionPane.CLOSED_OPTION : System.exit(0);
+		return false;
+		}
+		return false;
+		
 	}
 
 	@Override
