@@ -4,6 +4,7 @@ package wolves;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Random;
 
 public class TextWolves implements WolvesUI {
@@ -220,7 +221,6 @@ public class TextWolves implements WolvesUI {
 	@Override
 	public String inputName(){
 		return getUserInput("PLEASE ENTER A NAME OF PLAYER");
-		// TODO Is this okay Jamie?
 	}
 	
 	@Override
@@ -244,9 +244,20 @@ public class TextWolves implements WolvesUI {
 		return Players;
 	}
 	
-	public void displayHistory(String HistoryText){
+	@Override
+	public void displayHistory(List<PlayerAction> AllActions, List<PlayerAction> ReleventActions){
 		System.out.println("\nWhat just happened!?");
+		String HistoryText = "";
+		for(PlayerAction Action : ReleventActions){
+			HistoryText += Action.print() + "\n";
+		}
 		System.out.println(HistoryText);
+	}
+	
+
+	@Override
+	public void displayAllStates(List<GameState> AllStates){
+		System.out.println("Listing all states by List<GameState> is not implemented under this UI");
 	}
 	
 }

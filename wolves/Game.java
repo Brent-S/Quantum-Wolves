@@ -6,6 +6,7 @@ package wolves;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 public class Game {
@@ -418,7 +419,7 @@ public class Game {
 		return output;
 	}
 	
-	public ArrayList<GameState> getAllStates(){
+	public List<GameState> getAllStates(){
 		return AllStates;
 	}
 	

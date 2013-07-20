@@ -45,7 +45,8 @@ public class RunFileGame {
 			WinCodes WinCode = RunningGame.CheckWin();
 			GameOver = (WinCode != WinCodes.GameNotOver);
 			if(GameOver) break;
-			if(DebugMode) DisplayAllStates(RunningGame.AllStatesToString());
+			//if(DebugMode) DisplayAllStates(RunningGame.AllStatesToString());
+			if(DebugMode) ui.displayAllStates(RunningGame.getAllStates());
 			
 			// Update gamestates based on attacks
 			RunningGame.AttackAllStates(WolfTargets);
@@ -57,7 +58,8 @@ public class RunFileGame {
 			WinCode = RunningGame.CheckWin();
 			GameOver = (WinCode != WinCodes.GameNotOver);
 			if(GameOver) break;
-			if(DebugMode) DisplayAllStates(RunningGame.AllStatesToString());
+			// if(DebugMode) DisplayAllStates(RunningGame.AllStatesToString());
+			if(DebugMode) ui.displayAllStates(RunningGame.getAllStates());
 			
 			// Take Lynching target
 			int LynchTarget = InputLynchTarget();
@@ -70,12 +72,14 @@ public class RunFileGame {
 			DayTimeDisplay();
 			WinCode = RunningGame.CheckWin();
 			GameOver = (WinCode != WinCodes.GameNotOver);
-			if(DebugMode) DisplayAllStates(RunningGame.AllStatesToString());
+			// if(DebugMode) DisplayAllStates(RunningGame.AllStatesToString());
+			if(DebugMode) ui.displayAllStates(RunningGame.getAllStates());
 		}
 		// Game is now over
 		ui.displayEndGame(RunningGame.getRoundNum(), RunningGame.CheckWin(), RunningGame.getKnownRoles());
 		DayTimeDisplay();
-		DisplayAllStates(RunningGame.AllStatesToString());
+		// DisplayAllStates(RunningGame.AllStatesToString());
+		ui.displayAllStates(RunningGame.getAllStates());
 		
 		if(RunningGame.getNumStates() != 1) { // If there are multiple states, one is randomly chosen.
 			ui.displayString("At this point, the choices made\n" +
@@ -179,9 +183,9 @@ public class RunFileGame {
 		return ui.InputSingleWolfTarget(inPlayer);
 	}
 	
-	private static void DisplayAllStates(String AllStateText){
-		ui.displayAllStates(AllStateText);
-	}
+//	private static void DisplayAllStates(String AllStateText){
+//		ui.displayAllStates(AllStateText);
+//	}
 	
 	private static int InputSingleVisionTarget(int Seer){
 		return ui.inputSeerTarget(Seer);
@@ -240,11 +244,7 @@ public class RunFileGame {
 	}
 	
 	public static void printHistory(){
-		String HistoryText = "What just happened!?\n";
-		for(PlayerAction Action : History.ApplicableActions(RunningGame.getFirstState())){
-			HistoryText += Action.print() + "\n";
-		}
-		ui.displayHistory(HistoryText);
+		ui.displayHistory(History.AllActions, History.ApplicableActions(RunningGame.getFirstState()));
 	}
 	
 	public static List<String> getLivePlayers(){ // returns a sorted list of all live players' names

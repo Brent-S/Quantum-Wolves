@@ -41,26 +41,6 @@ public class PlayerSelectFrame extends JFrame {
 	}
 
 	private PlayerSelectFrame(String prompt, String[] players) {
-//		this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS)); 		
-//		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-//		this.setLocationRelativeTo(null);
-//		this.players = players;
-//		this.label = new JLabel(prompt);
-//		this.add(label);
-//
-//		for (String i : this.players) {
-//			final String j = i;
-//			JButton button = new JButton(i);
-//			button.addActionListener(new ActionListener() {
-//				@Override
-//				public void actionPerformed(ActionEvent arg0) {
-//					PlayerSelectFrame.this.choose(j);
-//				}				
-//			});
-//			this.add(button);
-//		}
-//		this.pack();
-//		this.setVisible(true);
 		
 		this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS)); 		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -118,7 +98,6 @@ public class PlayerSelectFrame extends JFrame {
 		
 		this.setSize(new Dimension(label.getWidth() + 10, TotalHeight + labelPanel.getHeight() + 20));	
 		this.setVisible(true);
-		
 		
 		
 	}

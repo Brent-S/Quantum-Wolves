@@ -1,10 +1,22 @@
 package wolves;
 
+import java.awt.BorderLayout;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.WindowConstants;
 
 public class SwingWolves implements WolvesUI {
 	
@@ -48,12 +60,6 @@ public class SwingWolves implements WolvesUI {
 	}
 	
 	private int getPlayerIDFromUser(String prompt, String[] arrplay) {
-		// List<String> p = RunFileGame.getLivePlayers();
-		// String[] arrplay = new String[p.size() + 1];
-		// arrplay[0] = "NONE";
-		// for (int i = 1; i < arrplay.length; i++) {
-		// 	arrplay[i] = p.get(i - 1);
-		// }
 				
 		while(true){		
 			try {
@@ -89,18 +95,6 @@ public class SwingWolves implements WolvesUI {
 		this.wolves = getIntFromUser("PLEASE CHOOSE HOW MANY OF WOLVES");
 		return wolves;
 	}
-	
-	//private int getNameIDFromUser(String prompt){
-	//	while(true){		
-	//		try {
-	//			String Name = getPlayerFromUser(prompt);
-	//			if (Name.equals("NONE")) return 0;
-	//			return RunFileGame.getPlayerIDFromName(Name);
-	//		} catch (WrongNameException e) {
-	//			displayError("FUCK OFF THATS NOT A NAME");
-	//		}
-	//	}
-	//}
 
 	@Override
 	public void displayEndGame(int RoundNum, WinCodes WinCode, int[] knownRoles) {
@@ -173,18 +167,8 @@ public class SwingWolves implements WolvesUI {
 
 	@Override
 	public void displayProbabilities(double[][] probabilities, int[] knownRoles) {
-//		String text = "";
 		String rolesText = "<html>";
-//		
-//		text += ("PLAY GOOD EVIL LIVE DEAD \n");
-//		for (int i = 0; i < players; i++) {
-//			text += (pad(i + 1));
-//			for (int j = 0; j < 4; j++) {				
-//				text += (pad((int) Math.round(probabilities[i][j])));
-//			}
-//			text += "\n";
-//		}
-//		text += "KNOWN ROLLS \n";
+
 		int n;
 		for (int i = 0; i < players; i++) {
 			n = 1;
@@ -214,17 +198,8 @@ public class SwingWolves implements WolvesUI {
 		}
 		@SuppressWarnings("unused")
 		DaytimeDisplayFrame testFrame = new DaytimeDisplayFrame(probabilities, rolesText + "</html>");
-		// displayString(text);
 	}
 	
-//	private String pad(int i) {
-//		String s = String.valueOf(i);
-//		int padding = 5 - s.length();
-//		for (int j = 0; j < padding; j++) {
-//			s = s + "  ";
-//		}
-//		return s;
-//	}
 
 	@Override
 	public int inputSeerTarget(int inSeer) {
@@ -260,18 +235,67 @@ public class SwingWolves implements WolvesUI {
 	public void displayAllStates(String AllStateText) {
 		displayString(AllStateText);
 	}
+	
+	@Override
+	public void displayAllStates(List<GameState> AllStates){
+		final String newline = "<br>";
+		String output = "<html>";
+		for(GameState gameState: AllStates){
+			int[] PlayerRoles = gameState.AllPlayers();
+			for(int i = 0; i < PlayerRoles.length; i++){
+				output += "(" + (i+1) + " " + RunFileGame.getPlayerName(i+1);
+				if(PlayerRoles[i] < 0) output += " Dead";
+				switch(PlayerRoles[i]){
+				case 1: output += " Villager";
+				break;
+				case 2: output += " Seer";
+				break;
+				case -1: output += " Villager";
+				break;
+				case -2: output += " Seer";
+				break;
+				}
+				if(PlayerRoles[i] >= 3) output += " " + (PlayerRoles[i] - 2) + "-Wolf";
+				if(PlayerRoles[i] <= -3) output += " " + (-1 * (PlayerRoles[i] + 2)) + "-Wolf";
+				output += ")";
+			}	
+			output += newline;
+		}
+		output += "</html>";
+		
+		JScrollPane ScrPane = new JScrollPane(new JLabel(output));
+		final JDialog dialog = new JDialog(null, Dialog.ModalityType.APPLICATION_MODAL);	
+		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		dialog.setLocationRelativeTo(null);
+		
+		JPanel somePanel = new JPanel();
+		somePanel.setLayout(new BorderLayout());
+		somePanel.add(new JLabel("This is a list of all currently possible gamestates:"),BorderLayout.NORTH);
+		somePanel.add(ScrPane, BorderLayout.CENTER);
+		
+		JButton button = new JButton("Ok");
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				dialog.setVisible(false);
+			}				
+		});
+		somePanel.add(button, BorderLayout.SOUTH);
+		dialog.add(somePanel);
+		dialog.pack();
+		dialog.setSize(new Dimension(600,325));
+		somePanel.setSize(new Dimension(600,300));
+		somePanel.setMaximumSize(new Dimension(600,300));
+		ScrPane.setMaximumSize(new Dimension(600,300));
+		ScrPane.setPreferredSize(new Dimension(600,300));
+		somePanel.setPreferredSize(new Dimension(600,300));
+		
+		dialog.setVisible(true);
+		dialog.setLocationRelativeTo(null);
+	}
 
 	@Override
 	public boolean getDebugMode() {
-//		int UserInput = JOptionPane.showConfirmDialog(
-//			    null,
-//			    "Would you like to use debug mode? \n (This will display all game-states at every update.)",
-//			    "Quantum Werewolves",
-//			    JOptionPane.YES_NO_OPTION);
-//		if(UserInput == JOptionPane.CLOSED_OPTION){
-//			System.exit(0);
-//			return false;
-//		} else return (UserInput == JOptionPane.YES_OPTION);
 		
 		Object[] buttons = {"Debug mode", "Play Normally"};
 		int userInput = JOptionPane.showOptionDialog(null,
@@ -350,9 +374,36 @@ public class SwingWolves implements WolvesUI {
 	}
 
 	@Override
-	public void displayHistory(String HistoryText) {
-		displayString(HistoryText);
-
+	public void displayHistory(List<PlayerAction> AllActions, List<PlayerAction> ReleventActions) {		
+		final String newline = "<br>";
+		String HistoryText = "<html>";
+		for(PlayerAction Action : ReleventActions){
+			HistoryText += Action.print() + newline;
+		}
+		HistoryText += "</html>";
+		
+		String CompleteText = "<html>";
+		for(PlayerAction Action : AllActions){
+			CompleteText += Action.print() + newline;
+		}
+		CompleteText += "</html>";
+		
+		final JDialog dialog = new JDialog(null, Dialog.ModalityType.APPLICATION_MODAL);	
+		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		dialog.setLocationRelativeTo(null);
+		
+		JScrollPane ReleventTab = new JScrollPane(new JLabel(HistoryText));
+		JScrollPane CompleteTab = new JScrollPane(new JLabel(CompleteText));
+		JTabbedPane TabPane = new JTabbedPane();
+		TabPane.addTab("Relevent History", ReleventTab);
+		TabPane.addTab("Complete History", CompleteTab);
+		
+		dialog.add(TabPane);
+		dialog.pack();
+		dialog.setSize(new Dimension(600,300));
+		dialog.setVisible(true);
+		dialog.setLocationRelativeTo(null);
+				
 	}
 	
 	public void displayString(String text){
