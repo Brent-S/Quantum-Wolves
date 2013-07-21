@@ -42,6 +42,7 @@ public class PlayerSelectFrame extends JFrame {
 
 	private PlayerSelectFrame(String prompt, String[] players) {
 		
+		super("Quantum Werewolves");
 		this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS)); 		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
@@ -95,8 +96,8 @@ public class PlayerSelectFrame extends JFrame {
 		buttonPanel.setSize(new Dimension(label.getWidth() + 10, TotalHeight + 20));
 		buttonPanel.setPreferredSize(new Dimension(label.getWidth() + 10, TotalHeight + 20));
 		buttonPanel.setMinimumSize(new Dimension(label.getWidth() + 10, TotalHeight + 20));
-		
-		this.setSize(new Dimension(label.getWidth() + 10, TotalHeight + labelPanel.getHeight() + 20));	
+		buttonPanel.setMaximumSize(new Dimension(label.getWidth() + 10, TotalHeight + 20));
+		this.pack();	
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		

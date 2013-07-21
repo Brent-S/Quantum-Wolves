@@ -16,7 +16,7 @@ public class DaytimeDisplayFrame extends JFrame {
 	
 	public DaytimeDisplayFrame(double[][] inProbs, String inRoles){
 		
-		final JDialog dialog = new JDialog(this, Dialog.ModalityType.APPLICATION_MODAL);
+		final JDialog dialog = new JDialog(this, "Quantum Werewolves", Dialog.ModalityType.APPLICATION_MODAL);
 		// this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));		
 		dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		dialog.setLocationRelativeTo(null);

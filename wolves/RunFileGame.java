@@ -19,7 +19,7 @@ public class RunFileGame {
 
 	public static void main(String[] args) {
 		
-		// ui = new TextWolves(); //To be replaced with actual UI
+		// ui = new TextWolves();
 		ui = new SwingWolves();
 
 		NumPlayers = ui.getNumPlayers();
@@ -45,7 +45,6 @@ public class RunFileGame {
 			WinCodes WinCode = RunningGame.CheckWin();
 			GameOver = (WinCode != WinCodes.GameNotOver);
 			if(GameOver) break;
-			//if(DebugMode) DisplayAllStates(RunningGame.AllStatesToString());
 			if(DebugMode) ui.displayAllStates(RunningGame.getAllStates());
 			
 			// Update gamestates based on attacks
@@ -58,7 +57,6 @@ public class RunFileGame {
 			WinCode = RunningGame.CheckWin();
 			GameOver = (WinCode != WinCodes.GameNotOver);
 			if(GameOver) break;
-			// if(DebugMode) DisplayAllStates(RunningGame.AllStatesToString());
 			if(DebugMode) ui.displayAllStates(RunningGame.getAllStates());
 			
 			// Take Lynching target
@@ -72,13 +70,11 @@ public class RunFileGame {
 			DayTimeDisplay();
 			WinCode = RunningGame.CheckWin();
 			GameOver = (WinCode != WinCodes.GameNotOver);
-			// if(DebugMode) DisplayAllStates(RunningGame.AllStatesToString());
 			if(DebugMode) ui.displayAllStates(RunningGame.getAllStates());
 		}
 		// Game is now over
 		ui.displayEndGame(RunningGame.getRoundNum(), RunningGame.CheckWin(), RunningGame.getKnownRoles());
 		DayTimeDisplay();
-		// DisplayAllStates(RunningGame.AllStatesToString());
 		ui.displayAllStates(RunningGame.getAllStates());
 		
 		if(RunningGame.getNumStates() != 1) { // If there are multiple states, one is randomly chosen.
@@ -182,10 +178,6 @@ public class RunFileGame {
 	private static int InputSingleAttackTarget(int inPlayer){
 		return ui.InputSingleWolfTarget(inPlayer);
 	}
-	
-//	private static void DisplayAllStates(String AllStateText){
-//		ui.displayAllStates(AllStateText);
-//	}
 	
 	private static int InputSingleVisionTarget(int Seer){
 		return ui.inputSeerTarget(Seer);

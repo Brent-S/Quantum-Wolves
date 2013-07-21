@@ -264,7 +264,7 @@ public class SwingWolves implements WolvesUI {
 		output += "</html>";
 		
 		JScrollPane ScrPane = new JScrollPane(new JLabel(output));
-		final JDialog dialog = new JDialog(null, Dialog.ModalityType.APPLICATION_MODAL);	
+		final JDialog dialog = new JDialog(null, "Quantum Werewolves", Dialog.ModalityType.APPLICATION_MODAL);	
 		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		dialog.setLocationRelativeTo(null);
 		
@@ -388,7 +388,7 @@ public class SwingWolves implements WolvesUI {
 		}
 		CompleteText += "</html>";
 		
-		final JDialog dialog = new JDialog(null, Dialog.ModalityType.APPLICATION_MODAL);	
+		final JDialog dialog = new JDialog(null, "Quantum Werewolves", Dialog.ModalityType.APPLICATION_MODAL);	
 		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		dialog.setLocationRelativeTo(null);
 		
@@ -398,7 +398,21 @@ public class SwingWolves implements WolvesUI {
 		TabPane.addTab("Relevent History", ReleventTab);
 		TabPane.addTab("Complete History", CompleteTab);
 		
-		dialog.add(TabPane);
+		JPanel somePanel = new JPanel();
+		somePanel.setLayout(new BorderLayout());
+		somePanel.add(new JLabel("These are lists of actions taken during the game:"),BorderLayout.NORTH);
+		somePanel.add(TabPane, BorderLayout.CENTER);
+		
+		JButton button = new JButton("Close Game");
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				dialog.setVisible(false);
+			}				
+		});
+		somePanel.add(button, BorderLayout.SOUTH);
+		dialog.add(somePanel);
+		
 		dialog.pack();
 		dialog.setSize(new Dimension(600,300));
 		dialog.setLocationRelativeTo(null);
