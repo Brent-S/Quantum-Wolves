@@ -3,6 +3,8 @@ package wolves;
 import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
-public class SwingWolves implements WolvesUI {
+public class SwingWolves implements WolvesUI{
 	
 	private int players;
 	private int wolves;
@@ -26,6 +28,8 @@ public class SwingWolves implements WolvesUI {
 	public SwingWolves(){
 		//I think we should use this space as a convenient alternative for commit messages
 		// If you like, but it is no longer empty...
+		
+		if(GraphicsEnvironment.isHeadless()) throw new HeadlessException();
 		
 		boolean startGame = false;
 		while(!startGame){
@@ -86,13 +90,34 @@ public class SwingWolves implements WolvesUI {
 	
 	@Override
 	public int getNumPlayers() {
-		this.players = getIntFromUser("PLEASE CHOOSE HOW MANY OF PEOPLE");
+		int tempInt = 0;
+		while(true){
+			tempInt = getIntFromUser("PLEASE CHOOSE HOW MANY OF PEOPLE");
+			if(tempInt <= 1) {
+				displayError("Please enter an integer greater than 1.\n (but not TOO large...)");
+			} else {
+				break;
+			}
+		}
+		
+		this.players = tempInt;
 		return players;
 	}
 
 	@Override
 	public int getNumWolves() {
-		this.wolves = getIntFromUser("PLEASE CHOOSE HOW MANY OF WOLVES");
+		int tempInt = 0;
+		while(true){
+			tempInt = getIntFromUser("PLEASE CHOOSE HOW MANY OF WOLVES");
+			if((tempInt <= 0) || (tempInt >= this.players)) {
+				displayError("You must have at least one wolf,\n " +
+						"but fewer than the total number of players");
+			} else {
+				break;
+			}
+		}
+		
+		this.wolves = tempInt;
 		return wolves;
 	}
 

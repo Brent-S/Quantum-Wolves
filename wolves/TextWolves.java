@@ -257,7 +257,11 @@ public class TextWolves implements WolvesUI {
 
 	@Override
 	public void displayAllStates(List<GameState> AllStates){
-		System.out.println("Listing all states by List<GameState> is not implemented under this UI");
+		String output = "All Current States: \n";
+		for(GameState gameState : AllStates){
+			output +=((gameState.RolesToString()) + "\n");
+		}
+		System.out.println(output);
 	}
 	
 }

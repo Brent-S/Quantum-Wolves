@@ -3,7 +3,7 @@ package wolves;
 import java.util.List;
 
 
-public interface WolvesUI {
+public interface WolvesUI{
 	
 	public static byte VISION_INNO = 1;
 	public static byte VISION_WOLF = 2;

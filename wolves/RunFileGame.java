@@ -1,5 +1,6 @@
 package wolves;
 
+import java.awt.HeadlessException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,8 +20,12 @@ public class RunFileGame {
 
 	public static void main(String[] args) {
 		
-		// ui = new TextWolves();
-		ui = new SwingWolves();
+		try {
+			ui = new SwingWolves();
+		} catch (HeadlessException e){
+			ui = new TextWolves();
+			ui.displayString("Headless environment detected.\nSwitched to text only mode.");
+		}
 
 		NumPlayers = ui.getNumPlayers();
 		NumWolves = ui.getNumWolves();
