@@ -7,6 +7,8 @@ import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 public class SwingWolves implements WolvesUI{
@@ -55,18 +58,34 @@ public class SwingWolves implements WolvesUI{
 	}
 
 	private String getUserInput(String prompt) {
-		Object output = JOptionPane.showInputDialog(null, prompt, "Quantum Werewolves", JOptionPane.QUESTION_MESSAGE);
-		if(output == null){
-		System.exit(0); // terminate program...
-		return null; // why is this nessecary... (I can't spell...)
-		}
-		else return (String) output;
+//		Object output = JOptionPane.showInputDialog(null, prompt, "Quantum Werewolves", JOptionPane.QUESTION_MESSAGE);
+//		if(output == null){
+//		System.exit(0); // terminate program...
+//		return null; // why is this nessecary... (I can't spell...)
+//		}
+//		else return (String) output;
 		
-//		JOptionPane OptPane = new JOptionPane(prompt, JOptionPane.QUESTION_MESSAGE);
-//		OptPane.setWantsInput(true);
-//		JDialog dialog = OptPane.createDialog("Quantum Werewolves");
-//		dialog.setVisible(true);
-//
+		JPanel panel = new JPanel();
+		panel.add(new JLabel(prompt));
+		final JTextField inputText = new JTextField(10);
+		panel.add(inputText);
+		
+		JOptionPane OptPane = new JOptionPane(panel, JOptionPane.QUESTION_MESSAGE);
+		JDialog dialog = OptPane.createDialog("Quantum Werewolves");
+		inputText.requestFocusInWindow();
+		dialog.addWindowFocusListener(new WindowFocusListener() {
+			@Override
+			public void windowGainedFocus(WindowEvent arg0) {
+				inputText.requestFocusInWindow();
+			}
+			@Override
+			public void windowLostFocus(WindowEvent arg0) {}			
+		});
+		dialog.setVisible(true);
+
+		if(OptPane.getValue() == null) System.exit(0);
+		return inputText.getText();
+		
 //		System.out.println("here");
 //		Object output = OptPane.getValue();
 //		System.out.println(OptPane.getValue());
@@ -245,12 +264,12 @@ public class SwingWolves implements WolvesUI{
 				break;
 			}
 			if (knownRoles[i] != 0) {
-//				text += ("PLAYER " + (i+1) + name + " IS " + getAdjective() + " " + dead + role + "\n");
 				rolesText += ("PLAYER " + (i+1) + name + " IS " + getAdjective() + " " + dead + role + "<br>");
 			}
 		}
 		@SuppressWarnings("unused")
 		DaytimeDisplayFrame testFrame = new DaytimeDisplayFrame(probabilities, rolesText + "</html>");
+		// I realise that this is done weirdly...
 	}
 	
 
