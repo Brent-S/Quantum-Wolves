@@ -27,7 +27,7 @@ public class SwingWolves implements WolvesUI{
 	
 	public SwingWolves(){
 		//I think we should use this space as a convenient alternative for commit messages
-		// If you like, but it is no longer empty...
+		// If you like, but it is no longer empty, and we now have a README.
 		
 		if(GraphicsEnvironment.isHeadless()) throw new HeadlessException();
 		
@@ -35,7 +35,7 @@ public class SwingWolves implements WolvesUI{
 		while(!startGame){
 			Object[] buttons = {"Instructions", "About", "Lets play this game!"};
 			int UserInput = JOptionPane.showOptionDialog(null,
-						    "Welcom to this Java implementation of Quantum Werewolves",
+						    "Welcome to this Java implementation of Quantum Werewolves",
 						    "Quantum Werewolves",
 						    JOptionPane.YES_NO_CANCEL_OPTION,
 						    JOptionPane.QUESTION_MESSAGE,
@@ -57,10 +57,38 @@ public class SwingWolves implements WolvesUI{
 	private String getUserInput(String prompt) {
 		Object output = JOptionPane.showInputDialog(null, prompt, "Quantum Werewolves", JOptionPane.QUESTION_MESSAGE);
 		if(output == null){
-			System.exit(0); // terminate program...
-			return null; // why is this nessecary...  (I can't spell...)
+		System.exit(0); // terminate program...
+		return null; // why is this nessecary... (I can't spell...)
 		}
 		else return (String) output;
+		
+//		JOptionPane OptPane = new JOptionPane(prompt, JOptionPane.QUESTION_MESSAGE);
+//		OptPane.setWantsInput(true);
+//		JDialog dialog = OptPane.createDialog("Quantum Werewolves");
+//		dialog.setVisible(true);
+//
+//		System.out.println("here");
+//		Object output = OptPane.getValue();
+//		System.out.println(OptPane.getValue());
+//
+//		System.out.println("here2");
+//		displayString(output.toString());
+//		if(output instanceof String){
+//			System.out.println("is String");
+//		}
+//		if(output instanceof Integer){
+//			System.out.println("is Integer");
+//		}
+//		
+//		
+//		switch((Integer) output){
+//		case JOptionPane.YES_OPTION : break;
+//		case JOptionPane.NO_OPTION : System.exit(0);
+//		case JOptionPane.CLOSED_OPTION : System.exit(0);	
+//		}
+//		displayString((String) output);
+//		System.out.println("here4");
+//		return (String) output;
 	}
 	
 	private int getPlayerIDFromUser(String prompt, String[] arrplay) {
@@ -425,7 +453,7 @@ public class SwingWolves implements WolvesUI{
 		
 		JPanel somePanel = new JPanel();
 		somePanel.setLayout(new BorderLayout());
-		somePanel.add(new JLabel("These are lists of actions taken during the game:"),BorderLayout.NORTH);
+		somePanel.add(new JLabel("These are lists of actions taken during the game, thank you for playing."),BorderLayout.NORTH);
 		somePanel.add(TabPane, BorderLayout.CENTER);
 		
 		JButton button = new JButton("Close Game");
@@ -445,26 +473,58 @@ public class SwingWolves implements WolvesUI{
 				
 	}
 	
-	public void displayString(String text){
-		JOptionPane.showMessageDialog(null,
-			    text,
-			    "Quantum Wolves",
-			    JOptionPane.INFORMATION_MESSAGE);
-	
+	public void displayString(String text){		
+		Object[] buttons = {"Continue", "Quit"};
+		int userInput = JOptionPane.showOptionDialog(null,
+					    text,
+					    "Quantum Werewolves",
+					    JOptionPane.YES_NO_OPTION,
+					    JOptionPane.INFORMATION_MESSAGE,
+					    null,
+					    buttons,
+					    buttons[0]);
+		switch(userInput){
+		case JOptionPane.YES_OPTION : break;
+		case JOptionPane.NO_OPTION : int check = JOptionPane.showConfirmDialog(null, "Are you sure you want to quit?", "Quantum Werewolves"
+				, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		switch(check){
+		case JOptionPane.YES_OPTION : System.exit(0);
+		case JOptionPane.NO_OPTION : break;
+		}
+		break;
+		case JOptionPane.CLOSED_OPTION : System.exit(0);
+		}
 	}
 	
 	public void displayError(String message){
-		JOptionPane.showMessageDialog(null,
-			    message,
-			    "Quantum Wolves",
-			    JOptionPane.ERROR_MESSAGE);
+		Object[] buttons = {"Continue", "Quit"};
+		int userInput = JOptionPane.showOptionDialog(null,
+					    message,
+					    "Quantum Werewolves",
+					    JOptionPane.YES_NO_OPTION,
+					    JOptionPane.ERROR_MESSAGE,
+					    null,
+					    buttons,
+					    buttons[0]);
+		switch(userInput){
+		case JOptionPane.YES_OPTION : break;
+		case JOptionPane.NO_OPTION : int check = JOptionPane.showConfirmDialog(null, "Are you sure you want to quit?", "Quantum Werewolves"
+				, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		switch(check){
+		case JOptionPane.YES_OPTION : System.exit(0);
+		case JOptionPane.NO_OPTION : break;
+		}
+		break;
+		case JOptionPane.CLOSED_OPTION : System.exit(0);
+		}
 	}
 	
 	private void displayHelp(){
 		final String newline = "\n";
 		
 		String HelpText = "How to play Quantum Werewolves" + newline + newline 
-				+ "There are a minimum of 2 players, although around 7 is advisable." + newline 
+				+ "There are a minimum of 2 players, although around 7 is advisable," + newline 
+				+ "and one further person is required to operate (and narrate) the game." + newline
 				+ "One of these players is a Seer, and a fraction are wolves." + newline
 				+ "The wolves form a pack, with a leader, second in command, etc." + newline
 				+ "Each night, the leading living wolf makes a kill, and the Seer has a vision." + newline
@@ -502,7 +562,8 @@ public class SwingWolves implements WolvesUI{
 	
 	private void displayAbout(){
 		displayString("Inspired by http://puzzle.cisra.com.au/2008/quantumwerewolf.html \n" +
-				"this is a 'quantum' version of the classic werewoves/mafia game of asymmetric information.");
+				"this is a 'quantum' version of the classic werewoves/mafia game of asymmetric information." +
+				"\n\n Also, anything in caps was written by Jamie...");
 	}
 
 }
