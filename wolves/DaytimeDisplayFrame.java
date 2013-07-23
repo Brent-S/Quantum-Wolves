@@ -16,8 +16,11 @@ import javax.swing.event.ChangeListener;
 @SuppressWarnings("serial")
 public class DaytimeDisplayFrame extends JFrame {
 
+	private int SizeMemory;
 	
-	public DaytimeDisplayFrame(double[][] inProbs, String inRoles){
+	public DaytimeDisplayFrame(double[][] inProbs, String inRoles, int inSize){
+		
+		SizeMemory = inSize;
 		
 		final JDialog dialog = new JDialog(this, "Quantum Werewolves", Dialog.ModalityType.APPLICATION_MODAL);	
 		dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -38,11 +41,11 @@ public class DaytimeDisplayFrame extends JFrame {
 		table += "</table>" + newline + "</html>";
 		
 		final JLabel ProbsLabel = new JLabel(table);
-		ProbsLabel.setFont(ProbsLabel.getFont().deriveFont(40.0f));
+		ProbsLabel.setFont(ProbsLabel.getFont().deriveFont((float) SizeMemory));
 		final JLabel Title = new JLabel("Known information:");
-		Title.setFont(Title.getFont().deriveFont(30.0f));
+		Title.setFont(Title.getFont().deriveFont(0.75f * SizeMemory));
 		final JLabel roles = new JLabel(inRoles);
-		roles.setFont(roles.getFont().deriveFont(30.0f));
+		roles.setFont(roles.getFont().deriveFont(0.75f * SizeMemory));
 		
 		JButton button = new JButton("Ok");
 		button.addActionListener(new ActionListener() {
@@ -53,19 +56,18 @@ public class DaytimeDisplayFrame extends JFrame {
 		});
 		
 		JLabel SliderLabel = new JLabel("Font size");
-		JSlider FontSlider = new JSlider(JSlider.HORIZONTAL, 10, 100, 40);
+		JSlider FontSlider = new JSlider(JSlider.HORIZONTAL, 10, 100, SizeMemory);
 		FontSlider.addChangeListener(new ChangeListener() {
 
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				JSlider source = (JSlider)e.getSource();
-		       // if (!source.getValueIsAdjusting()) {
-		            float fontSize = (float)source.getValue();
-		    		ProbsLabel.setFont(ProbsLabel.getFont().deriveFont(fontSize));
-		    		Title.setFont(Title.getFont().deriveFont(0.75f * fontSize));
-		    		roles.setFont(roles.getFont().deriveFont(0.75f * fontSize));
-		            dialog.pack();
-		       // }				
+				float fontSize = (float)source.getValue();
+				ProbsLabel.setFont(ProbsLabel.getFont().deriveFont(fontSize));
+				Title.setFont(Title.getFont().deriveFont(0.75f * fontSize));
+				roles.setFont(roles.getFont().deriveFont(0.75f * fontSize));
+				dialog.pack();
+				SizeMemory = (int) fontSize;
 			}
 			
 		});
@@ -82,5 +84,9 @@ public class DaytimeDisplayFrame extends JFrame {
 		dialog.pack();
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
+	}
+	
+	public int getFinalFontSize() {
+		return SizeMemory;
 	}
 }

@@ -146,11 +146,6 @@ public class TextWolves implements WolvesUI {
 		}
 	}
 	
-	@Override
-	public void displayAllStates(String AllStateText){
-		System.out.println(AllStateText);
-	}
-	
 	private String getAdjective() {
 		String[] words = {"A FILTHY", "A CLEAN", "A CAPRICIOUS", "A WELL-INFORMED", "AN INSANE", "A SANITARY", "A TUMULTUOUS",
 			"AN INFLAMED", "AN INFLAMMATORY", "A CALAMATOUS", "AN INCONGRUOUS", "A RADISHY", "A FERAL", "A FINGER-LICKIN'", 
@@ -222,28 +217,7 @@ public class TextWolves implements WolvesUI {
 	public String inputName(){
 		return getUserInput("PLEASE ENTER A NAME OF PLAYER");
 	}
-	
-	@Override
-	public String[] SetNames(){
-		String[] Players = new String[players];
-		int[] RandOrd = RunFileGame.getRandomOrdering(players);
-		for(int i = 0; i < players; i++){
-			int n = RandOrd[i];
-			boolean BadName = false;
-			String Name;
-			do{
-				Name = inputName();
-				BadName = false;
-				if(Name.equals("NONE")){
-					BadName = true;
-					System.out.println("FUCK OFF THAT NAMES RESERVED");
-				}				
-			}while(BadName);
-			Players[n] = Name;			
-		}
-		return Players;
-	}
-	
+		
 	@Override
 	public void displayHistory(List<PlayerAction> AllActions, List<PlayerAction> ReleventActions){
 		System.out.println("\nWhat just happened!?");

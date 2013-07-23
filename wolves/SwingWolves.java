@@ -9,6 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -27,12 +31,15 @@ public class SwingWolves implements WolvesUI{
 	
 	private int players;
 	private int wolves;
+	private int SizeMemory; // font size of DayTimeDisplay 
 	
 	public SwingWolves(){
 		//I think we should use this space as a convenient alternative for commit messages
 		// If you like, but it is no longer empty, and we now have a README.
 		
 		if(GraphicsEnvironment.isHeadless()) throw new HeadlessException();
+		
+		SizeMemory = 40;
 		
 		boolean startGame = false;
 		while(!startGame){
@@ -57,14 +64,7 @@ public class SwingWolves implements WolvesUI{
 		}
 	}
 
-	private String getUserInput(String prompt) {
-//		Object output = JOptionPane.showInputDialog(null, prompt, "Quantum Werewolves", JOptionPane.QUESTION_MESSAGE);
-//		if(output == null){
-//		System.exit(0); // terminate program...
-//		return null; // why is this nessecary... (I can't spell...)
-//		}
-//		else return (String) output;
-		
+	private String getUserInput(String prompt) {		
 		JPanel panel = new JPanel();
 		panel.add(new JLabel(prompt));
 		final JTextField inputText = new JTextField(10);
@@ -85,29 +85,6 @@ public class SwingWolves implements WolvesUI{
 
 		if(OptPane.getValue() == null) System.exit(0);
 		return inputText.getText();
-		
-//		System.out.println("here");
-//		Object output = OptPane.getValue();
-//		System.out.println(OptPane.getValue());
-//
-//		System.out.println("here2");
-//		displayString(output.toString());
-//		if(output instanceof String){
-//			System.out.println("is String");
-//		}
-//		if(output instanceof Integer){
-//			System.out.println("is Integer");
-//		}
-//		
-//		
-//		switch((Integer) output){
-//		case JOptionPane.YES_OPTION : break;
-//		case JOptionPane.NO_OPTION : System.exit(0);
-//		case JOptionPane.CLOSED_OPTION : System.exit(0);	
-//		}
-//		displayString((String) output);
-//		System.out.println("here4");
-//		return (String) output;
 	}
 	
 	private int getPlayerIDFromUser(String prompt, String[] arrplay) {
@@ -122,8 +99,6 @@ public class SwingWolves implements WolvesUI{
 			}
 		}
 	}
-	
-	
 	
 	private int getIntFromUser(String prompt) {
 		while (true) {
@@ -214,17 +189,23 @@ public class SwingWolves implements WolvesUI{
 	}
 
 	private String getAdjective() {
-		String[] words = {"A FILTHY", "A CLEAN", "A CAPRICIOUS", "A WELL-INFORMED", "AN INSANE", "A SANITARY", "A TUMULTUOUS",
-			"AN INFLAMED", "AN INFLAMMATORY", "A CALAMATOUS", "AN INCONGRUOUS", "A RADISHY", "A FERAL", "A FINGER-LICKIN'", 
-			"A PERNICIOUS", "A LOOPY", "A DIRTY", "AN ANGRY", "A FOCUSED", "AN ANTICLIMATIC", "A HORRIBLE",
-			"A SCARY", "A MONSTROUS", "A TERRIBLE", "A TERRIFYING", "A DESPICABLE", "A SHIT",
-			"AN OVERPRICED", "AN EGREGIOUS", "A GREGARIOUS", "A MISSPELLED", "A HORRIFIC", "A FUCKED-UP",
-			"AN ABOMINABLE", "A COLD-HEARTED", "A HERETICAL", "A CANTANKEROUS", "A POLISHED", "A HAPPY",
-			"A FUZZY", "A FLUFFY", "A CUTE", "A TECHNOLOGICAL", "A MEGARIFFIC", "A RURAL", "A MORBID",
-			"A GRIM", "AN ANIMALISTIC", "A FRIENDLY", "A KIND-HEARTED", "A MURDEROUS", "A DANGEROUS",
-		"A BRUTAL", "A CALM", "A PSYCHOTIC", "A PSYCOPATHIC", "AN EVIL"};
-		Random generator = new Random();
-		return words[generator.nextInt(words.length)];
+		Random generator = new Random();		
+		ArrayList<String> importedWords = new ArrayList<String>();
+		try {
+			BufferedReader AdjectiveFile = new BufferedReader(new FileReader("AdjectiveList.txt"));
+			String Adjective = AdjectiveFile.readLine();
+			while (Adjective != null){
+				importedWords.add(Adjective);
+				Adjective = AdjectiveFile.readLine();
+			}
+			return importedWords.get(generator.nextInt(importedWords.size()));
+		} catch (FileNotFoundException e) {
+			System.out.println("Adjective file not found.");
+			return "Adjective-y";
+		} catch (IOException e) {
+			System.out.println("Adjective file IO error occurred.");
+			return "Adjective-y";
+		}
 	}
 
 	@Override
@@ -267,9 +248,8 @@ public class SwingWolves implements WolvesUI{
 				rolesText += ("PLAYER " + (i+1) + name + " IS " + getAdjective() + " " + dead + role + "<br>");
 			}
 		}
-		@SuppressWarnings("unused")
-		DaytimeDisplayFrame testFrame = new DaytimeDisplayFrame(probabilities, rolesText + "</html>");
-		// I realise that this is done weirdly...
+		DaytimeDisplayFrame testFrame = new DaytimeDisplayFrame(probabilities, rolesText + "</html>", SizeMemory);
+		SizeMemory = testFrame.getFinalFontSize();
 	}
 	
 
@@ -301,11 +281,6 @@ public class SwingWolves implements WolvesUI{
 			displayString("PLAYER " + Seer + " (" + RunFileGame.getPlayerName(Seer) + ") SEES THAT " + RunFileGame.getPlayerName(Target) + " IS " + getAdjective() + " " + role);
 		}
 
-	}
-
-	@Override
-	public void displayAllStates(String AllStateText) {
-		displayString(AllStateText);
 	}
 	
 	@Override
@@ -403,7 +378,6 @@ public class SwingWolves implements WolvesUI{
 		for (int i = 0; i < arrplay.length; i++) {
 			arrplay[i] = LivePlayers.get(i);
 		}
-
 		return getPlayerIDFromUser("\nPLEASE CHOOSE WHO IS WOLFED DOWN BY PLAYER " + inPlayer + " (" + RunFileGame.getPlayerName(inPlayer) + ")", arrplay);
 	}
 
@@ -414,35 +388,12 @@ public class SwingWolves implements WolvesUI{
 
 	@Override
 	public void displayPlayerIDs(String[] inArray) {
-		String text = "";
-		
+		String text = "";		
 		text = ("Assigned player names: \n");
 		for(int i = 0; i < players; i++){
 			text += ((i+1) + " - " + inArray[i] +"\n");
-		}
-		
+		}		
 		displayString(text);
-	}
-
-	@Override
-	public String[] SetNames() {
-		String[] Players = new String[players];
-		int[] RandOrd = RunFileGame.getRandomOrdering(players);
-		for(int i = 0; i < players; i++){
-			int n = RandOrd[i];
-			boolean BadName = false;
-			String Name;
-			do{
-				Name = inputName();
-				BadName = false;
-				if(Name.equals("NONE")){
-					BadName = true;
-					displayError("FUCK OFF THAT NAMES RESERVED");
-				}				
-			}while(BadName);
-			Players[n] = Name;			
-		}
-		return Players;
 	}
 
 	@Override
@@ -584,5 +535,4 @@ public class SwingWolves implements WolvesUI{
 				"this is a 'quantum' version of the classic werewoves/mafia game of asymmetric information." +
 				"\n\n Also, anything in caps was written by Jamie...");
 	}
-
 }

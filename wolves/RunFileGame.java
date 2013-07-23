@@ -31,7 +31,7 @@ public class RunFileGame {
 		NumWolves = ui.getNumWolves();
 		DebugMode = ui.getDebugMode();
 		History = new ChoiceHistory();
-		getPlayerNames();
+		SetNames();
 		ui.displayPlayerIDs(getPlayerIDs());
 
 		RunningGame = new Game(NumPlayers, NumWolves);
@@ -137,11 +137,6 @@ public class RunFileGame {
 		return randOrder;
 	}
 	
-	public static void getPlayerNames(){
-		// Takes input of player names from the ui, and randomly assigns them to PlayerIDs
-		Players = SetNames();
-	}
-	
 	public static String[] getPlayerIDs(){
 		return Players;
 	}
@@ -159,9 +154,9 @@ public class RunFileGame {
 		for(int i = 0; i < NumPlayers; i++){
 			int n = randOrder[i];
 			if(CanSee[n]){
-				int Target = InputSingleVisionTarget(n+1);
+				int Target = ui.inputSeerTarget(n+1);
 				byte Vision = RunningGame.HaveSingleVision(n+1,Target);
-				OutputSingleVision(n+1,Target,Vision);
+				ui.displaySingleVision(n+1,Target,Vision);
 				RunningGame.SingleVisionAllStates(n+1, Target, Vision);
 				History.SaveVision(RunningGame.getRoundNum(), n+1, Target, Vision);
 				RunningGame.UpdateProbabilities();
@@ -169,28 +164,15 @@ public class RunFileGame {
 				CanWolf = RunningGame.CheckLiveWolves();
 			}
 			if(CanWolf[n]){
-				int Target = InputSingleAttackTarget(n+1);
+				int Target = ui.InputSingleWolfTarget(n+1);
 				Attacks[n] = Target;
 				History.SaveAttack(RunningGame.getRoundNum(), (n+1), Target);
 			} else {
 				Attacks[n] = 0;
 			}
-		}
-		
+		}		
 		return Attacks;
 	}
-	
-	private static int InputSingleAttackTarget(int inPlayer){
-		return ui.InputSingleWolfTarget(inPlayer);
-	}
-	
-	private static int InputSingleVisionTarget(int Seer){
-		return ui.inputSeerTarget(Seer);
-	}
-	
-	private static void OutputSingleVision(int Seer, int Target, byte Vision){
-		ui.displaySingleVision(Seer, Target, Vision);
-	}	
 	
 	private static int InputLynchTarget(){ // return playerID for highest voted.
 		int Target = ui.inputLynchTarget();
@@ -198,8 +180,8 @@ public class RunFileGame {
 		return Target;
 	}
 	
-	public static String[] SetNames(){
-		String[] Players = new String[NumPlayers];
+	public static void SetNames(){
+		String[] PlayerNames = new String[NumPlayers];
 		int[] RandOrd = RunFileGame.getRandomOrdering(NumPlayers);
 		for(int i = 0; i < NumPlayers; i++){
 			int n = RandOrd[i];
@@ -211,11 +193,20 @@ public class RunFileGame {
 				if(Name.equals("NONE")){
 					BadName = true;
 					ui.displayError("FUCK OFF THAT NAMES RESERVED");
-				}				
+				} else if(Name.equals("")){
+					BadName = true;
+					ui.displayError("FUCK OFF NOBODYS CALLED THAT");
+				} 
+				for(int j = 0; j < i; j++){
+					if(Name.equals(PlayerNames[RandOrd[j]])) {
+						BadName = true;
+						ui.displayError("FUCK OFF YOUVE ALREADY DONE THEM");
+					}
+				}			
 			}while(BadName);
-			Players[n] = Name;			
+			PlayerNames[n] = Name;			
 		}
-		return Players;
+		Players = PlayerNames;
 	}
 	
 	private static void DayTimeDisplay(){ // Must display Good/Evil/Alive/Dead probabilities.

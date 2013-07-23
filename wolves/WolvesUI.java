@@ -28,13 +28,11 @@ public interface WolvesUI{
 	public void displayProbabilities(double[][] probabilities, int[] knownRoles);
 	public int inputSeerTarget(int inSeer);
 	public void displaySingleVision(int Seer, int Target, byte Vision);
-	public void displayAllStates(String AllStateText);
 	public void displayAllStates(List<GameState> AllStates);
 	public boolean getDebugMode();
 	public int InputSingleWolfTarget(int inPlayer);
 	public String inputName();
 	public void displayPlayerIDs(String[] inArray);
-	public String[] SetNames();
 	public void displayString(String Text);
 	public void displayHistory(List<PlayerAction> AllActions, List<PlayerAction> ReleventActions);
 
