@@ -12,6 +12,8 @@ import java.awt.event.WindowFocusListener;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader; 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -192,7 +194,9 @@ public class SwingWolves implements WolvesUI{
 		Random generator = new Random();		
 		ArrayList<String> importedWords = new ArrayList<String>();
 		try {
-			BufferedReader AdjectiveFile = new BufferedReader(new FileReader("AdjectiveList.txt"));
+			InputStream in = getClass().getResourceAsStream("/AdjectiveList.txt");
+			BufferedReader AdjectiveFile = new BufferedReader(new InputStreamReader(in));
+			//  BufferedReader AdjectiveFile = new BufferedReader(new FileReader("AdjectiveList.txt")); 
 			String Adjective = AdjectiveFile.readLine();
 			while (Adjective != null){
 				importedWords.add(Adjective);
