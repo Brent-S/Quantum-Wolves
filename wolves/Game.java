@@ -298,6 +298,7 @@ public class Game {
 					// do nothing
 				}
 				UpdateProbabilities();
+				CollapseAllDead();
 				boolean GameOver = (CheckWin() != WinCodes.GameNotOver);
 				if(GameOver) {
 					i = NumPlayers; // breaks for
