@@ -272,16 +272,41 @@ public class Game {
 	}
 	
 	public void AttackAllStates(int[] inTargets){
-		Iterator<GameState> i = AllStates.iterator();
-		while(i.hasNext()){
-			GameState a = i.next();
-			if(a.WolfAttack(inTargets)){
-				// state is allowed, and has been updated.
-			} else { //state was not allowed, and is removed
-				i.remove();
+//		Iterator<GameState> i = AllStates.iterator();
+//		while(i.hasNext()){
+//			GameState a = i.next();
+//			if(a.WolfAttack(inTargets)){
+//				// state is allowed, and has been updated.
+//			} else { //state was not allowed, and is removed
+//				i.remove();
+//			}
+//		}
+		
+		int[] RandOrd = RunFileGame.getRandomOrdering(NumPlayers);
+		for(int i = 0; i < NumPlayers; i++){
+			int n = RandOrd[i];
+			Iterator<GameState> it = AllStates.iterator();
+			while(it.hasNext()){
+				GameState a = it.next();
+				if(n == a.LeadWolf()){
+					if(a.WolfAttack(inTargets)){
+						// state is allowed, and has been updated.
+					} else { //state was not allowed, and is removed
+						it.remove();
+					}
+				} else {
+					// do nothing
+				}
+				UpdateProbabilities();
+				boolean GameOver = (CheckWin() != WinCodes.GameNotOver);
+				if(GameOver) {
+					i = NumPlayers; // breaks for
+					break; // breaks while
+				}
 			}
 		}
 	}
+	
 	
 	public void VisionAllStates(int[] inTargets, byte[] inVisions){
 		Iterator<GameState> i = AllStates.iterator();
