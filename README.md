@@ -8,4 +8,5 @@ I think I fixed the problem which could cause all gamestates to be eliminated, b
 
 Players can now attack the same player as many times as they wish.  This is because the first attempted attack may have happened when they were not the alpha wolf, and can result in them still being a wolf, but with no potential targets.
 
-Android: hopefully all the files are here.
+
+Android: token edit...
