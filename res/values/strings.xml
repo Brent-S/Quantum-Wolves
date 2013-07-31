@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Quantum Werewolves for Android</string>
+    <string name="action_settings">Settings</string>
+    <string name="Greeting_Text">Press Continue to launch Quantum Werewolves</string>
+    <string name="launch_button_text">Launch Game</string>
+    <string name="title_activity_display_message">Quantum Werewolves</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_number_input">NumberInputActivity</string>
+    <string name="Okay_Text">Okay</string>
+    <string name="title_activity_string_input">Quantum Werewolves</string>
+    <string name="title_activity_player_select">Quantum Werewolves</string>
+
+</resources>
