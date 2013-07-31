@@ -372,17 +372,17 @@ public class SwingWolves implements WolvesUI{
 
 		List<String> LivePlayers = RunFileGame.getLivePlayers();
 		LivePlayers.remove(RunFileGame.getPlayerName(inPlayer));
-		List<Integer> TargetIDs = RunFileGame.getWolfPastTargets(inPlayer);
-		List<String> TargetNames = new ArrayList<String>();
-		for(Integer ID : TargetIDs){
-			TargetNames.add(RunFileGame.getPlayerName(ID));
+//		List<Integer> TargetIDs = RunFileGame.getWolfPastTargets(inPlayer);
+//		List<String> TargetNames = new ArrayList<String>();
+//		for(Integer ID : TargetIDs){
+//			TargetNames.add(RunFileGame.getPlayerName(ID));
+//		}
+//		LivePlayers.removeAll(TargetNames);
+		String[] choices = new String[LivePlayers.size()];
+		for (int i = 0; i < choices.length; i++) {
+			choices[i] = LivePlayers.get(i);
 		}
-		LivePlayers.removeAll(TargetNames);
-		String[] arrplay = new String[LivePlayers.size()];
-		for (int i = 0; i < arrplay.length; i++) {
-			arrplay[i] = LivePlayers.get(i);
-		}
-		return getPlayerIDFromUser("\nPLEASE CHOOSE WHO IS WOLFED DOWN BY PLAYER " + inPlayer + " (" + RunFileGame.getPlayerName(inPlayer) + ")", arrplay);
+		return getPlayerIDFromUser("\nPLEASE CHOOSE WHO IS WOLFED DOWN BY PLAYER " + inPlayer + " (" + RunFileGame.getPlayerName(inPlayer) + ")", choices);
 	}
 
 	@Override
