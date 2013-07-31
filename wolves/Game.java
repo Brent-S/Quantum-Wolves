@@ -288,7 +288,7 @@ public class Game {
 			Iterator<GameState> it = AllStates.iterator();
 			while(it.hasNext()){
 				GameState a = it.next();
-				if(n == a.LeadWolf()){
+				if((n+1) == a.LeadWolf()){
 					if(a.WolfAttack(inTargets)){
 						// state is allowed, and has been updated.
 					} else { //state was not allowed, and is removed
