@@ -48,6 +48,10 @@
             android:name="androidWolves.quantumwerewolvesforandroid.PlayerSelectActivity"
             android:label="@string/title_activity_player_select" >
         </activity>
+        <activity
+            android:name="androidWolves.quantumwerewolvesforandroid.DayTimeActivity"
+            android:label="@string/title_activity_day_time" >
+        </activity>
     </application>
 
 </manifest>

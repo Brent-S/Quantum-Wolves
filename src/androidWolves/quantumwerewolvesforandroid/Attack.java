@@ -11,9 +11,9 @@ public class Attack extends PlayerAction{
 	public int getTarget(){return Target;}
 
 	@Override
-	public String print(String name) {
-		return ("Round " + RoundNum + ", Player " + Target + " was wolfed by player " 
-	+ Player + " (" + name + ").");
+	public String print() {
+		return ("Round " + RoundNum + ", Player " + MainActivity.getPlayerName(Target) + " was wolfed by player " 
+	+ Player + " (" + MainActivity.getPlayerName(Player) + ").");
 	}
 
 	@Override

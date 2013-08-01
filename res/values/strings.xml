@@ -3,7 +3,7 @@
 
     <string name="app_name">Quantum Werewolves for Android</string>
     <string name="action_settings">Settings</string>
-    <string name="Greeting_Text">Press Continue to launch Quantum Werewolves</string>
+    <string name="Greeting_Text">Welcome to Quantum Werewolves</string>
     <string name="launch_button_text">Launch Game</string>
     <string name="title_activity_display_message">Quantum Werewolves</string>
     <string name="hello_world">Hello world!</string>
@@ -11,5 +11,7 @@
     <string name="Okay_Text">Okay</string>
     <string name="title_activity_string_input">Quantum Werewolves</string>
     <string name="title_activity_player_select">Quantum Werewolves</string>
+    <string name="title_activity_day_time">Quantum Werewolves</string>
+    <string name="Exit_Text">Exit</string>
 
 </resources>

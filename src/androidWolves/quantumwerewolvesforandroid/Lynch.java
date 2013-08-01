@@ -7,8 +7,8 @@ public class Lynch extends PlayerAction{
 	}
 	
 	@Override
-	public String print(String name){
-		return ("Round " + RoundNum + ", Player " + Player + " (" + name 
+	public String print(){
+		return ("Round " + RoundNum + ", Player " + Player + " (" + MainActivity.getPlayerName(Player) 
 				+ ") was lynched.");
 	}
 

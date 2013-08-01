@@ -8,11 +8,25 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".DisplayMessageActivity" >
 
-    <TextView
-        android:id="@+id/MainText"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" >
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true" >
+
+            <TextView
+                android:id="@+id/MainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hello_world" />
+        </HorizontalScrollView>
+    </ScrollView>
 
     <Button
         android:id="@+id/button1"
@@ -20,8 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="42dp"
-        android:text="@string/Okay_Text" 
-        android:onClick="OnExit"/>
+        android:onClick="OnExit"
+        android:text="@string/Okay_Text" />
 
 </RelativeLayout>

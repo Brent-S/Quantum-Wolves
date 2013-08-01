@@ -9,17 +9,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/launch_button_text"
-        android:onClick="Launch" />
-
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
@@ -28,5 +17,24 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="42dp"
         android:text="@string/Greeting_Text" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/Exit_Text"
+        android:onClick="OnExit" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="17dp"
+        android:onClick="Launch"
+        android:text="@string/launch_button_text" />
 
 </RelativeLayout>

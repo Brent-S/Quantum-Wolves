@@ -14,9 +14,9 @@ public class Vision extends PlayerAction{
 	public byte getVision(){return Vision;}
 
 	@Override
-	public String print(String name) {
+	public String print() {
 		if(Target == 0) return "Round " + RoundNum + ", Player " + Player + " (" 
-	+ RunFileGame.getPlayerName(Player) + ") had no vision.";
+	+ MainActivity.getPlayerName(Player) + ") had no vision.";
 		String role = null;
 		switch (Vision) {
 		case 1:
@@ -27,7 +27,7 @@ public class Vision extends PlayerAction{
 			break;
 		}
 		return ("Round " + RoundNum + ", Player " + Player + " (" 
-		+ name + ") saw player " + Target + " as " + role);
+		+ MainActivity.getPlayerName(Player) + ") saw player " + MainActivity.getPlayerName(Target) + " as " + role);
 	}
 	
 	@Override

@@ -35,6 +35,8 @@ public class MainActivity extends Activity {
 	public static final String STRING_STORED = "androidWolves.quantumwerewolvesforandroid.String";
 	public static final String NAME_ARRAY = "androidWolves.quantumwerewolvesforandroid.NameArray";
 	public static final String HTML_STORED = "androidWolves.quantumwerewolvesforandroid.HTMLString";
+	public static final String DOUBLE_ARRAY_STORED = "androidWolves.quantumwerewolvesforandroid.ArrayD";
+	public static final String STRING_2D_ARRAY_STORED = "androidWolves.quantumwerewolvesforandroid.2DArrayStr";
 
 	public static final int RESULT_ERROR = Activity.RESULT_FIRST_USER + 1; // not sure why I bothered with this...
 
@@ -87,6 +89,12 @@ public class MainActivity extends Activity {
 	public void Launch(View view) {
 		inputNumPlayers();
 	}
+	
+	public void OnExit(View view) {
+		Intent returnIntent = new Intent();
+    	setResult(RESULT_OK, returnIntent);        
+    	finish(); 
+	}
 
 	protected void onActivityResult (int requestCode, int resultCode, Intent data){
 		switch(requestCode){
@@ -109,7 +117,7 @@ public class MainActivity extends Activity {
 				PlayerCount = 0;
 				PlayerNames = new String[players];
 				LastWolfTargets = new int[players];
-				inputPlayerName();
+				inputPlayerName(false);
 				break;
 			case RESULT_CANCELED : 
 				displayError("Enter Wolf Numbers was cancelled");
@@ -120,11 +128,15 @@ public class MainActivity extends Activity {
 			switch(resultCode){
 			case RESULT_OK : 
 				String tempName = data.getStringExtra(STRING_STORED);
-				if(addName(tempName)) {
-					inputPlayerName();
+				if(CheckName(tempName)){ // true if repeated
+					inputPlayerName(true); //get same name
 				} else {
-					displayPlayerIDs();
-				}
+					if(addName(tempName)) { // side effect adds name
+						inputPlayerName(false); // get next name
+					} else {
+						displayPlayerIDs();
+					} 
+				} 
 				break;
 			case RESULT_CANCELED : 
 				displayError("Enter player name was cancelled");
@@ -272,7 +284,18 @@ public class MainActivity extends Activity {
 			EndGame();
 		}
 	}
-
+	
+	private boolean	CheckName(String newName){ // returns true if name is already in list
+		boolean output = false;
+		for(int i = 0; i < PlayerCount; i++){
+			if(newName.equals(PlayerNames[i])){
+				output = true;
+				break;
+			}
+		}
+		return output;
+	}
+	
 	private void EndGame(){
 		EndGameShown = true;
 		String text = "";
@@ -321,8 +344,8 @@ public class MainActivity extends Activity {
 	}
 
 	private void displayAllStates(List<GameState> AllStates){
-		final String newline = "/n";
-		String output = "";
+		final String newline = "<br>";
+		String output = "<html>";
 		for(GameState gameState: AllStates){
 			int[] PlayerRoles = gameState.AllPlayers();
 			for(int i = 0; i < PlayerRoles.length; i++){
@@ -345,19 +368,18 @@ public class MainActivity extends Activity {
 			output += newline;
 		}
 		Intent intent = new Intent(this, DisplayMessageActivity.class);
-		intent.putExtra(MainActivity.ACTIVITY_MESSAGE, output);
+		intent.putExtra(MainActivity.HTML_STORED, output + "</html>");
 		startActivityForResult(intent,MainActivity.DISPLAY_ENDGAME_STATES);
 	}
 	
 	private void selectFinalState(){
 		if(RunningGame.getNumStates() != 1) { // If there are multiple states, one is randomly chosen.
-			String output = "At this point, the choices made" +
-							 "still leave more than one final outcome.  " +
-							 "Therefore, one outcome is now being" +
-							 "randomly selected." ;
+			String output = "<html>At this point, the choices made<br>" +
+							 "still leave more than one final outcome.<br>" +
+							 "Therefore, one outcome is now being<br>" +
+							 "randomly selected.<br><br>" ;
 			RunningGame.SelectEndState();
 			RunningGame.UpdateProbabilities();
-			final String newline = "/n";
 			GameState gameState = RunningGame.getFirstState();
 			int[] PlayerRoles = gameState.AllPlayers();
 			for(int i = 0; i < PlayerRoles.length; i++){
@@ -375,12 +397,12 @@ public class MainActivity extends Activity {
 				}
 				if(PlayerRoles[i] >= 3) output += " " + (PlayerRoles[i] - 2) + "-Wolf";
 				if(PlayerRoles[i] <= -3) output += " " + (-1 * (PlayerRoles[i] + 2)) + "-Wolf";
-				output += ")";
+				output += ")<br>";
 			}	
-			output += newline;
+			output += "</html>";
 
 			Intent intent = new Intent(this, DisplayMessageActivity.class);
-			intent.putExtra(MainActivity.ACTIVITY_MESSAGE, output);
+			intent.putExtra(MainActivity.HTML_STORED, output);
 			startActivityForResult(intent,MainActivity.DISPLAY_ENDGAME_STATES);
 		}
 	}
@@ -390,11 +412,11 @@ public class MainActivity extends Activity {
 		List<PlayerAction> PartHistory = History.ApplicableActions(RunningGame.getFirstState());
 		String text = "<html>Relevent actions:<br>";
 		for(PlayerAction action : PartHistory){
-			text += action.print(PlayerNames[action.getPlayer()-1]) + "<br>";			
+			text += action.print() + "<br>";			
 		}
 		text += "<br>All actions:<br>";
 		for(PlayerAction action : FullHistory){
-			text += action.print(PlayerNames[action.getPlayer()-1]) + "<br>";			
+			text += action.print() + "<br>";			
 		}
 		text += "</html>";
 		Intent intent = new Intent(this, DisplayMessageActivity.class);
@@ -421,18 +443,13 @@ public class MainActivity extends Activity {
 				RolesCodes[i] = -3;
 			}
 		}
-
-		String table = "<html>" + "<table border=\"1\">";
-		table += "<tr><td>Player</td><td>Good </td><td>Evil </td><td>Alive </td><td>Dead</td></tr>";
-
-		for(int row = 0; row < DisplayProbs.length; row++){
-			table += "<tr>" + "<td>" + (row + 1) + "</td>";
-			for(int col = 0; col < 4; col++){
-				table += "<td>" + Math.round(DisplayProbs[row][col]) + "</td>";
+		
+		String[] StringProbs = new String[players*4]; // sending a double array via and intent doesn't seem to work...
+		for(int i = 0; i < players; i++){
+			for(int j = 0; j < 4; j++){
+				StringProbs[(4 * i) + j] = Integer.toString((int) Math.round(DisplayProbs[i][j]));
 			}
-			table += "</tr>";
-		}
-		table += "</table>";
+		}// StringProbs now contains each player's probs followed by the next four.
 
 		String rolesText = "<br>";
 		int n;
@@ -461,8 +478,11 @@ public class MainActivity extends Activity {
 				rolesText += ("Player " + (i+1) + name + " is a " + dead + role + "<br>");
 			}
 		}
-		Intent intent = new Intent(this, DisplayMessageActivity.class);
-		intent.putExtra(MainActivity.HTML_STORED, table + rolesText + "</html>");
+		Intent intent = new Intent(this, DayTimeActivity.class);
+		intent.putExtra(MainActivity.ACTIVITY_MESSAGE, "Round " + RunningGame.getRoundNum());
+		intent.putExtra(MainActivity.HTML_STORED, "<html>" + rolesText + "</html>");
+		intent.putExtra(NAME_ARRAY, StringProbs);
+		intent.putExtra(NUMBER_STORED, players);
 		int returnCode;
 		if(isMorning){
 			returnCode = MainActivity.MORNING_DISPLAY;
@@ -587,9 +607,15 @@ public class MainActivity extends Activity {
 		return (n);
 	}
 
-	private void inputPlayerName(){
+	private void inputPlayerName(boolean RepeatPrevious){
+		String message;
+		if(RepeatPrevious){
+			message = "That name has laready been entered, please try again:";
+		} else {
+			message = "Enter a player name:";
+		}
 		Intent intent = new Intent(this, StringInputActivity.class);
-		intent.putExtra(MainActivity.ACTIVITY_MESSAGE, "Enter a player name:");
+		intent.putExtra(MainActivity.ACTIVITY_MESSAGE, message);
 		startActivityForResult(intent,MainActivity.SET_NAME_RESULT);
 	}
 
@@ -613,19 +639,19 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	public void inputNumPlayers() {
+	private void inputNumPlayers() {
 		Intent intent = new Intent(this, NumberInputActivity.class);
 		intent.putExtra(MainActivity.ACTIVITY_MESSAGE, "How many people are playing?");
 		startActivityForResult(intent,MainActivity.PLAYER_NUMBER_RESULT);
 	}
 
-	public void inputNumWolves() {
+	private void inputNumWolves() {
 		Intent intent = new Intent(this, NumberInputActivity.class);
 		intent.putExtra(MainActivity.ACTIVITY_MESSAGE, "How many should be wolves?");
 		startActivityForResult(intent,MainActivity.WOLF_NUMBER_RESULT);
 	}
 
-	public void displayPlayerIDs() {
+	private void displayPlayerIDs() {
 		String text = "";		
 		text = ("Assigned player names: \n");
 		for(int i = 0; i < players; i++){
@@ -636,13 +662,13 @@ public class MainActivity extends Activity {
 		startActivityForResult(intent,MainActivity.SHOW_IDs);		
 	}
 
-	public void displayString(String string) {
+	private void displayString(String string) {
 		Intent intent = new Intent(this, DisplayMessageActivity.class);
 		intent.putExtra(MainActivity.ACTIVITY_MESSAGE, string);
 		startActivityForResult(intent,MainActivity.NO_RESULT);
 	}
 
-	public void displaySingleVision(int Seer, int Target, byte Vision) {
+	private void displaySingleVision(int Seer, int Target, byte Vision) {
 		if(Target == 0){
 			// Do Nothing.
 		} else {
@@ -663,7 +689,7 @@ public class MainActivity extends Activity {
 		}		
 	}
 
-	public void displayError(String string) {
+	private void displayError(String string) {
 		// Customise?
 		displayString(string);
 	}
@@ -686,6 +712,10 @@ public class MainActivity extends Activity {
 			lowestRand = 1;
 		}
 		return randOrder;
+	}
+	
+	public static String getPlayerName(int inID){
+		return PlayerNames[inID - 1];
 	}
 
 }
