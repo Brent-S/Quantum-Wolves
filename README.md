@@ -8,4 +8,4 @@ I think I fixed the problem which could cause all gamestates to be eliminated, b
 
 Players can now attack the same player as many times as they wish.  This is because the first attempted attack may have happened when they were not the alpha wolf, and can result in them still being a wolf, but with no potential targets.
 
-I have added an Android branch, I think all the nessecary (sp?) files are there, with minimal unnessecary ones, but tell me if otherwise.  The apk is there, but entirely untested.
+I have added an Android branch, I think all the nessecary (sp?) files are there, with minimal unnessecary ones, but tell me if otherwise.  The apk is there, and it runs fine on my phone.
