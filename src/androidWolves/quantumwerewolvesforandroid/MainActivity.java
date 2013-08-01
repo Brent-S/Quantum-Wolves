@@ -314,7 +314,7 @@ public class MainActivity extends Activity {
 			text = ("SOMETHING HAS GONE WRONG");
 			break;
 			}
-			text += ("Game Over. The " + WinningTeam + " have won after " + RunningGame.getRoundNum() + " rounds.\n");
+			text += ("Game Over.\nThe " + WinningTeam + " have won after " + RunningGame.getRoundNum() + " rounds.\n");
 		}
 		int n;
 		for (int i = 0; i < players; i++) {
@@ -682,9 +682,9 @@ public class MainActivity extends Activity {
 				break;
 			}
 			String text = "Player " + Seer + " (" + PlayerNames[Seer-1] + 
-					") sees that " + PlayerNames[Target-1] + " is " + role;
+					") sees that " + PlayerNames[Target-1] + "<br>is " + role;
 			Intent intent = new Intent(this, DisplayMessageActivity.class);
-			intent.putExtra(MainActivity.ACTIVITY_MESSAGE, text);
+			intent.putExtra(MainActivity.HTML_STORED, "<html>" + text + "</html>");
 			startActivityForResult(intent,MainActivity.DISPLAY_VISION);
 		}		
 	}

@@ -12,7 +12,7 @@ public class Attack extends PlayerAction{
 
 	@Override
 	public String print() {
-		return ("Round " + RoundNum + ", Player " + MainActivity.getPlayerName(Target) + " was wolfed by player " 
+		return ("Round " + RoundNum + ", Player " + Target + " ("+ MainActivity.getPlayerName(Target) + ") was wolfed by player " 
 	+ Player + " (" + MainActivity.getPlayerName(Player) + ").");
 	}
 

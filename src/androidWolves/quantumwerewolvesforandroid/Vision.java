@@ -27,7 +27,7 @@ public class Vision extends PlayerAction{
 			break;
 		}
 		return ("Round " + RoundNum + ", Player " + Player + " (" 
-		+ MainActivity.getPlayerName(Player) + ") saw player " + MainActivity.getPlayerName(Target) + " as " + role);
+		+ MainActivity.getPlayerName(Player) + ") saw player " + Target + " (" + MainActivity.getPlayerName(Target) + ") as " + role);
 	}
 	
 	@Override
