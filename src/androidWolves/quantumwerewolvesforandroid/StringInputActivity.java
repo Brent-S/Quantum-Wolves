@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,8 +25,20 @@ public class StringInputActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.string_input, menu);
+		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.reset:
+			Intent returnIntent = new Intent();
+			setResult(MainActivity.RESULT_CANCELED, returnIntent);        
+			finish();
+			return true;
+		}
+		return false;
 	}
 	
 	public void ButtonClicked(View view){
@@ -41,6 +54,11 @@ public class StringInputActivity extends Activity {
 			finish(); 
 		}
 		
+	}
+	
+	@Override
+	public void onBackPressed(){
+		// Do nothing
 	}
 
 }

@@ -73,27 +73,26 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setTitle("Quantum Werewolves");
-		setContentView(R.layout.activity_main);
-
-		History = new ChoiceHistory();
-		GameOver = false;
+		setContentView(R.layout.activity_main);   
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		//	getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
 	public void Launch(View view) {
-		inputNumPlayers();
+		History = new ChoiceHistory();
+		GameOver = false;
+		inputNumPlayers(false);
 	}
-	
+
 	public void OnExit(View view) {
 		Intent returnIntent = new Intent();
-    	setResult(RESULT_OK, returnIntent);        
-    	finish(); 
+		setResult(RESULT_OK, returnIntent);        
+		finish(); 
 	}
 
 	protected void onActivityResult (int requestCode, int resultCode, Intent data){
@@ -103,7 +102,11 @@ public class MainActivity extends Activity {
 			switch(resultCode){
 			case RESULT_OK : 
 				players = data.getIntExtra(NUMBER_STORED, 0);
-				inputNumWolves();
+				if(players < 2) {
+					inputNumPlayers(true);;
+				} else {
+					inputNumWolves(false);
+				}
 				break;
 			case RESULT_CANCELED : 
 				displayError("Enter Player Number was cancelled");
@@ -114,10 +117,14 @@ public class MainActivity extends Activity {
 			switch(resultCode){
 			case RESULT_OK : 
 				wolves = data.getIntExtra(NUMBER_STORED, 0);
-				PlayerCount = 0;
-				PlayerNames = new String[players];
-				LastWolfTargets = new int[players];
-				inputPlayerName(false);
+				if ((wolves < 1) || (wolves >= players)){
+					inputNumWolves(true);
+				} else {
+					PlayerCount = 0;
+					PlayerNames = new String[players];
+					LastWolfTargets = new int[players];
+					inputPlayerName(false);
+				}
 				break;
 			case RESULT_CANCELED : 
 				displayError("Enter Wolf Numbers was cancelled");
@@ -284,7 +291,7 @@ public class MainActivity extends Activity {
 			EndGame();
 		}
 	}
-	
+
 	private boolean	CheckName(String newName){ // returns true if name is already in list
 		boolean output = false;
 		for(int i = 0; i < PlayerCount; i++){
@@ -295,7 +302,7 @@ public class MainActivity extends Activity {
 		}
 		return output;
 	}
-	
+
 	private void EndGame(){
 		EndGameShown = true;
 		String text = "";
@@ -371,13 +378,13 @@ public class MainActivity extends Activity {
 		intent.putExtra(MainActivity.HTML_STORED, output + "</html>");
 		startActivityForResult(intent,MainActivity.DISPLAY_ENDGAME_STATES);
 	}
-	
+
 	private void selectFinalState(){
 		if(RunningGame.getNumStates() != 1) { // If there are multiple states, one is randomly chosen.
 			String output = "<html>At this point, the choices made<br>" +
-							 "still leave more than one final outcome.<br>" +
-							 "Therefore, one outcome is now being<br>" +
-							 "randomly selected.<br><br>" ;
+					"still leave more than one final outcome.<br>" +
+					"Therefore, one outcome is now being<br>" +
+					"randomly selected.<br><br>" ;
 			RunningGame.SelectEndState();
 			RunningGame.UpdateProbabilities();
 			GameState gameState = RunningGame.getFirstState();
@@ -406,7 +413,7 @@ public class MainActivity extends Activity {
 			startActivityForResult(intent,MainActivity.DISPLAY_ENDGAME_STATES);
 		}
 	}
-	
+
 	private void displayHistory(){
 		List<PlayerAction> FullHistory = History.AllActions;
 		List<PlayerAction> PartHistory = History.ApplicableActions(RunningGame.getFirstState());
@@ -423,7 +430,7 @@ public class MainActivity extends Activity {
 		intent.putExtra(MainActivity.HTML_STORED, text + "</html>");
 		startActivityForResult(intent,DISPLAY_HISTORY);
 	}
-	
+
 	private void DayTimeDisplay(boolean isMorning){
 		double[][] Probabilities = RunningGame.getProbabilities();
 		double[] LiveProbs = RunningGame.LivingProbabilities();
@@ -443,7 +450,7 @@ public class MainActivity extends Activity {
 				RolesCodes[i] = -3;
 			}
 		}
-		
+
 		String[] StringProbs = new String[players*4]; // sending a double array via and intent doesn't seem to work...
 		for(int i = 0; i < players; i++){
 			for(int j = 0; j < 4; j++){
@@ -528,15 +535,15 @@ public class MainActivity extends Activity {
 					PlayerNames[currentPlayer] + ") wish to attack?";			
 			List<String> LivePlayers = getLivePlayers();
 			LivePlayers.remove(PlayerNames[currentPlayer]);
-			
+
 			// The following used to remove all past targets, but this can remove all options
 			// because the target may have been chosen when the player was a secondary wolf
-//			List<Integer> TargetIDs = History.WolfTargets(currentPlayer + 1); // 1 indexed
-//			List<String> TargetNames = new ArrayList<String>();
-//			for(Integer ID : TargetIDs){
-//				TargetNames.add(PlayerNames[ID - 1]);
-//			}
-//			LivePlayers.removeAll(TargetNames);
+			//			List<Integer> TargetIDs = History.WolfTargets(currentPlayer + 1); // 1 indexed
+			//			List<String> TargetNames = new ArrayList<String>();
+			//			for(Integer ID : TargetIDs){
+			//				TargetNames.add(PlayerNames[ID - 1]);
+			//			}
+			//			LivePlayers.removeAll(TargetNames);
 			String[] choices = new String[LivePlayers.size()];
 			for (int i = 0; i < choices.length; i++) {
 				choices[i] = LivePlayers.get(i);
@@ -610,7 +617,7 @@ public class MainActivity extends Activity {
 	private void inputPlayerName(boolean RepeatPrevious){
 		String message;
 		if(RepeatPrevious){
-			message = "That name has laready been entered, please try again:";
+			message = "That name has already been entered, please try again:";
 		} else {
 			message = "Enter a player name:";
 		}
@@ -639,15 +646,28 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	private void inputNumPlayers() {
+	private void inputNumPlayers(boolean repeat) {
+		String message;
+		if(repeat) {
+			message = "Please enter an integer greater than 1. (but not TOO large...)";
+		} else {
+			message = "How many people are playing?";
+		}
 		Intent intent = new Intent(this, NumberInputActivity.class);
-		intent.putExtra(MainActivity.ACTIVITY_MESSAGE, "How many people are playing?");
+		intent.putExtra(MainActivity.ACTIVITY_MESSAGE, message);
 		startActivityForResult(intent,MainActivity.PLAYER_NUMBER_RESULT);
 	}
 
-	private void inputNumWolves() {
+	private void inputNumWolves(boolean repeat) {
+		String message;
+		if(repeat) {
+			message = "You must have at least one wolf, " +
+					"but fewer than the total number of players.";
+		} else {
+			message = "How many should be wolves?";
+		}
 		Intent intent = new Intent(this, NumberInputActivity.class);
-		intent.putExtra(MainActivity.ACTIVITY_MESSAGE, "How many should be wolves?");
+		intent.putExtra(MainActivity.ACTIVITY_MESSAGE, message);
 		startActivityForResult(intent,MainActivity.WOLF_NUMBER_RESULT);
 	}
 
@@ -713,7 +733,7 @@ public class MainActivity extends Activity {
 		}
 		return randOrder;
 	}
-	
+
 	public static String getPlayerName(int inID){
 		return PlayerNames[inID - 1];
 	}

@@ -13,5 +13,7 @@
     <string name="title_activity_player_select">Quantum Werewolves</string>
     <string name="title_activity_day_time">Quantum Werewolves</string>
     <string name="Exit_Text">Exit</string>
+    <string name="title_activity_preference">Settings</string>
+    <string name="reset_text">Reset</string>
 
 </resources>

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,16 +17,28 @@ public class NumberInputActivity extends Activity {
 		setContentView(R.layout.activity_number_input);
 		this.setTitle("Quantum Werewolves");
 		Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.ACTIVITY_MESSAGE);
-        final TextView textViewToChange = (TextView) findViewById(R.id.textView1);
-        textViewToChange.setText(message);
+		String message = intent.getStringExtra(MainActivity.ACTIVITY_MESSAGE);
+		final TextView textViewToChange = (TextView) findViewById(R.id.textView1);
+		textViewToChange.setText(message);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.number_input, menu);
+		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.reset:
+			Intent returnIntent = new Intent();
+			setResult(MainActivity.RESULT_CANCELED, returnIntent);        
+			finish();
+			return true;
+		}
+		return false;
 	}
 
 	public void ButtonClicked(View view){
@@ -40,6 +53,11 @@ public class NumberInputActivity extends Activity {
 			setResult(MainActivity.RESULT_ERROR, returnIntent);        
 			finish(); 
 		}
-		
+
+	}
+
+	@Override
+	public void onBackPressed(){
+		// Do nothing
 	}
 }

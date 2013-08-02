@@ -3,6 +3,8 @@ package androidWolves.quantumwerewolvesforandroid;
 import android.os.Bundle;
 import android.app.Activity;
 import android.text.Html;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.annotation.SuppressLint;
@@ -33,4 +35,28 @@ public class DisplayMessageActivity extends Activity {
     	setResult(RESULT_OK, returnIntent);        
     	finish(); 
     }
+    
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.reset:
+			Intent returnIntent = new Intent();
+			setResult(MainActivity.RESULT_CANCELED, returnIntent);        
+			finish();
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public void onBackPressed(){
+		// Do nothing
+	}
 }

@@ -52,6 +52,13 @@
             android:name="androidWolves.quantumwerewolvesforandroid.DayTimeActivity"
             android:label="@string/title_activity_day_time" >
         </activity>
+        <activity
+            android:name="androidWolves.quantumwerewolvesforandroid.PreferenceActivity"
+            android:label="@string/title_activity_preference" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="android.preference.PreferenceActivity" />
+        </activity>
     </application>
 
 </manifest>

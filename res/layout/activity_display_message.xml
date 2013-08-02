@@ -11,7 +11,7 @@
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" >
 
@@ -24,7 +24,8 @@
                 android:id="@+id/MainText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/hello_world" />
+                android:text="@string/hello_world"
+                android:textSize="18sp" />
         </HorizontalScrollView>
     </ScrollView>
 

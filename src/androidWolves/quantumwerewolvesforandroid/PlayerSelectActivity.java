@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -28,12 +29,29 @@ public class PlayerSelectActivity extends Activity {
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, Names);
 		spinner.setAdapter(adapter);
 	}
+	
+	@Override
+	public void onBackPressed(){
+		// Do nothing
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.player_select, menu);
+		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.reset:
+			Intent returnIntent = new Intent();
+			setResult(MainActivity.RESULT_CANCELED, returnIntent);        
+			finish();
+			return true;
+		}
+		return false;
 	}
 
     public void OnExit(View view){
